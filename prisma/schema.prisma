@@ -1,0 +1,163 @@
+ // This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum GameType {
+  LOCAL
+  ONLINE
+  BOT
+}
+
+enum GameStatus {
+  WAITING
+  IN_PROGRESS
+  FINISHED
+  ABANDONED
+}
+
+enum GameResult {
+  WHITE_WIN
+  BLACK_WIN
+  DRAW
+}
+
+enum Color {
+  WHITE
+  BLACK
+}
+
+enum BotDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum RoomStatus {
+  WAITING
+  ACTIVE
+  FINISHED
+}
+
+// Models
+
+model Player {
+  id           String   @id @default(uuid())
+  email        String?  @unique
+  username     String?  @unique
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastLoginAt  DateTime?
+
+  // Statistics (denormalized)
+  totalGames Int @default(0)
+  wins       Int @default(0)
+  losses     Int @default(0)
+  draws      Int @default(0)
+
+  // Relationships
+  gamesAsWhite Game[]    @relation("WhitePlayer")
+  gamesAsBlack Game[]    @relation("BlackPlayer")
+  hostedRooms  Room[]
+  sessions     Session[]
+
+  @@index([email])
+  @@index([username])
+  @@index([createdAt])
+  @@map("players")
+}
+
+model Game {
+  id            String      @id @default(uuid())
+  type          GameType
+  status        GameStatus  @default(WAITING)
+  result        GameResult?
+  boardState    Json // BoardState structure
+  currentTurn   Color       @default(WHITE)
+  whitePlayerId String?
+  blackPlayerId String?
+  botDifficulty BotDifficulty?
+  moveCount     Int         @default(0)
+  lastMoveAt    DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relationships
+  whitePlayer Player? @relation("WhitePlayer", fields: [whitePlayerId], references: [id], onDelete: SetNull)
+  blackPlayer Player? @relation("BlackPlayer", fields: [blackPlayerId], references: [id], onDelete: SetNull)
+  moves       Move[]
+  room        Room?
+
+  @@index([status, type])
+  @@index([whitePlayerId])
+  @@index([blackPlayerId])
+  @@index([createdAt])
+  @@index([status, createdAt])
+  @@map("games")
+}
+
+model Move {
+  id             String   @id @default(uuid())
+  gameId         String
+  sequenceNumber Int
+  color          Color
+  pieceId        String
+  fromRow        Int
+  fromCol        Int
+  toRow          Int
+  toCol          Int
+  capturedPieces Json // Array of captured pieces [{id, row, col}]
+  wasPromotion   Boolean  @default(false)
+  timestamp      DateTime @default(now())
+
+  // Relationships
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, sequenceNumber])
+  @@index([gameId])
+  @@map("moves")
+}
+
+model Room {
+  id           String     @id @default(uuid())
+  code         String     @unique
+  gameId       String     @unique
+  status       RoomStatus @default(WAITING)
+  hostPlayerId String?
+  createdAt    DateTime   @default(now())
+  expiresAt    DateTime
+
+  // Relationships
+  game Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  host Player? @relation(fields: [hostPlayerId], references: [id], onDelete: SetNull)
+
+  @@index([code])
+  @@index([status, createdAt])
+  @@index([expiresAt])
+  @@map("rooms")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relationships
+  user Player @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionToken])
+  @@map("sessions")
+}

@@ -31,7 +31,35 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+**Clean Code Compliance:**
+- [ ] Naming conventions: variáveis/funções/classes descritivas (sem abreviações obscuras)
+- [ ] Funções com responsabilidade única (< 30 linhas cada)
+- [ ] Zero duplicação de código (DRY principle)
+- [ ] Comentários justificam "porquê", não "o quê"
+
+**Testing Requirements:**
+- [ ] Cobertura mínima: 80% código crítico, 60% código geral
+- [ ] Testes unitários isolados e rápidos (< 100ms)
+- [ ] Testes de integração para módulos principais
+- [ ] CI/CD configurado com bloqueio em falhas
+
+**Documentation Standards:**
+- [ ] README com setup, arquitetura e propósito
+- [ ] JSDoc/TSDoc para todas as APIs públicas
+- [ ] Decisões arquiteturais documentadas
+- [ ] Guia de contribuição disponível
+
+**Maintainability:**
+- [ ] Dependências isoladas em camadas (Repository/Service)
+- [ ] Configurações centralizadas
+- [ ] Zero magic numbers/strings (usar constantes)
+- [ ] Zero dead code
+
+**Architecture & Patterns:**
+- [ ] SOLID principles aplicados
+- [ ] Padrões de design apropriados (Repository, Service, Factory quando aplicável)
+- [ ] Baixo acoplamento, alta coesão
+- [ ] Justificativa para padrões complexos (evitar over-engineering)
 
 ## Project Structure
 

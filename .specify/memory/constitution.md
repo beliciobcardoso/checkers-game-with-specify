@@ -1,50 +1,185 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+SYNC IMPACT REPORT - Constitution v1.0.0
+========================================
+Version Change: [INITIAL VERSION] → 1.0.0
+
+Modified Principles: N/A (initial creation)
+
+Added Sections:
+  - I. Clean Code Principles
+  - II. Testing & Quality Assurance
+  - III. Documentation Standards
+  - IV. Code Maintainability
+  - V. Design Patterns & Architecture
+  - Development Workflow
+  - Code Review Requirements
+
+Removed Sections: N/A
+
+Templates Status:
+  ✅ plan-template.md - updated with constitution-based gates and compliance checks
+  ✅ spec-template.md - reviewed, already aligned (testing focus maintained)
+  ✅ tasks-template.md - updated to make tests MANDATORY, added TDD emphasis, coverage requirements
+  ⚠ checklist-template.md - not reviewed yet (will align when first used)
+  ⚠ agent-file-template.md - not reviewed yet (will align when first used)
+
+Template Changes Made:
+  - plan-template.md: Added comprehensive Constitution Check section with specific gates for:
+    * Clean code compliance
+    * Testing requirements (80%/60% coverage)
+    * Documentation standards
+    * Maintainability checks
+    * Architecture & patterns validation
+  
+  - tasks-template.md: 
+    * Changed tests from OPTIONAL to MANDATORY
+    * Updated test sections to reference constitution compliance
+    * Added TDD emphasis (write tests first)
+    * Added Boy Scout Rule to refactoring tasks
+    * Added ESLint/Prettier compliance check
+
+Follow-up TODOs: None
+-->
+
+
+# Checkers Game Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Clean Code Principles
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+**Código DEVE ser legível e autoexplicativo:**
+- Nomes de variáveis, funções e classes DEVEM descrever claramente seu propósito
+- Funções DEVEM ter responsabilidade única e fazer apenas uma coisa
+- Blocos de código DEVEM ser pequenos (funções < 30 linhas, classes < 300 linhas)
+- Comentários DEVEM explicar o "porquê", não o "o quê" (código autoexplicativo)
+- Código duplicado é PROIBIDO - extrair para funções/módulos reutilizáveis
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale:** Código limpo reduz tempo de manutenção, facilita onboarding de novos 
+desenvolvedores, minimiza bugs e melhora colaboração. Investimento inicial em 
+qualidade economiza recursos exponencialmente ao longo do ciclo de vida do projeto.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Testing & Quality Assurance
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+**Testes DEVEM ser tratados como código de produção:**
+- Cobertura mínima de testes: 80% para código crítico, 60% para código geral
+- Testes unitários DEVEM ser rápidos (< 100ms cada), isolados e determinísticos
+- Testes de integração DEVEM cobrir interações entre módulos principais
+- Testes end-to-end DEVEM validar fluxos críticos de usuário
+- CI/CD DEVE bloquear merge se testes falharem
+- TDD é FORTEMENTE RECOMENDADO: escrever teste → falhar → implementar → passar → refatorar
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale:** Testes automatizados são a rede de segurança que permite refatoração 
+confiante, detecta regressões precocemente e documenta comportamento esperado. 
+Investimento em testes reduz custo de bugs em produção em até 10x.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Documentation Standards
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Documentação DEVE ser mantida atualizada e acessível:**
+- README DEVE explicar: propósito do projeto, como rodar, arquitetura básica
+- Código público (APIs, interfaces) DEVE ter JSDoc/TSDoc completo
+- Decisões arquiteturais importantes DEVEM ser documentadas (ADRs quando aplicável)
+- Documentação DEVE viver próxima ao código (evitar desatualização)
+- Diagramas DEVEM ser gerados automaticamente quando possível (PlantUML, Mermaid)
+- Guias de contribuição DEVEM estar disponíveis para novos colaboradores
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale:** Documentação adequada acelera onboarding, reduz dependência de 
+conhecimento tribal e facilita manutenção futura. Documentação próxima ao código 
+tem maior probabilidade de permanecer atualizada.
+
+### IV. Code Maintainability
+
+**Código DEVE ser projetado para mudança:**
+- Dependências externas DEVEM ser isoladas em camadas (Repository, Service patterns)
+- Configurações DEVEM estar centralizadas e versionadas
+- Magic numbers e strings DEVEM ser substituídos por constantes nomeadas
+- Código legado DEVE ser refatorado progressivamente (Boy Scout Rule)
+- Debt técnica DEVE ser rastreada e priorizada regularmente
+- Código não utilizado (dead code) DEVE ser removido imediatamente
+
+**Rationale:** Software manutenível tem custo de mudança linear, não exponencial. 
+Isolamento de dependências facilita testes e migrações. Refatoração contínua 
+previne erosão arquitetural e acúmulo de débito técnico.
+
+### V. Design Patterns & Architecture
+
+**Arquitetura DEVE seguir princípios SOLID:**
+- Single Responsibility: cada módulo/classe um único motivo para mudar
+- Open/Closed: aberto para extensão, fechado para modificação
+- Liskov Substitution: subtipos devem ser substituíveis por seus tipos base
+- Interface Segregation: interfaces específicas melhor que interfaces genéricas
+- Dependency Inversion: depender de abstrações, não de implementações concretas
+
+**Padrões de design apropriados DEVEM ser aplicados:**
+- Repository pattern para acesso a dados
+- Service pattern para lógica de negócio
+- Factory pattern para criação complexa de objetos
+- Observer/Event pattern para comunicação desacoplada
+- Evitar over-engineering: usar padrões apenas quando agregam valor claro
+
+**Rationale:** SOLID e design patterns provados reduzem acoplamento, aumentam coesão 
+e facilitam evolução do sistema. Aplicação criteriosa evita complexidade desnecessária.
+
+## Development Workflow
+
+**Processo de desenvolvimento DEVE ser sistemático e rastreável:**
+
+- Branch strategy: feature branches a partir de `main`, naming convention `###-feature-name`
+- Commits DEVEM ser atômicos e com mensagens descritivas (Conventional Commits recomendado)
+- Pull Requests DEVEM:
+  - Ter descrição clara do problema e solução
+  - Incluir testes relevantes
+  - Passar em todos os checks de CI/CD
+  - Ser revisados por pelo menos um desenvolvedor
+- Deploys DEVEM ser automatizados e reversíveis
+- Hotfixes DEVEM seguir processo expedito mas documentado
+
+**Ferramentas obrigatórias:**
+- Linter (ESLint) e formatter (Prettier) configurados
+- Git hooks (pre-commit) para validações locais
+- CI/CD pipeline para testes e build automático
+
+## Code Review Requirements
+
+**Code reviews DEVEM ser construtivos e eficientes:**
+
+- Reviewers DEVEM verificar:
+  - Aderência aos princípios desta constituição
+  - Cobertura de testes adequada
+  - Clareza e legibilidade do código
+  - Ausência de vulnerabilidades de segurança óbvias
+  - Performance aceitável (sem algoritmos claramente ineficientes)
+  
+- Feedback DEVE ser:
+  - Específico e acionável
+  - Construtivo e respeitoso
+  - Focado no código, não na pessoa
+  
+- Aprovação DEVE ser bloqueante: código sem aprovação NÃO pode ser mergeado
+
+**Rationale:** Code review é oportunidade de aprendizado mútuo, disseminação de 
+conhecimento e garantia de qualidade. Processo estruturado previne débito técnico.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Esta constituição SUBSTITUI práticas anteriores conflitantes.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Processo de emendas:**
+1. Proposta de mudança DEVE ser documentada com justificativa
+2. Mudanças DEVEM ser aprovadas por maioria dos desenvolvedores ativos
+3. Plano de migração DEVE ser criado se mudança afetar código existente
+4. Versionamento DEVE seguir semver:
+   - MAJOR: mudanças incompatíveis em princípios fundamentais
+   - MINOR: adição de novos princípios ou seções
+   - PATCH: clarificações, correções de redação
+
+**Compliance:**
+- Todos os PRs/code reviews DEVEM verificar conformidade com estes princípios
+- Violações DEVEM ser justificadas explicitamente (via tabela de complexidade no plan.md)
+- Exceções NÃO justificadas DEVEM ser rejeitadas
+
+**Referências de execução:**
+- Desenvolvimento runtime: seguir templates em `.specify/templates/`
+- Guidance específica de comandos: `.specify/templates/commands/*.md`
+
+**Version**: 1.0.0 | **Ratified**: 2025-11-05 | **Last Amended**: 2025-11-05

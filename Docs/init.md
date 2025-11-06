@@ -11,7 +11,7 @@
 
         2.3 /speckit.plan - Criar o plano de implementação
 
-            Use o framework Next.js 15, com tecnologias como React, TypeScript e Tailwind CSS para a interface do usuário, e o próprio next.js para o backend. Garanta que o design seja responsivo e acessível, proporcionando uma experiência de usuário intuitiva. Inclua testes unitários e de integração para assegurar a qualidade do código. Precisa armazenar o estado do jogo no backend, permitindo que os jogadores retomem partidas em andamento. Considere a implementação de um sistema de autenticação simple para que os usuários possam salvar seu progresso e estatísticas de jogo. Use o prisma como ORM para interagir com o banco de dados. O banco de dados sera o postgresql e ja esta pronto para uso.
+            Use o framework Next.js 15, com tecnologias como websocket, React, TypeScript e Tailwind CSS para a interface do usuário, e o próprio next.js para o backend. Garanta que o design seja responsivo e acessível, proporcionando uma experiência de usuário intuitiva. Inclua testes unitários e de integração para assegurar a qualidade do código. Precisa armazenar o estado do jogo no backend, permitindo que os jogadores retomem partidas em andamento. Considere a implementação de um sistema de autenticação simple para que os usuários possam salvar seu progresso e estatísticas de jogo. Use o prisma como ORM para interagir com o banco de dados. O banco de dados sera o postgresql e ja esta pronto para uso.
 
         2.4 /speckit.tasks - Gerar tarefas executáveis
             
