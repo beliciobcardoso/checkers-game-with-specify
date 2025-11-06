@@ -193,7 +193,7 @@ ACTIVE → FINISHED (quando partida termina)
 
 ### 5. Session
 
-Representa sessão de autenticação (better-auth gerencia, mas documentado para referência).
+Representa sessão de autenticação (NextAuth.js 4.x gerencia, mas documentado para referência).
 
 **Attributes**:
 - `id`: String (UUID) - Primary key
@@ -590,7 +590,7 @@ const testPlayer = await prisma.player.create({
 ## Security Considerations
 
 - **Password hashing**: Bcrypt work factor 12 (não armazenado no schema, feito no app layer)
-- **Session tokens**: Gerados securamente por better-auth
+- **Session tokens**: Gerados securamente por NextAuth.js 4.x
 - **SQL Injection**: Prisma previne automaticamente (parameterized queries)
 - **JSONB validation**: Validar estrutura antes de salvar (Zod schema)
 

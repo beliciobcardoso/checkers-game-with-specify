@@ -13,7 +13,7 @@ Implementar jogo de damas completo com quatro modos: partida local (dois jogador
 ## Technical Context
 
 **Language/Version**: TypeScript 5.3+ / Node.js 20 LTS  
-**Primary Dependencies**: Next.js 15 (App Router), React 18, Prisma 5.x, Socket.io 4.x, Tailwind CSS 3.x, better-auth, Zod (validação), Jest + React Testing Library  
+**Primary Dependencies**: Next.js 15 (App Router), React 18, Prisma 5.x, Socket.io 4.x, Tailwind CSS 3.x, NextAuth.js 4.x, Zod (validação), Jest + React Testing Library  
 **Storage**: PostgreSQL 15+ (já provisionado), Prisma ORM para migrations e queries  
 **Testing**: Jest (unit tests), React Testing Library (component tests), Playwright (E2E), Supertest (API integration)  
 **Target Platform**: Web (navegadores modernos: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+), responsivo mobile-first  
@@ -257,7 +257,7 @@ checkers-game-with-specify/
 |----------|-----------|-------------------------------|
 | WebSocket (Socket.io) | Tempo real necessário para sincronização de movimentos < 500ms entre jogadores. Polling HTTP seria 3-5x mais lento e desperdiçaria recursos. | HTTP polling rejeitado: latência inaceitável (2-5s), overhead de requests, não escalável |
 | Prisma ORM | Type-safety para queries, migrations automáticas, relacionamentos type-safe reduzem bugs 60%+. Raw SQL seria error-prone e sem validação compile-time. | Raw SQL rejeitado: sem type-safety, migrations manuais propensas a erro, queries complexas sem validação |
-| better-auth | Autenticação segura com sessions, CSRF protection, múltiplos providers. Implementação manual levaria 2-3 semanas e teria vulnerabilidades. | Auth manual rejeitado: alto risco de segurança, tempo de desenvolvimento proibitivo, falta de features enterprise |
+| NextAuth.js 4.x | Autenticação segura com sessions, CSRF protection, múltiplos providers. Implementação manual levaria 2-3 semanas e teria vulnerabilidades. | Auth manual rejeitado: alto risco de segurança, tempo de desenvolvimento proibitivo, falta de features enterprise |
 | Minimax para bot Difícil | Única abordagem que garante jogo ótimo matemático. Heurísticas simples seriam previsíveis e não desafiadoras. | Heurísticas básicas rejeitadas para nível Difícil: muito previsível, não atende requisito de "raramente comete erros" |
 
 **Notes**: 

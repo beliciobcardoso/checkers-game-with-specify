@@ -81,7 +81,7 @@ Edite `.env`:
 # Database
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/checkers_dev?schema=public"
 
-# better-auth
+# NextAuth.js 4.x
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="sua-secret-key-segura-aqui"  # Gere com: openssl rand -base64 32
 
@@ -434,7 +434,7 @@ npm run dev
 - [TypeScript](https://www.typescriptlang.org/docs)
 - [Prisma](https://www.prisma.io/docs)
 - [Socket.io](https://socket.io/docs/v4)
-- [better-auth](https://www.better-auth.com/docs/introduction)
+- [NextAuth.js 4.x](https://www.NextAuth.js 4.x.com/docs/introduction)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 
 ### Especificações do Projeto

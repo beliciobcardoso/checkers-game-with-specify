@@ -128,7 +128,7 @@ io.on('connection', (socket) => {
 
 ## 4. Authentication & Authorization
 
-### Decision: better-auth (Auth.ts)
+### Decision: NextAuth.js 4.x (Auth.ts)
 
 **Rationale**:
 - **Security**: CSRF protection, secure session handling, password hashing built-in
@@ -155,7 +155,7 @@ io.on('connection', (socket) => {
 - HTTPS obrigatório em produção
 
 **References**:
-- [better-auth Documentation](https://www.better-auth.com/docs/introduction)
+- [NextAuth.js 4.x Documentation](https://www.NextAuth.js 4.x.com/docs/introduction)
 - [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 
 ---
@@ -436,7 +436,7 @@ jobs:
 | Real-time | Socket.io 4.x | Fallback, rooms, reconnection |
 | Database | PostgreSQL 15 | ACID, JSONB, já provisionado |
 | ORM | Prisma 5.x | Type-safety, migrations, DX |
-| Auth | better-auth | Security, session management |
+| Auth | NextAuth.js 4.x | Security, session management |
 | UI | React 18 + Tailwind | Ecosystem, DX, performance |
 | Testing | Jest + RTL + Playwright | Coverage, DX, multi-browser |
 | Bot AI | Minimax + Alpha-Beta | Optimal play, performance |

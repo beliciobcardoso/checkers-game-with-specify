@@ -5,6 +5,16 @@
 **Status**: Draft  
 **Input**: User description: "Construa um jogo de damas com regras claras, incluindo movimentação das peças, captura, promoção e condições de vitória que possa jogar dois play na rede ou contra um bot."
 
+## Clarifications
+
+### Session 2025-11-06
+
+- Q: Qual biblioteca de autenticação usar para FR-030 a FR-037? → A: NextAuth.js 4.x
+- Q: O que significa "estratégia aleatória ponderada" em FR-026? → A: Movimentos aleatórios com preferência 60% capturas
+- Q: Profundidade exata para bot nível Médio em FR-027 (2-3 jogadas)? → A: Profundidade fixa de 3 jogadas
+- Q: Timeout para W.O. em partida online - 2min ou 5min? → A: 5 minutos
+- Q: Quais atributos a entidade Session deve ter? → A: id, userId, token, expires, createdAt
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Partida Local Dois Jogadores (Priority: P1)
@@ -40,7 +50,7 @@ Dois jogadores em dispositivos diferentes podem encontrar-se online, jogar uma p
 2. **Given** código de sala válido inserido, **When** segundo jogador clica "Entrar na Partida", **Then** ambos os jogadores veem tabuleiro inicial e partida começa
 3. **Given** partida online em andamento, **When** jogador faz movimento válido, **Then** movimento aparece instantaneamente no dispositivo do adversário (latência < 500ms)
 4. **Given** partida online em andamento, **When** jogador fecha navegador/app, **Then** partida é salva e pode ser retomada ao reconectar dentro de 24 horas
-5. **Given** jogador desconectado há mais de 2 minutos, **When** tempo expira, **Then** adversário recebe opção de declarar vitória por W.O. ou aguardar
+5. **Given** jogador desconectado há mais de 5 minutos, **When** tempo expira, **Then** adversário recebe opção de declarar vitória por W.O. ou aguardar
 6. **Given** partida online finalizada, **When** fim de jogo detectado, **Then** resultado é salvo no histórico de ambos os jogadores
 
 ---
@@ -134,8 +144,8 @@ Usuários podem criar conta, fazer login, visualizar histórico de partidas, est
 
 - **FR-024**: Sistema DEVE oferecer três níveis de dificuldade: Fácil, Médio, Difícil
 - **FR-025**: Bot DEVE fazer movimentos válidos de acordo com regras oficiais de damas
-- **FR-026**: Bot nível Fácil DEVE calcular movimento em até 1 segundo com estratégia aleatória ponderada
-- **FR-027**: Bot nível Médio DEVE calcular movimento em até 2 segundos considerando 2-3 jogadas à frente
+- **FR-026**: Bot nível Fácil DEVE calcular movimento em até 1 segundo com estratégia aleatória ponderada (60% preferência para capturas quando disponíveis)
+- **FR-027**: Bot nível Médio DEVE calcular movimento em até 2 segundos considerando 3 jogadas à frente (profundidade fixa minimax)
 - **FR-028**: Bot nível Difícil DEVE calcular movimento em até 5 segundos usando minimax com poda alpha-beta (profundidade 5+)
 - **FR-029**: Bot DEVE sempre executar capturas obrigatórias quando disponíveis
 
@@ -149,6 +159,7 @@ Usuários podem criar conta, fazer login, visualizar histórico de partidas, est
 - **FR-035**: Sistema DEVE exibir histórico das últimas 20 partidas com resultado, adversário, e data
 - **FR-036**: Sistema DEVE listar partidas online em andamento com informação de adversário e último movimento
 - **FR-037**: Sistema DEVE permitir logout e limpar sessão local
+- **FR-041**: Sistema DEVE usar NextAuth.js 4.x para gerenciamento de autenticação e sessões
 
 #### Persistência e Dados
 
@@ -163,6 +174,7 @@ Usuários podem criar conta, fazer login, visualizar histórico de partidas, est
 - **Piece**: Representa peça no tabuleiro. Atributos: cor (branca/preta), tipo (simples/dama), posição (linha, coluna)
 - **Move**: Representa movimento. Atributos: peça movida, posição origem, posição destino, peças capturadas (se houver), timestamp
 - **Room**: Representa sala de jogo online. Atributos: código único, id do jogo associado, jogadores conectados, status (aguardando/em andamento/finalizada)
+- **Session**: Representa sessão de autenticação. Atributos: id único, userId (relação com Player), token (string aleatória), expires (timestamp de expiração), createdAt (timestamp de criação)
 
 ## Success Criteria *(mandatory)*
 
