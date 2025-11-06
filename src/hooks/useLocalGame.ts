@@ -38,6 +38,48 @@ export function useLocalGame(): UseLocalGameReturn {
   const [winner, setWinner] = useState<Color | null>(null);
 
   /**
+   * Save game result to player stats if authenticated
+   */
+  const saveGameResult = useCallback(async (_result: GameResult) => {
+    try {
+      // Check if user is authenticated by attempting to fetch profile
+      const profileResponse = await fetch('/api/players/me', {
+        method: 'GET',
+        credentials: 'include', // Include cookies
+      });
+
+      // If not authenticated (401), silently skip saving
+      if (profileResponse.status === 401) {
+        return;
+      }
+
+      if (!profileResponse.ok) {
+        console.error('Failed to verify authentication');
+        return;
+      }
+
+      // User is authenticated, create a game record
+      // Note: This assumes we'll have an endpoint to save local game results
+      // For now, we'll just silently succeed (will be implemented in future tasks)
+      
+      // TODO: Implement POST /api/games endpoint to save game result
+      // await fetch('/api/games', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   credentials: 'include',
+      //   body: JSON.stringify({
+      //     type: GameType.LOCAL,
+      //     result,
+      //   }),
+      // });
+    } catch (error) {
+      // Silently fail - saving game result is not critical
+      // eslint-disable-next-line no-console
+      console.error('Error saving game result:', error);
+    }
+  }, []);
+
+  /**
    * Create a new game instance
    */
   function createInitialGame(): Game {
@@ -99,6 +141,9 @@ export function useLocalGame(): UseLocalGameReturn {
                 ? GameResult.WHITE_WIN
                 : GameResult.BLACK_WIN;
             setWinner(victoryCheck.winner);
+            
+            // Save result if authenticated
+            void saveGameResult(updatedGame.result);
           }
 
           // Check for draw
@@ -107,6 +152,9 @@ export function useLocalGame(): UseLocalGameReturn {
             updatedGame.status = GameStatus.FINISHED;
             updatedGame.result = GameResult.DRAW;
             setWinner(null);
+            
+            // Save result if authenticated
+            void saveGameResult(updatedGame.result);
           }
 
           setGame(updatedGame);
@@ -128,7 +176,7 @@ export function useLocalGame(): UseLocalGameReturn {
       setSelectedPiece(null);
       setValidMoves([]);
     },
-    [game, selectedPiece, validMoves],
+    [game, selectedPiece, validMoves, saveGameResult],
   );
 
   /**

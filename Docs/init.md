@@ -23,24 +23,9 @@
 
 # Comandos de Aprimoramento de Especificações
     3. Use comandos opcionais para melhorar a qualidade e confiança das especificações:
-        3.1 /speckit.refine - Melhorar iterativamente as especificações com base no feedback (execute após /speckit.specify, antes de /speckit.plan)
-        3.2 /speckit.clarify - Fazer perguntas estruturadas para reduzir riscos em áreas ambíguas antes do planejamento (execute antes de /speckit.plan, se usado)
-        3.3 /speckit.analyze - Relatório de consistência e alinhamento entre artefatos (após /speckit.tasks, antes de /speckit.implement)
-        3.4 /speckit.checklist - Gerar listas de verificação de qualidade para validar a completude, clareza e consistência dos requisitos (após /speckit.plan)
-        3.5 /speckit.testcases - Criar casos de teste baseados na especificação para garantir a cobertura dos requisitos (após /speckit.specify ou /speckit.refine)
-        3.6 /speckit.review - Realizar revisões estruturadas das especificações com base em critérios definidos (após /speckit.specify ou /speckit.refine)
-
-# Comandos Avançados
-    4. Explore comandos avançados para funcionalidades adicionais:
-        4.1 /speckit.optimize - Otimizar especificações para desempenho e eficiência
-        4.2 /speckit.visualize - Gerar diagramas e visualizações das especificações
-        4.3 /speckit.integrate - Integrar especificações com ferramentas de gerenciamento de projetos
-        4.4 /speckit.document - Gerar documentação detalhada a partir das especificações
-        4.5 /speckit.collaborate - Facilitar a colaboração entre equipes na criação de especificações
-        4.6 /speckit.history - Rastrear mudanças e versões das especificações ao longo do tempo
-        4.7 /speckit.export - Exportar especificações para vários formatos (PDF, Word, Markdown)
-        4.8 /speckit.import - Importar especificações de outras ferramentas ou formatos
-        4.9 /speckit.customize - Personalizar templates e estilos de especificações conforme as necessidades do projeto
+        3.1 /speckit.clarify - Fazer perguntas estruturadas para reduzir riscos em áreas ambíguas antes do planejamento (execute antes de /speckit.plan, se usado)
+        3.2 /speckit.analyze - Relatório de consistência e alinhamento entre artefatos (após /speckit.tasks, antes de /speckit.implement)
+        3.3 /speckit.checklist - Gerar listas de verificação de qualidade para validar a completude, clareza e consistência dos requisitos (após /speckit.plan)
 
 # Dicas para Uso Eficaz
     5. Dicas para maximizar a eficácia do Grud:

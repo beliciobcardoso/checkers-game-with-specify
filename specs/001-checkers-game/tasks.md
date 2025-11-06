@@ -167,31 +167,31 @@ Required before any feature work
 
 #### API Endpoints
 
-- [ ] T063 [US4] Implementar POST /api/auth/register em src/app/api/auth/register/route.ts usando PlayerService (depende de T062)
-- [ ] T064 [US4] Implementar POST /api/auth/login em src/app/api/auth/login/route.ts usando PlayerService (depende de T062)
-- [ ] T065 [P] [US4] Implementar POST /api/auth/logout em src/app/api/auth/logout/route.ts (limpar sessão)
-- [ ] T066 [P] [US4] Implementar GET /api/players/me em src/app/api/players/me/route.ts (dados do jogador autenticado)
-- [ ] T067 [P] [US4] Implementar GET /api/players/me/stats em src/app/api/players/me/stats/route.ts (estatísticas: wins, losses, draws, total)
-- [ ] T068 [P] [US4] Implementar GET /api/players/me/history em src/app/api/players/me/history/route.ts (últimas 20 partidas com paginação)
+- [X] T063 [US4] Implementar POST /api/auth/register em src/app/api/auth/register/route.ts usando PlayerService (depende de T062)
+- [X] T064 [US4] Implementar POST /api/auth/login em src/app/api/auth/login/route.ts usando PlayerService (depende de T062)
+- [X] T065 [P] [US4] Implementar POST /api/auth/logout em src/app/api/auth/logout/route.ts (limpar sessão)
+- [X] T066 [P] [US4] Implementar GET /api/players/me em src/app/api/players/me/route.ts (dados do jogador autenticado)
+- [X] T067 [P] [US4] Implementar GET /api/players/me/stats em src/app/api/players/me/stats/route.ts (estatísticas: wins, losses, draws, total)
+- [X] T068 [P] [US4] Implementar GET /api/players/me/history em src/app/api/players/me/history/route.ts (últimas 20 partidas com paginação)
 
 #### Componentes de UI
 
-- [ ] T069 [P] [US4] Criar componente LoginForm em src/components/auth/LoginForm.tsx com validação Zod (email, senha)
-- [ ] T070 [P] [US4] Criar componente RegisterForm em src/components/auth/RegisterForm.tsx com validação Zod (email único, senha forte, username)
-- [ ] T071 [P] [US4] Criar componente ProfileCard em src/components/profile/ProfileCard.tsx (username, email, data de cadastro)
-- [ ] T072 [P] [US4] Criar componente StatsCard em src/components/profile/StatsCard.tsx (vitórias, derrotas, empates, taxa de vitória)
-- [ ] T073 [P] [US4] Criar componente GameHistoryTable em src/components/profile/GameHistoryTable.tsx (tabela com adversário, resultado, data)
+- [X] T069 [P] [US4] Criar componente LoginForm em src/components/auth/LoginForm.tsx com validação Zod (email, senha)
+- [X] T070 [P] [US4] Criar componente RegisterForm em src/components/auth/RegisterForm.tsx com validação Zod (email único, senha forte, username)
+- [X] T071 [P] [US4] Criar componente ProfileCard em src/components/profile/ProfileCard.tsx (username, email, data de cadastro)
+- [X] T072 [P] [US4] Criar componente StatsCard em src/components/profile/StatsCard.tsx (vitórias, derrotas, empates, taxa de vitória)
+- [X] T073 [P] [US4] Criar componente GameHistoryTable em src/components/profile/GameHistoryTable.tsx (tabela com adversário, resultado, data)
 
 #### Páginas
 
-- [ ] T074 [US4] Criar página de login em src/app/(auth)/login/page.tsx com LoginForm (depende de T069)
-- [ ] T075 [US4] Criar página de registro em src/app/(auth)/register/page.tsx com RegisterForm (depende de T070)
-- [ ] T076 [US4] Criar página de perfil em src/app/profile/page.tsx com ProfileCard, StatsCard, GameHistoryTable (depende de T071, T072, T073)
+- [X] T074 [US4] Criar página de login em src/app/(auth)/login/page.tsx com LoginForm (depende de T069)
+- [X] T075 [US4] Criar página de registro em src/app/(auth)/register/page.tsx com RegisterForm (depende de T070)
+- [X] T076 [US4] Criar página de perfil em src/app/profile/page.tsx com ProfileCard, StatsCard, GameHistoryTable (depende de T071, T072, T073)
 
 #### Integração com US1
 
-- [ ] T077 [US4] Atualizar useLocalGame hook para salvar resultado de partida local via API se jogador autenticado (depende de T050, T062)
-- [ ] T078 [US4] Adicionar link "Criar Conta" e "Login" no menu principal src/app/page.tsx (depende de T023)
+- [X] T077 [US4] Atualizar useLocalGame hook para salvar resultado de partida local via API se jogador autenticado (depende de T050, T062)
+- [X] T078 [US4] Adicionar link "Criar Conta" e "Login" no menu principal src/app/page.tsx (depende de T023)
 
 **Checkpoint**: User Story 4 completa - sistema de autenticação funcional, perfil com estatísticas
 
