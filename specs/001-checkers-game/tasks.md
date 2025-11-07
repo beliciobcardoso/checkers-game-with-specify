@@ -209,14 +209,14 @@ Required before any feature work
 
 **Estimativa testes**: 10-12 horas
 
-- [ ] T079 [P] [US2] Teste de contrato para POST /api/rooms em tests/integration/api/rooms.test.ts (cria sala com código único 6 chars)
-- [ ] T080 [P] [US2] Teste de contrato para POST /api/rooms/{code}/join em tests/integration/api/rooms.test.ts (entra em sala existente)
-- [ ] T081 [P] [US2] Teste de contrato para POST /api/games em tests/integration/api/games.test.ts (cria partida online)
-- [ ] T082 [P] [US2] Teste de contrato para POST /api/games/{id}/move em tests/integration/api/games.test.ts (registra movimento)
-- [ ] T083 [P] [US2] Teste unitário para eventos WebSocket em tests/unit/websocket/handlers.test.ts (join-room, make-move, disconnect)
-- [ ] T084 [P] [US2] Teste de integração WebSocket em tests/integration/websocket/online-game.test.ts (dois clientes conectam, sincronizam movimentos)
-- [ ] T085 [P] [US2] Teste de reconexão em tests/integration/websocket/reconnection.test.ts (cliente desconecta e retoma partida)
-- [ ] T086 [P] [US2] Teste E2E multiplayer em tests/e2e/online-game.spec.ts (dois navegadores Playwright, partida completa)
+- [X] T079 [P] [US2] Teste de contrato para POST /api/rooms em tests/integration/api/rooms.test.ts (cria sala com código único 6 chars)
+- [X] T080 [P] [US2] Teste de contrato para POST /api/rooms/{code}/join em tests/integration/api/rooms.test.ts (entra em sala existente)
+- [X] T081 [P] [US2] Teste de contrato para POST /api/games em tests/integration/api/games.test.ts (cria partida online)
+- [X] T082 [P] [US2] Teste de contrato para POST /api/games/{id}/move em tests/integration/api/games.test.ts (registra movimento)
+- [X] T083 [P] [US2] Teste unitário para eventos WebSocket em tests/unit/websocket/handlers.test.ts (join-room, make-move, disconnect)
+- [X] T084 [P] [US2] Teste de integração WebSocket em tests/integration/websocket/online-game.test.ts (dois clientes conectam, sincronizam movimentos)
+- [X] T085 [P] [US2] Teste de reconexão em tests/integration/websocket/reconnection.test.ts (cliente desconecta e retoma partida)
+- [X] T086 [P] [US2] Teste E2E multiplayer em tests/e2e/online-game.spec.ts (dois navegadores Playwright, partida completa)
 
 ### Implementação para User Story 2
 

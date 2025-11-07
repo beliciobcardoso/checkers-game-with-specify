@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+prisma/migrations/
+.vercel/
+**/*.config.js
+**/*.config.ts
