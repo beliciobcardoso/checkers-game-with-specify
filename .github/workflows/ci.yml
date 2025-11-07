@@ -1,8 +1,6 @@
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [main, 001-checkers-game]
   pull_request:
     branches: [main]
 
