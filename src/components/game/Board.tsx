@@ -14,18 +14,13 @@ interface BoardProps {
 /**
  * Checkers board component (8x8 grid)
  * Renders squares and pieces, handles click events
- * 
+ *
  * @param boardState - Current state of the board with all pieces
  * @param selectedPiece - Currently selected piece position (if any)
  * @param validMoves - Array of valid move destinations for the selected piece
  * @param onSquareClick - Handler for square click events
  */
-export function Board({
-  boardState,
-  selectedPiece,
-  validMoves,
-  onSquareClick,
-}: BoardProps) {
+export function Board({ boardState, selectedPiece, validMoves, onSquareClick }: BoardProps) {
   // Helper to check if a position is highlighted
   const isHighlighted = (row: number, col: number): boolean => {
     return validMoves.some((move) => move.row === row && move.col === col);
@@ -55,13 +50,7 @@ export function Board({
           isSelected={isSelected(row, col)}
           onClick={() => onSquareClick(row, col)}
         >
-          {piece && (
-            <Piece
-              color={piece.color}
-              type={piece.type}
-              id={piece.id}
-            />
-          )}
+          {piece && <Piece color={piece.color} type={piece.type} id={piece.id} />}
         </Square>
       );
     }

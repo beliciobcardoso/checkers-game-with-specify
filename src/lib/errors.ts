@@ -8,7 +8,7 @@ export class AppError extends Error {
   constructor(
     public statusCode: number,
     public message: string,
-    public isOperational = true,
+    public isOperational = true
   ) {
     super(message);
     Object.setPrototypeOf(this, AppError.prototype);
@@ -53,7 +53,7 @@ export function handleError(error: unknown): NextResponse {
           message: e.message,
         })),
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -66,21 +66,21 @@ export function handleError(error: unknown): NextResponse {
             error: 'Este valor já está em uso',
             field: error.meta?.target,
           },
-          { status: 409 },
+          { status: 409 }
         );
       case 'P2025': // Record not found
         return NextResponse.json(
           {
             error: 'Registro não encontrado',
           },
-          { status: 404 },
+          { status: 404 }
         );
       default:
         return NextResponse.json(
           {
             error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
           },
-          { status: 500 },
+          { status: 500 }
         );
     }
   }
@@ -91,7 +91,7 @@ export function handleError(error: unknown): NextResponse {
       {
         error: error.message,
       },
-      { status: error.statusCode },
+      { status: error.statusCode }
     );
   }
 
@@ -100,13 +100,11 @@ export function handleError(error: unknown): NextResponse {
     {
       error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
     },
-    { status: 500 },
+    { status: 500 }
   );
 }
 
-export function asyncHandler<T>(
-  fn: (...args: T[]) => Promise<NextResponse>,
-) {
+export function asyncHandler<T>(fn: (...args: T[]) => Promise<NextResponse>) {
   return async (...args: T[]): Promise<NextResponse> => {
     try {
       return await fn(...args);

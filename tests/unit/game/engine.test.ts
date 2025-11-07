@@ -13,7 +13,7 @@ describe('Game Engine', () => {
     color: Color,
     type: PieceType,
     row: number,
-    col: number,
+    col: number
   ): Piece => ({
     id,
     color,

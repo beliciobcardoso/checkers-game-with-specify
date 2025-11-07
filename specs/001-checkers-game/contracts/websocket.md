@@ -15,22 +15,24 @@ WebSocket communication para sincronização em tempo real de partidas online. E
 ### Handshake
 
 **Client Initiates**:
+
 ```typescript
 import { io } from 'socket.io-client';
 
 const socket = io('ws://localhost:3000', {
   auth: {
-    sessionToken: getCookie('next-auth.session-token')
+    sessionToken: getCookie('next-auth.session-token'),
   },
   transports: ['websocket', 'polling'], // Fallback
   reconnection: true,
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
-  reconnectionAttempts: 5
+  reconnectionAttempts: 5,
 });
 ```
 
 **Server Response**:
+
 ```typescript
 io.on('connection', (socket) => {
   const session = await validateSession(socket.handshake.auth.sessionToken);
@@ -38,7 +40,7 @@ io.on('connection', (socket) => {
     socket.disconnect();
     return;
   }
-  
+
   socket.data.playerId = session.userId;
   console.log(`Player ${session.userId} connected`);
 });
@@ -55,6 +57,7 @@ Client joins game room by code.
 **Direction**: Client → Server
 
 **Payload**:
+
 ```typescript
 {
   roomCode: string; // 6-character alphanumeric
@@ -62,11 +65,13 @@ Client joins game room by code.
 ```
 
 **Example**:
+
 ```typescript
 socket.emit('join-room', { roomCode: 'ABC123' });
 ```
 
 **Server Response Events**:
+
 - `room-joined` (success)
 - `error` (room not found/full)
 
@@ -79,6 +84,7 @@ Confirmation that player joined room.
 **Direction**: Server → Client (broadcasted to room)
 
 **Payload**:
+
 ```typescript
 {
   room: {
@@ -99,6 +105,7 @@ Confirmation that player joined room.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('room-joined', (data) => {
   console.log(`Joined room ${data.room.code}`);
@@ -117,23 +124,25 @@ Notification when second player joins room.
 **Direction**: Server → Clients (broadcasted to room)
 
 **Payload**:
+
 ```typescript
 {
   player: {
     id: string;
     username: string;
     color: 'WHITE' | 'BLACK';
-  };
+  }
   game: {
     id: string;
     boardState: BoardState;
     currentTurn: 'WHITE';
     status: 'IN_PROGRESS';
-  };
+  }
 }
 ```
 
 **Example**:
+
 ```typescript
 socket.on('player-joined', (data) => {
   console.log(`${data.player.username} joined as ${data.player.color}`);
@@ -150,6 +159,7 @@ Client submits move.
 **Direction**: Client → Server
 
 **Payload**:
+
 ```typescript
 {
   gameId: string;
@@ -157,23 +167,25 @@ Client submits move.
     pieceId: string;
     toRow: number; // 0-7
     toCol: number; // 0-7
-  };
+  }
 }
 ```
 
 **Example**:
+
 ```typescript
 socket.emit('make-move', {
   gameId: 'game-uuid',
   move: {
     pieceId: 'p5',
     toRow: 4,
-    toCol: 3
-  }
+    toCol: 3,
+  },
 });
 ```
 
 **Server Response Events**:
+
 - `move-made` (success, broadcasted)
 - `move-invalid` (failure, to sender only)
 
@@ -186,6 +198,7 @@ Notification that move was executed successfully.
 **Direction**: Server → Clients (broadcasted to room)
 
 **Payload**:
+
 ```typescript
 {
   move: {
@@ -211,19 +224,20 @@ Notification that move was executed successfully.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('move-made', (data) => {
   animateMove(data.move);
   updateBoard(data.game.boardState);
-  
+
   if (data.move.capturedPieces.length > 0) {
     removePieces(data.move.capturedPieces);
   }
-  
+
   if (data.move.wasPromotion) {
     promotePieceToKing(data.move.pieceId);
   }
-  
+
   if (data.game.status === 'FINISHED') {
     showGameOver(data.game.result);
   }
@@ -239,10 +253,11 @@ Notification that move was rejected.
 **Direction**: Server → Client (to sender only)
 
 **Payload**:
+
 ```typescript
 {
   error: string;
-  reason: 
+  reason:
     | 'not-your-turn'
     | 'invalid-move'
     | 'must-capture'
@@ -252,6 +267,7 @@ Notification that move was rejected.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('move-invalid', (data) => {
   showError(data.error);
@@ -270,6 +286,7 @@ Notification when opponent disconnects.
 **Direction**: Server → Client (to remaining player)
 
 **Payload**:
+
 ```typescript
 {
   playerId: string;
@@ -280,6 +297,7 @@ Notification when opponent disconnects.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('player-disconnected', (data) => {
   showNotification(`${data.username} disconnected`);
@@ -296,6 +314,7 @@ Notification when opponent reconnects.
 **Direction**: Server → Client (to remaining player)
 
 **Payload**:
+
 ```typescript
 {
   playerId: string;
@@ -306,6 +325,7 @@ Notification when opponent reconnects.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('player-reconnected', (data) => {
   showNotification(`${data.username} reconnected`);
@@ -322,6 +342,7 @@ Notification when opponent doesn't return within 5 minutes.
 **Direction**: Server → Client
 
 **Payload**:
+
 ```typescript
 {
   gameId: string;
@@ -332,11 +353,12 @@ Notification when opponent doesn't return within 5 minutes.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('game-abandoned', (data) => {
   showGameOver({
     result: data.result,
-    reason: 'Opponent disconnected - You win!'
+    reason: 'Opponent disconnected - You win!',
   });
 });
 ```
@@ -350,6 +372,7 @@ Client resigns from game.
 **Direction**: Client → Server
 
 **Payload**:
+
 ```typescript
 {
   gameId: string;
@@ -357,11 +380,13 @@ Client resigns from game.
 ```
 
 **Example**:
+
 ```typescript
 socket.emit('resign', { gameId: 'game-uuid' });
 ```
 
 **Server Response**:
+
 - `game-resigned` (broadcasted to room)
 
 ---
@@ -373,6 +398,7 @@ Notification that player resigned.
 **Direction**: Server → Clients (broadcasted to room)
 
 **Payload**:
+
 ```typescript
 {
   gameId: string;
@@ -384,11 +410,12 @@ Notification that player resigned.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('game-resigned', (data) => {
   showGameOver({
     result: data.result,
-    reason: `${data.resignedPlayerColor} player resigned`
+    reason: `${data.resignedPlayerColor} player resigned`,
   });
 });
 ```
@@ -402,6 +429,7 @@ Generic error from server.
 **Direction**: Server → Client
 
 **Payload**:
+
 ```typescript
 {
   message: string;
@@ -411,6 +439,7 @@ Generic error from server.
 ```
 
 **Example**:
+
 ```typescript
 socket.on('error', (error) => {
   console.error('WebSocket error:', error.message);
@@ -431,6 +460,7 @@ Using default namespace `/` for simplicity. Future: separate namespaces for chat
 Socket.io rooms correspond to game rooms. Room name = `game:${gameId}`.
 
 **Server-side**:
+
 ```typescript
 socket.on('join-room', async ({ roomCode }) => {
   const room = await findRoomByCode(roomCode);
@@ -438,10 +468,10 @@ socket.on('join-room', async ({ roomCode }) => {
     socket.emit('error', { message: 'Room not found' });
     return;
   }
-  
+
   // Join Socket.io room
   socket.join(`game:${room.gameId}`);
-  
+
   // Broadcast to room
   io.to(`game:${room.gameId}`).emit('player-joined', { ... });
 });
@@ -462,6 +492,7 @@ socket.on('join-room', async ({ roomCode }) => {
 **Direction**: Server → Client (on connection)
 
 **Payload**:
+
 ```typescript
 {
   activeGames: Array<{
@@ -476,6 +507,7 @@ socket.on('join-room', async ({ roomCode }) => {
 ```
 
 **Example**:
+
 ```typescript
 socket.on('connect', () => {
   // Automatically sent by server
@@ -495,28 +527,31 @@ socket.on('reconnect-state', (data) => {
 To prevent abuse and ensure fair play:
 
 **Move Rate Limit**:
+
 - Maximum 1 move per second per player
 - Violations result in temporary socket disconnect
 
 **Connection Rate Limit**:
+
 - Maximum 10 connection attempts per minute per IP
 - Exponential backoff enforced client-side
 
 **Server Implementation**:
+
 ```typescript
 const moveTimestamps = new Map<string, number>();
 
 socket.on('make-move', (data) => {
   const lastMove = moveTimestamps.get(socket.data.playerId) || 0;
   const now = Date.now();
-  
+
   if (now - lastMove < 1000) {
-    socket.emit('error', { 
-      message: 'Move too fast - wait 1 second between moves' 
+    socket.emit('error', {
+      message: 'Move too fast - wait 1 second between moves',
     });
     return;
   }
-  
+
   moveTimestamps.set(socket.data.playerId, now);
   // Process move...
 });
@@ -587,8 +622,8 @@ Enable Socket.io compression for payloads > 1KB:
 ```typescript
 const io = new Server(server, {
   perMessageDeflate: {
-    threshold: 1024 // Compress messages larger than 1KB
-  }
+    threshold: 1024, // Compress messages larger than 1KB
+  },
 });
 ```
 
@@ -605,6 +640,7 @@ socket.emit('move-made', encodedMove);
 ### Heartbeat
 
 Socket.io handles heartbeat automatically:
+
 - Default: ping every 25s, timeout after 20s of no response
 - Adjust if needed: `pingInterval`, `pingTimeout` in server options
 
@@ -630,6 +666,7 @@ Socket.io handles heartbeat automatically:
 - Invalid payloads → error event, no state change
 
 **Example**:
+
 ```typescript
 import { z } from 'zod';
 
@@ -638,16 +675,16 @@ const MakeMoveSchema = z.object({
   move: z.object({
     pieceId: z.string(),
     toRow: z.number().int().min(0).max(7),
-    toCol: z.number().int().min(0).max(7)
-  })
+    toCol: z.number().int().min(0).max(7),
+  }),
 });
 
 socket.on('make-move', (data) => {
   const parsed = MakeMoveSchema.safeParse(data);
   if (!parsed.success) {
-    socket.emit('error', { 
-      message: 'Invalid move format', 
-      details: parsed.error 
+    socket.emit('error', {
+      message: 'Invalid move format',
+      details: parsed.error,
     });
     return;
   }
@@ -671,7 +708,7 @@ import { io as Client } from 'socket.io-client';
 describe('WebSocket Events', () => {
   let io: Server;
   let clientSocket: Socket;
-  
+
   beforeAll((done) => {
     const httpServer = createServer();
     io = new Server(httpServer);
@@ -681,12 +718,12 @@ describe('WebSocket Events', () => {
       clientSocket.on('connect', done);
     });
   });
-  
+
   afterAll(() => {
     io.close();
     clientSocket.close();
   });
-  
+
   test('should join room', (done) => {
     clientSocket.emit('join-room', { roomCode: 'ABC123' });
     clientSocket.on('room-joined', (data) => {
@@ -704,24 +741,24 @@ Test real WebSocket communication between two clients:
 ```typescript
 test('two players can play online game', async ({ page, context }) => {
   const player2Page = await context.newPage();
-  
+
   // Player 1 creates room
   await page.click('[data-testid="create-online-game"]');
   const roomCode = await page.locator('[data-testid="room-code"]').textContent();
-  
+
   // Player 2 joins room
   await player2Page.goto('/game/online');
   await player2Page.fill('[data-testid="room-code-input"]', roomCode);
   await player2Page.click('[data-testid="join-room"]');
-  
+
   // Verify both see board
   await expect(page.locator('[data-testid="game-board"]')).toBeVisible();
   await expect(player2Page.locator('[data-testid="game-board"]')).toBeVisible();
-  
+
   // Player 1 makes move
   await page.click('[data-testid="piece-5-0"]');
   await page.click('[data-testid="square-4-1"]');
-  
+
   // Verify Player 2 sees move
   await expect(player2Page.locator('[data-testid="piece-at-4-1"]')).toBeVisible();
 });

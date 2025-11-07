@@ -2,6 +2,11 @@ import { Server as HTTPServer } from 'http';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { WS_EVENTS } from '@/lib/constants';
 import { createLogger } from '@/lib/logger';
+import { handleJoinRoom } from './handlers/joinRoom';
+import { handleMakeMove } from './handlers/makeMove';
+import { handleDisconnect } from './handlers/disconnect';
+import { handleReconnect } from './handlers/reconnect';
+import { handleResign } from './handlers/resign';
 
 const logger = createLogger('WebSocket');
 
@@ -24,66 +29,25 @@ export class WebSocketServer {
       logger.info(`Client connected: ${socket.id}`);
 
       // Room management
-      socket.on(WS_EVENTS.CREATE_ROOM, (data) =>
-        this.handleCreateRoom(socket, data),
-      );
-      socket.on(WS_EVENTS.JOIN_ROOM, (data) =>
-        this.handleJoinRoom(socket, data),
-      );
-      socket.on(WS_EVENTS.LEAVE_ROOM, (data) =>
-        this.handleLeaveRoom(socket, data),
-      );
+      socket.on(WS_EVENTS.JOIN_ROOM, (data) => handleJoinRoom(socket, data));
+      socket.on(WS_EVENTS.LEAVE_ROOM, (data) => this.handleLeaveRoom(socket, data));
 
       // Game flow
-      socket.on(WS_EVENTS.GAME_MOVE, (data) => this.handleGameMove(socket, data));
-      socket.on(WS_EVENTS.PLAYER_READY, (data) =>
-        this.handlePlayerReady(socket, data),
-      );
-      socket.on(WS_EVENTS.GAME_ABANDON, (data) =>
-        this.handleGameAbandon(socket, data),
-      );
+      socket.on(WS_EVENTS.GAME_MOVE, (data) => handleMakeMove(socket, data));
+      socket.on('reconnect-game', (data) => handleReconnect(socket, data));
+      socket.on('resign-game', (data) => handleResign(socket, data));
 
       // Disconnection
       socket.on(WS_EVENTS.DISCONNECT, () => {
         logger.info(`Client disconnected: ${socket.id}`);
-        this.handleDisconnect(socket);
+        handleDisconnect(socket);
       });
     });
   }
 
-  private handleCreateRoom(socket: Socket, _data: unknown) {
-    // TODO: Implement in Phase 5
-    logger.debug('Create room', socket.id);
-  }
-
-  private handleJoinRoom(socket: Socket, _data: unknown) {
-    // TODO: Implement in Phase 5
-    logger.debug('Join room', socket.id);
-  }
-
   private handleLeaveRoom(socket: Socket, _data: unknown) {
-    // TODO: Implement in Phase 5
+    // TODO: Implement room leave logic
     logger.debug('Leave room', socket.id);
-  }
-
-  private handleGameMove(socket: Socket, _data: unknown) {
-    // TODO: Implement in Phase 5
-    logger.debug('Game move', socket.id);
-  }
-
-  private handlePlayerReady(socket: Socket, _data: unknown) {
-    // TODO: Implement in Phase 5
-    logger.debug('Player ready', socket.id);
-  }
-
-  private handleGameAbandon(socket: Socket, _data: unknown) {
-    // TODO: Implement in Phase 5
-    logger.debug('Game abandon', socket.id);
-  }
-
-  private handleDisconnect(socket: Socket) {
-    // TODO: Implement reconnection logic in Phase 5
-    logger.debug('Handle disconnect', socket.id);
   }
 
   public getIO(): SocketIOServer {

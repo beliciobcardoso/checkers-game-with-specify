@@ -1,7 +1,7 @@
 /**
  * T064: POST /api/auth/login
  * Endpoint para autenticação de usuário existente
- * 
+ *
  * Request body: { email, password }
  * Response: { player: Player, sessionToken: string } | { error: string }
  * Status: 200 (sucesso), 400 (validação), 401 (credenciais inválidas), 500 (erro servidor)
@@ -37,9 +37,9 @@ export async function POST(request: NextRequest) {
 
     // Cria response com cookie de sessão
     const response = NextResponse.json(
-      { 
+      {
         player: result.player,
-        sessionToken: result.sessionToken 
+        sessionToken: result.sessionToken,
       },
       { status: 200 }
     );
@@ -54,31 +54,22 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-
   } catch (error) {
     // Trata erro de credenciais inválidas
-    if (error instanceof Error && 
-        (error.message.includes('não encontrado') || 
-         error.message.includes('incorreta'))) {
-      return NextResponse.json(
-        { error: 'Email ou senha incorretos' },
-        { status: 401 }
-      );
+    if (
+      error instanceof Error &&
+      (error.message.includes('não encontrado') || error.message.includes('incorreta'))
+    ) {
+      return NextResponse.json({ error: 'Email ou senha incorretos' }, { status: 401 });
     }
 
     // Trata erro de validação
     if (error instanceof Error && error.message.includes('inválido')) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     // Erro genérico do servidor
     console.error('Erro no login:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

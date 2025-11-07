@@ -1,7 +1,7 @@
 /**
  * T068: GET /api/players/me/history
  * Endpoint para obter histórico de partidas do jogador autenticado
- * 
+ *
  * Query params: ?page=1&limit=20
  * Request: Cookie com session-token
  * Response: { games: Game[], total: number, page: number, limit: number } | { error: string }
@@ -18,10 +18,7 @@ export async function GET(request: NextRequest) {
     const sessionToken = request.cookies.get('session-token')?.value;
 
     if (!sessionToken) {
-      return NextResponse.json(
-        { error: 'Não autenticado' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
     }
 
     // Valida sessão
@@ -29,10 +26,7 @@ export async function GET(request: NextRequest) {
     const userId = await playerService.validateSession(sessionToken);
 
     if (!userId) {
-      const response = NextResponse.json(
-        { error: 'Sessão inválida ou expirada' },
-        { status: 401 }
-      );
+      const response = NextResponse.json({ error: 'Sessão inválida ou expirada' }, { status: 401 });
       response.cookies.delete('session-token');
       return response;
     }
@@ -64,12 +58,8 @@ export async function GET(request: NextRequest) {
       },
       { status: 200 }
     );
-
   } catch (error) {
     console.error('Erro ao buscar histórico:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

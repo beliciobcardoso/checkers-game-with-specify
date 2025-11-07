@@ -19,9 +19,7 @@ export class PlayerRepository {
    * @returns Player criado
    * @throws Se email ou username já existe
    */
-  async create(
-    data: Prisma.PlayerCreateInput
-  ): Promise<Omit<Player, 'passwordHash'>> {
+  async create(data: Prisma.PlayerCreateInput): Promise<Omit<Player, 'passwordHash'>> {
     try {
       const player = await this.prisma.player.create({
         data: {
@@ -53,11 +51,7 @@ export class PlayerRepository {
         if (error.code === 'P2002') {
           // Unique constraint violation
           const field = (error.meta?.target as string[])?.[0];
-          throw new Error(
-            field === 'email'
-              ? 'Email já cadastrado'
-              : 'Username já em uso'
-          );
+          throw new Error(field === 'email' ? 'Email já cadastrado' : 'Username já em uso');
         }
       }
       throw error;
@@ -103,9 +97,7 @@ export class PlayerRepository {
    * @param username - Username do jogador
    * @returns Player sem passwordHash ou null se não encontrado
    */
-  async findByUsername(
-    username: string
-  ): Promise<Omit<Player, 'passwordHash'> | null> {
+  async findByUsername(username: string): Promise<Omit<Player, 'passwordHash'> | null> {
     return this.prisma.player.findUnique({
       where: { username },
       select: {
@@ -201,8 +193,7 @@ export class PlayerRepository {
       throw new Error('Jogador não encontrado');
     }
 
-    const winRate =
-      player.totalGames > 0 ? player.wins / player.totalGames : 0;
+    const winRate = player.totalGames > 0 ? player.wins / player.totalGames : 0;
 
     return {
       ...player,

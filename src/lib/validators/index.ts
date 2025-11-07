@@ -39,10 +39,7 @@ export const playerRegistrationSchema = z.object({
     .string()
     .min(3, 'Username deve ter no mínimo 3 caracteres')
     .max(20, 'Username deve ter no máximo 20 caracteres')
-    .regex(
-      /^[a-zA-Z0-9_-]+$/,
-      'Username deve conter apenas letras, números, hífens e underscores',
-    ),
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Username deve conter apenas letras, números, hífens e underscores'),
   password: z
     .string()
     .min(8, 'Senha deve ter no mínimo 8 caracteres')

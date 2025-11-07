@@ -1,7 +1,7 @@
 /**
  * T070: RegisterForm Component
  * Formulário de registro com validação Zod
- * 
+ *
  * Props: onSuccess (callback após registro bem-sucedido)
  * Validação: email único, username 3+ chars, password 8+ chars, confirmPassword match
  * Estados: loading, error
@@ -13,15 +13,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
-const registerSchema = z.object({
-  email: z.string().email('Email inválido'),
-  username: z.string().min(3, 'Username deve ter no mínimo 3 caracteres'),
-  password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
-  confirmPassword: z.string().min(1, 'Confirme sua senha'),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'As senhas não coincidem',
-  path: ['confirmPassword'],
-});
+const registerSchema = z
+  .object({
+    username: z.string().min(3, 'Username deve ter no mínimo 3 caracteres'),
+    email: z.string().email('Email inválido'),
+    password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
+    confirmPassword: z.string().min(1, 'Confirme sua senha'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'As senhas não coincidem',
+    path: ['confirmPassword'],
+  });
 
 interface RegisterFormProps {
   onSuccess?: () => void;
@@ -31,8 +33,8 @@ interface RegisterFormProps {
 export default function RegisterForm({ onSuccess, redirectTo = '/' }: RegisterFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    email: '',
     username: '',
+    email: '',
     password: '',
     confirmPassword: '',
   });
@@ -87,7 +89,6 @@ export default function RegisterForm({ onSuccess, redirectTo = '/' }: RegisterFo
       }
       router.push(redirectTo);
       router.refresh(); // Atualiza estado do servidor
-
     } catch {
       setServerError('Erro ao conectar com o servidor');
       setIsLoading(false);
@@ -96,29 +97,6 @@ export default function RegisterForm({ onSuccess, redirectTo = '/' }: RegisterFo
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
-      {/* Email */}
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium mb-2">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            errors.email 
-              ? 'border-red-500 focus:ring-red-500' 
-              : 'border-gray-300 focus:ring-blue-500'
-          }`}
-          placeholder="seu@email.com"
-          disabled={isLoading}
-        />
-        {errors.email && (
-          <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-        )}
-      </div>
-
       {/* Username */}
       <div>
         <label htmlFor="username" className="block text-sm font-medium mb-2">
@@ -130,16 +108,35 @@ export default function RegisterForm({ onSuccess, redirectTo = '/' }: RegisterFo
           value={formData.username}
           onChange={(e) => setFormData({ ...formData, username: e.target.value })}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            errors.username 
-              ? 'border-red-500 focus:ring-red-500' 
+            errors.username
+              ? 'border-red-500 focus:ring-red-500'
               : 'border-gray-300 focus:ring-blue-500'
           }`}
           placeholder="jogador123"
           disabled={isLoading}
         />
-        {errors.username && (
-          <p className="mt-1 text-sm text-red-500">{errors.username}</p>
-        )}
+        {errors.username && <p className="mt-1 text-sm text-red-500">{errors.username}</p>}
+      </div>
+
+      {/* Email */}
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium mb-2">
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+            errors.email
+              ? 'border-red-500 focus:ring-red-500'
+              : 'border-gray-300 focus:ring-blue-500'
+          }`}
+          placeholder="seu@email.com"
+          disabled={isLoading}
+        />
+        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
       </div>
 
       {/* Password */}
@@ -153,16 +150,14 @@ export default function RegisterForm({ onSuccess, redirectTo = '/' }: RegisterFo
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            errors.password 
-              ? 'border-red-500 focus:ring-red-500' 
+            errors.password
+              ? 'border-red-500 focus:ring-red-500'
               : 'border-gray-300 focus:ring-blue-500'
           }`}
           placeholder="••••••••"
           disabled={isLoading}
         />
-        {errors.password && (
-          <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-        )}
+        {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
         <p className="mt-1 text-xs text-gray-500">Mínimo 8 caracteres</p>
       </div>
 
@@ -177,8 +172,8 @@ export default function RegisterForm({ onSuccess, redirectTo = '/' }: RegisterFo
           value={formData.confirmPassword}
           onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            errors.confirmPassword 
-              ? 'border-red-500 focus:ring-red-500' 
+            errors.confirmPassword
+              ? 'border-red-500 focus:ring-red-500'
               : 'border-gray-300 focus:ring-blue-500'
           }`}
           placeholder="••••••••"

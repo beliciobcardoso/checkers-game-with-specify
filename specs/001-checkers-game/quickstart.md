@@ -36,11 +36,13 @@ cd checkers-game-with-specify
 ### 2. Instalar Dependências
 
 **Com npm**:
+
 ```bash
 npm install
 ```
 
 **Com pnpm** (recomendado):
+
 ```bash
 pnpm install
 ```
@@ -52,6 +54,7 @@ pnpm install
 ### 1. Criar Banco de Dados PostgreSQL
 
 **Opção A: Via psql**
+
 ```bash
 psql -U postgres
 CREATE DATABASE checkers_dev;
@@ -59,6 +62,7 @@ CREATE DATABASE checkers_dev;
 ```
 
 **Opção B: Via Docker** (se preferir não instalar PostgreSQL localmente)
+
 ```bash
 docker run --name checkers-postgres \
   -e POSTGRES_PASSWORD=postgres \
@@ -93,6 +97,7 @@ WS_PORT=3001
 ```
 
 **Gerar NEXTAUTH_SECRET**:
+
 ```bash
 openssl rand -base64 32
 ```
@@ -108,6 +113,7 @@ npx prisma migrate status
 ```
 
 **Saída esperada**:
+
 ```
 ✅ Database in sync with migrations
 ```
@@ -119,6 +125,7 @@ npm run db:seed
 ```
 
 Cria:
+
 - 3 usuários de exemplo (alice, bob, charlie)
 - 2 partidas de exemplo em andamento
 - 1 sala de espera
@@ -134,6 +141,7 @@ npm run dev
 ```
 
 **Saída esperada**:
+
 ```
 ▲ Next.js 15.0.0
 - Local:        http://localhost:3000
@@ -156,6 +164,7 @@ curl http://localhost:3000/api/health
 ```
 
 **Resposta esperada**:
+
 ```json
 {
   "status": "ok",
@@ -313,6 +322,7 @@ git commit -m "feat: descrição da feature"
 ```
 
 **Convenção de commits**: [Conventional Commits](https://www.conventionalcommits.org/)
+
 - `feat:` nova funcionalidade
 - `fix:` correção de bug
 - `refactor:` refatoração sem mudança de comportamento
@@ -334,6 +344,7 @@ Abra Pull Request no GitHub.
 ### Erro: "Cannot find module '@prisma/client'"
 
 **Solução**: Gerar Prisma Client
+
 ```bash
 npx prisma generate
 ```
@@ -341,6 +352,7 @@ npx prisma generate
 ### Erro: "Database not found"
 
 **Solução**: Criar banco de dados
+
 ```bash
 psql -U postgres -c "CREATE DATABASE checkers_dev;"
 npx prisma migrate dev
@@ -349,6 +361,7 @@ npx prisma migrate dev
 ### Erro: "Port 3000 already in use"
 
 **Solução**: Mudar porta ou matar processo
+
 ```bash
 # Opção 1: Usar outra porta
 PORT=3001 npm run dev
@@ -364,6 +377,7 @@ taskkill /PID <PID> /F
 ### Erro: "NEXTAUTH_SECRET environment variable is not set"
 
 **Solução**: Adicionar ao `.env`
+
 ```bash
 openssl rand -base64 32 >> .env
 ```
@@ -373,6 +387,7 @@ Edite `.env` e adicione `NEXTAUTH_SECRET=` antes do valor gerado.
 ### Testes E2E falhando
 
 **Solução**: Instalar navegadores
+
 ```bash
 npx playwright install chromium
 ```
@@ -380,6 +395,7 @@ npx playwright install chromium
 ### WebSocket não conecta
 
 **Solução**: Verificar CORS e variáveis de ambiente
+
 ```bash
 # Verificar se WS_PORT está definido corretamente
 grep WS_PORT .env
@@ -395,33 +411,33 @@ npm run dev
 
 ### Desenvolvimento
 
-| Comando | Descrição |
-|---------|-----------|
-| `npm run dev` | Inicia servidor de desenvolvimento |
-| `npm run build` | Build de produção |
-| `npm start` | Executa build de produção |
-| `npm run lint` | Verifica linting |
-| `npm run format` | Formata código |
-| `npm test` | Executa testes unitários |
+| Comando          | Descrição                          |
+| ---------------- | ---------------------------------- |
+| `npm run dev`    | Inicia servidor de desenvolvimento |
+| `npm run build`  | Build de produção                  |
+| `npm start`      | Executa build de produção          |
+| `npm run lint`   | Verifica linting                   |
+| `npm run format` | Formata código                     |
+| `npm test`       | Executa testes unitários           |
 
 ### Banco de Dados
 
-| Comando | Descrição |
-|---------|-----------|
-| `npx prisma migrate dev` | Criar e aplicar migração |
-| `npx prisma migrate reset` | Resetar banco (⚠️ apaga dados) |
-| `npx prisma studio` | Abrir Prisma Studio |
-| `npx prisma generate` | Gerar Prisma Client |
-| `npm run db:seed` | Popular banco com dados de teste |
+| Comando                    | Descrição                        |
+| -------------------------- | -------------------------------- |
+| `npx prisma migrate dev`   | Criar e aplicar migração         |
+| `npx prisma migrate reset` | Resetar banco (⚠️ apaga dados)   |
+| `npx prisma studio`        | Abrir Prisma Studio              |
+| `npx prisma generate`      | Gerar Prisma Client              |
+| `npm run db:seed`          | Popular banco com dados de teste |
 
 ### Git
 
-| Comando | Descrição |
-|---------|-----------|
-| `git status` | Ver arquivos modificados |
-| `git log --oneline` | Histórico de commits |
-| `git branch` | Listar branches |
-| `git checkout -b feature/x` | Criar nova branch |
+| Comando                     | Descrição                |
+| --------------------------- | ------------------------ |
+| `git status`                | Ver arquivos modificados |
+| `git log --oneline`         | Histórico de commits     |
+| `git branch`                | Listar branches          |
+| `git checkout -b feature/x` | Criar nova branch        |
 
 ---
 

@@ -80,16 +80,13 @@ describe('Games API Endpoints', () => {
       createdRoomIds.push(roomData.roomId);
       createdGameIds.push(roomData.gameId);
 
-      const joinResponse = await fetch(
-        `${API_BASE_URL}/rooms/${roomData.code}/join`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: `session-token=${joinerSessionToken}`,
-          },
-        }
-      );
+      const joinResponse = await fetch(`${API_BASE_URL}/rooms/${roomData.code}/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `session-token=${joinerSessionToken}`,
+        },
+      });
 
       expect(joinResponse.status).toBe(200);
       await joinResponse.json();
@@ -192,16 +189,13 @@ describe('Games API Endpoints', () => {
       createdRoomIds.push(roomData.roomId);
       createdGameIds.push(roomData.gameId);
 
-      const joinResponse = await fetch(
-        `${API_BASE_URL}/rooms/${roomData.code}/join`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: `session-token=${joinerSessionToken}`,
-          },
-        }
-      );
+      const joinResponse = await fetch(`${API_BASE_URL}/rooms/${roomData.code}/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `session-token=${joinerSessionToken}`,
+        },
+      });
 
       expect(joinResponse.status).toBe(200);
       await joinResponse.json();
@@ -257,7 +251,7 @@ describe('Games API Endpoints', () => {
 
       expect(persistedGame).not.toBeNull();
 
-  const boardState = persistedGame?.boardState as unknown as BoardState;
+      const boardState = persistedGame?.boardState as unknown as BoardState;
       const movingPiece = getInitialWhitePiece(boardState);
 
       const moveResponse = await fetch(`${API_BASE_URL}/games/${game.id}/move`, {
@@ -292,7 +286,7 @@ describe('Games API Endpoints', () => {
       expect(data.game.status).toBe('IN_PROGRESS');
       expect(data.game.moveCount).toBe(1);
 
-  const updatedBoardState = data.game.boardState as unknown as BoardState;
+      const updatedBoardState = data.game.boardState as unknown as BoardState;
       const updatedPieces = updatedBoardState?.pieces ?? [];
       const movedPiece = updatedPieces.find((piece: Piece) => piece.id === movingPiece.id);
       expect(movedPiece?.row).toBe(movingPiece.row - 1);
@@ -360,7 +354,7 @@ describe('Games API Endpoints', () => {
         where: { id: game.id },
       });
 
-  const boardState = persistedGame?.boardState as unknown as BoardState;
+      const boardState = persistedGame?.boardState as unknown as BoardState;
       const blackPiece = getInitialBlackPiece(boardState);
 
       const response = await fetch(`${API_BASE_URL}/games/${game.id}/move`, {
@@ -388,7 +382,7 @@ describe('Games API Endpoints', () => {
         where: { id: game.id },
       });
 
-  const boardState = persistedGame?.boardState as unknown as BoardState;
+      const boardState = persistedGame?.boardState as unknown as BoardState;
       const movingPiece = getInitialWhitePiece(boardState);
 
       const response = await fetch(`${API_BASE_URL}/games/${game.id}/move`, {

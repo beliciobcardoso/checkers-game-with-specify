@@ -13,7 +13,7 @@ interface GameOverModalProps {
 
 /**
  * Modal displayed when the game ends (victory or draw)
- * 
+ *
  * @param result - Game result (WHITE_WIN, BLACK_WIN, or DRAW)
  * @param winner - Winning color (if not a draw)
  * @param isDraw - Whether the game ended in a draw
@@ -73,10 +73,7 @@ export function GameOverModal({
           </h2>
 
           {/* Message */}
-          <p
-            className="text-lg text-gray-700 text-center mb-8"
-            data-testid="game-over-message"
-          >
+          <p className="text-lg text-gray-700 text-center mb-8" data-testid="game-over-message">
             {getMessage()}
           </p>
 

@@ -18,52 +18,58 @@ Implementar jogo de damas completo com quatro modos: partida local (dois jogador
 **Testing**: Jest (unit tests), React Testing Library (component tests), Playwright (E2E), Supertest (API integration)  
 **Target Platform**: Web (navegadores modernos: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+), responsivo mobile-first  
 **Project Type**: Web application (Next.js fullstack - frontend e backend integrados)  
-**Performance Goals**: 
-  - UI: 60 FPS animações, < 100ms resposta a interações
-  - API: < 200ms p95 latência endpoints REST
-  - WebSocket: < 500ms propagação de movimentos entre clientes
-  - Tabuleiro: renderização otimizada para < 16ms por frame
-**Constraints**: 
-  - < 200ms p95 para validação de movimentos
-  - Suporte 100+ partidas simultâneas sem degradação
-  - Offline-capable não requerido (jogo online)
-  - Acessibilidade WCAG 2.1 AA (navegação teclado, screen readers)
-**Scale/Scope**: 
-  - MVP: ~50 componentes React, ~15 API routes, ~8 telas principais
-  - Banco: ~5 tabelas principais, índices para queries de jogos ativos
-  - Usuários esperados: 100-1000 usuários concorrentes (fase inicial)
+**Performance Goals**:
+
+- UI: 60 FPS animações, < 100ms resposta a interações
+- API: < 200ms p95 latência endpoints REST
+- WebSocket: < 500ms propagação de movimentos entre clientes
+- Tabuleiro: renderização otimizada para < 16ms por frame
+  **Constraints**:
+- < 200ms p95 para validação de movimentos
+- Suporte 100+ partidas simultâneas sem degradação
+- Offline-capable não requerido (jogo online)
+- Acessibilidade WCAG 2.1 AA (navegação teclado, screen readers)
+  **Scale/Scope**:
+- MVP: ~50 componentes React, ~15 API routes, ~8 telas principais
+- Banco: ~5 tabelas principais, índices para queries de jogos ativos
+- Usuários esperados: 100-1000 usuários concorrentes (fase inicial)
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### Initial Check (Before Phase 0)
 
 **Clean Code Compliance:**
+
 - [x] Naming conventions: variáveis/funções/classes descritivas (sem abreviações obscuras)
 - [x] Funções com responsabilidade única (< 30 linhas cada)
 - [x] Zero duplicação de código (DRY principle)
 - [x] Comentários justificam "porquê", não "o quê"
 
 **Testing Requirements:**
+
 - [x] Cobertura mínima: 80% código crítico (lógica do jogo, validação movimentos), 60% código geral
 - [x] Testes unitários isolados e rápidos (< 100ms) - Jest configurado
 - [x] Testes de integração para módulos principais - Supertest para API, Playwright para E2E
 - [x] CI/CD configurado com bloqueio em falhas - GitHub Actions pipeline
 
 **Documentation Standards:**
+
 - [x] README com setup, arquitetura e propósito
 - [x] JSDoc/TSDoc para todas as APIs públicas (componentes React, funções utils, endpoints)
 - [x] Decisões arquiteturais documentadas (research.md, data-model.md)
 - [x] Guia de contribuição disponível
 
 **Maintainability:**
+
 - [x] Dependências isoladas em camadas (Repository pattern para Prisma, Service layer para lógica)
 - [x] Configurações centralizadas (env vars, constants file)
 - [x] Zero magic numbers/strings (constantes para dimensões tabuleiro, timeouts, etc)
 - [x] Zero dead code (ESLint dead code detection)
 
 **Architecture & Patterns:**
+
 - [x] SOLID principles aplicados (SRP em componentes, DI para services)
 - [x] Padrões de design apropriados (Repository para dados, Service para lógica negócio, Observer para WebSocket)
 - [x] Baixo acoplamento, alta coesão (componentes reutilizáveis, hooks customizados)
@@ -79,6 +85,7 @@ Implementar jogo de damas completo com quatro modos: partida local (dois jogador
 **Artifacts Reviewed**: `data-model.md`, `contracts/rest-api.yaml`, `contracts/websocket.md`, `quickstart.md`
 
 **Changes Introduced in Phase 1**:
+
 1. Database schema com 5 entidades (Player, Game, Move, Room, Session)
 2. REST API com 15 endpoints (auth, games, rooms, players)
 3. WebSocket com 12 eventos principais (join-room, move-made, etc)
@@ -86,13 +93,13 @@ Implementar jogo de damas completo com quatro modos: partida local (dois jogador
 
 **New Complexity Assessment**:
 
-| Artifact | Complexity Added | Justification | Constitution Principle |
-|----------|-----------------|---------------|----------------------|
-| JSONB para boardState | Armazena 24 peças + metadados como JSON | Performance: evita 40+ rows por jogo, permite queries eficientes com índices GIN, facilita versionamento | Maintainability - configuração centralizada |
-| 12 eventos WebSocket | Sincronização bidirecional tempo real | Necessário para < 500ms latência (SC-004), sem isso seria polling HTTP ineficiente | Architecture - WebSocket já justificado |
-| Validação Zod em payloads | Schema validation para todos endpoints/eventos | Clean Code - fail-fast, erros claros, type-safety runtime, previne SQL injection | Clean Code - zero duplicação (schemas reutilizados) |
-| Rate limiting (1 move/s) | Throttle para prevenir spam de movimentos | Maintainability - protege integridade estado do jogo, previne DoS | Architecture - defesa em profundidade |
-| Índices compostos Prisma | `@@index([status, createdAt])` em Game | Performance - queries de "jogos ativos" são 100x mais rápidas | Maintainability - configuração no schema |
+| Artifact                  | Complexity Added                               | Justification                                                                                            | Constitution Principle                              |
+| ------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| JSONB para boardState     | Armazena 24 peças + metadados como JSON        | Performance: evita 40+ rows por jogo, permite queries eficientes com índices GIN, facilita versionamento | Maintainability - configuração centralizada         |
+| 12 eventos WebSocket      | Sincronização bidirecional tempo real          | Necessário para < 500ms latência (SC-004), sem isso seria polling HTTP ineficiente                       | Architecture - WebSocket já justificado             |
+| Validação Zod em payloads | Schema validation para todos endpoints/eventos | Clean Code - fail-fast, erros claros, type-safety runtime, previne SQL injection                         | Clean Code - zero duplicação (schemas reutilizados) |
+| Rate limiting (1 move/s)  | Throttle para prevenir spam de movimentos      | Maintainability - protege integridade estado do jogo, previne DoS                                        | Architecture - defesa em profundidade               |
+| Índices compostos Prisma  | `@@index([status, createdAt])` em Game         | Performance - queries de "jogos ativos" são 100x mais rápidas                                            | Maintainability - configuração no schema            |
 
 **Verification Against Constitution**:
 
@@ -241,6 +248,7 @@ checkers-game-with-specify/
 ```
 
 **Structure Decision**: Escolhida estrutura **Web Application (Next.js 15 App Router)** porque:
+
 - Frontend e backend integrados em monorepo simplifica desenvolvimento
 - App Router do Next.js 15 oferece Server Components para melhor performance
 - Estrutura de pastas modular facilita navegação e manutenção
@@ -253,14 +261,15 @@ checkers-game-with-specify/
 
 **Status**: ✅ No violations - all complexity justified
 
-| Decision | Rationale | Simpler Alternative Considered |
-|----------|-----------|-------------------------------|
-| WebSocket (Socket.io) | Tempo real necessário para sincronização de movimentos < 500ms entre jogadores. Polling HTTP seria 3-5x mais lento e desperdiçaria recursos. | HTTP polling rejeitado: latência inaceitável (2-5s), overhead de requests, não escalável |
-| Prisma ORM | Type-safety para queries, migrations automáticas, relacionamentos type-safe reduzem bugs 60%+. Raw SQL seria error-prone e sem validação compile-time. | Raw SQL rejeitado: sem type-safety, migrations manuais propensas a erro, queries complexas sem validação |
-| NextAuth.js 4.x | Autenticação segura com sessions, CSRF protection, múltiplos providers. Implementação manual levaria 2-3 semanas e teria vulnerabilidades. | Auth manual rejeitado: alto risco de segurança, tempo de desenvolvimento proibitivo, falta de features enterprise |
-| Minimax para bot Difícil | Única abordagem que garante jogo ótimo matemático. Heurísticas simples seriam previsíveis e não desafiadoras. | Heurísticas básicas rejeitadas para nível Difícil: muito previsível, não atende requisito de "raramente comete erros" |
+| Decision                 | Rationale                                                                                                                                              | Simpler Alternative Considered                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| WebSocket (Socket.io)    | Tempo real necessário para sincronização de movimentos < 500ms entre jogadores. Polling HTTP seria 3-5x mais lento e desperdiçaria recursos.           | HTTP polling rejeitado: latência inaceitável (2-5s), overhead de requests, não escalável                              |
+| Prisma ORM               | Type-safety para queries, migrations automáticas, relacionamentos type-safe reduzem bugs 60%+. Raw SQL seria error-prone e sem validação compile-time. | Raw SQL rejeitado: sem type-safety, migrations manuais propensas a erro, queries complexas sem validação              |
+| NextAuth.js 4.x          | Autenticação segura com sessions, CSRF protection, múltiplos providers. Implementação manual levaria 2-3 semanas e teria vulnerabilidades.             | Auth manual rejeitado: alto risco de segurança, tempo de desenvolvimento proibitivo, falta de features enterprise     |
+| Minimax para bot Difícil | Única abordagem que garante jogo ótimo matemático. Heurísticas simples seriam previsíveis e não desafiadoras.                                          | Heurísticas básicas rejeitadas para nível Difícil: muito previsível, não atende requisito de "raramente comete erros" |
 
-**Notes**: 
+**Notes**:
+
 - Todas as decisões de complexidade são necessárias para atender requisitos funcionais e não-funcionais
 - Alternativas mais simples foram consideradas mas rejeitadas por não atingirem critérios de sucesso
 - Nenhuma over-engineering detectada: cada biblioteca/padrão resolve problema real documentado na spec

@@ -9,16 +9,9 @@ import {
   DrawCheck,
   Position,
 } from '@/types/game';
-import {
-  validateSimpleMove,
-  validateKingMove,
-  findMultipleCaptures,
-} from '@/lib/game/validator';
+import { validateSimpleMove, validateKingMove, findMultipleCaptures } from '@/lib/game/validator';
 import { getPieceAt, getBoardHash, isValidPosition } from '@/lib/game/board';
-import {
-  MAX_TURNS_WITHOUT_CAPTURE,
-  MAX_POSITION_REPETITIONS,
-} from '@/lib/constants';
+import { MAX_TURNS_WITHOUT_CAPTURE, MAX_POSITION_REPETITIONS } from '@/lib/constants';
 
 /**
  * Check if a piece should be promoted to king
@@ -70,12 +63,10 @@ export function executeMove(move: Move, game: Game): Game {
     const middleRow = (move.from.row + move.to.row) / 2;
     const middleCol = (move.from.col + move.to.col) / 2;
     const foundPiece = getPieceAt(middleRow, middleCol, newBoardState);
-    
+
     if (foundPiece) {
       capturedPiece = foundPiece;
-      newBoardState.pieces = newBoardState.pieces.filter(
-        (p) => p.id !== capturedPiece?.id,
-      );
+      newBoardState.pieces = newBoardState.pieces.filter((p) => p.id !== capturedPiece?.id);
 
       // Update captured count
       if (capturedPiece.color === Color.WHITE) {
@@ -124,12 +115,8 @@ export function executeMove(move: Move, game: Game): Game {
  * Check if the game has been won
  */
 export function checkVictory(game: Game): VictoryCheck {
-  const whitePieces = game.boardState.pieces.filter(
-    (p) => p.color === Color.WHITE,
-  );
-  const blackPieces = game.boardState.pieces.filter(
-    (p) => p.color === Color.BLACK,
-  );
+  const whitePieces = game.boardState.pieces.filter((p) => p.color === Color.WHITE);
+  const blackPieces = game.boardState.pieces.filter((p) => p.color === Color.BLACK);
 
   // Check if either player has no pieces
   if (whitePieces.length === 0) {
@@ -140,16 +127,14 @@ export function checkVictory(game: Game): VictoryCheck {
   }
 
   // Check if current player has no valid moves
-  const currentPlayerPieces =
-    game.currentTurn === Color.WHITE ? whitePieces : blackPieces;
+  const currentPlayerPieces = game.currentTurn === Color.WHITE ? whitePieces : blackPieces;
   const hasValidMoves = currentPlayerPieces.some(
-    (piece) => getValidMoves(piece, game.boardState).length > 0,
+    (piece) => getValidMoves(piece, game.boardState).length > 0
   );
 
   if (!hasValidMoves) {
     // Current player can't move, opponent wins
-    const winner =
-      game.currentTurn === Color.WHITE ? Color.BLACK : Color.WHITE;
+    const winner = game.currentTurn === Color.WHITE ? Color.BLACK : Color.WHITE;
     return { isVictory: true, winner };
   }
 
@@ -201,30 +186,28 @@ export function getValidMoves(piece: Piece, board: BoardState): Position[] {
     // Return only the first destination of each capture path
     // For a capture from (5,0) over (4,1), the destination is (3,2)
     const capturePositions: Position[] = [];
-    
+
     for (const path of capturePaths) {
       // The first position in the path is the immediate destination after the first capture
       if (path.positions.length > 0) {
         // For a capture move, the destination is 2 squares away
         // We need to find the destination, not the captured piece position
         const firstCaptured = path.capturedPieces[0];
-        
+
         // Calculate the destination based on the captured piece
         // If piece is at (5,0) and captures at (4,1), destination is (3,2)
         const rowDiff = firstCaptured.row - piece.row;
         const colDiff = firstCaptured.col - piece.col;
         const destRow = firstCaptured.row + rowDiff;
         const destCol = firstCaptured.col + colDiff;
-        
+
         capturePositions.push({ row: destRow, col: destCol });
       }
     }
-    
+
     // Remove duplicates
     const uniquePositions = capturePositions.filter(
-      (pos, index, self) =>
-        index ===
-        self.findIndex((p) => p.row === pos.row && p.col === pos.col),
+      (pos, index, self) => index === self.findIndex((p) => p.row === pos.row && p.col === pos.col)
     );
     return uniquePositions;
   }
@@ -261,7 +244,7 @@ export function getValidMoves(piece: Piece, board: BoardState): Position[] {
   } else {
     // Normal piece - check 2 forward diagonal squares
     const forwardDir = piece.color === Color.WHITE ? -1 : 1;
-    
+
     const possibleMoves = [
       { row: piece.row + forwardDir, col: piece.col - 1 },
       { row: piece.row + forwardDir, col: piece.col + 1 },

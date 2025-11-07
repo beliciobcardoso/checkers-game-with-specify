@@ -1,17 +1,13 @@
 import React from 'react';
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   helperText?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    { className = '', label, error, helperText, id, type = 'text', ...props },
-    ref,
-  ) => {
+  ({ className = '', label, error, helperText, id, type = 'text', ...props }, ref) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
 
     const baseStyles =
@@ -24,10 +20,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label
-            htmlFor={inputId}
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-1">
             {label}
           </label>
         )}
@@ -39,12 +32,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
-        {helperText && !error && (
-          <p className="mt-1 text-sm text-gray-500">{helperText}</p>
-        )}
+        {helperText && !error && <p className="mt-1 text-sm text-gray-500">{helperText}</p>}
       </div>
     );
-  },
+  }
 );
 
 Input.displayName = 'Input';

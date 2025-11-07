@@ -1,7 +1,7 @@
 /**
  * T069: LoginForm Component
  * Formulário de login com validação Zod
- * 
+ *
  * Props: onSuccess (callback após login bem-sucedido)
  * Validação: email (formato válido), password (não vazio)
  * Estados: loading, error
@@ -76,7 +76,6 @@ export default function LoginForm({ onSuccess, redirectTo = '/' }: LoginFormProp
       }
       router.push(redirectTo);
       router.refresh(); // Atualiza estado do servidor
-
     } catch {
       setServerError('Erro ao conectar com o servidor');
       setIsLoading(false);
@@ -96,16 +95,14 @@ export default function LoginForm({ onSuccess, redirectTo = '/' }: LoginFormProp
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            errors.email 
-              ? 'border-red-500 focus:ring-red-500' 
+            errors.email
+              ? 'border-red-500 focus:ring-red-500'
               : 'border-gray-300 focus:ring-blue-500'
           }`}
           placeholder="seu@email.com"
           disabled={isLoading}
         />
-        {errors.email && (
-          <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-        )}
+        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
       </div>
 
       {/* Password */}
@@ -119,16 +116,14 @@ export default function LoginForm({ onSuccess, redirectTo = '/' }: LoginFormProp
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            errors.password 
-              ? 'border-red-500 focus:ring-red-500' 
+            errors.password
+              ? 'border-red-500 focus:ring-red-500'
               : 'border-gray-300 focus:ring-blue-500'
           }`}
           placeholder="••••••••"
           disabled={isLoading}
         />
-        {errors.password && (
-          <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-        )}
+        {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
       </div>
 
       {/* Server Error */}

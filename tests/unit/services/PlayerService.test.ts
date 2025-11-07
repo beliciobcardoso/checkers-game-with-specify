@@ -17,7 +17,7 @@ describe('PlayerService - Password Hashing', () => {
 
       // Verificar formato bcrypt
       expect(hash).toMatch(/^\$2[aby]\$\d{2}\$/);
-      
+
       // Verificar work factor (rounds) = 12
       const rounds = bcrypt.getRounds(hash);
       expect(rounds).toBe(12);
@@ -100,10 +100,7 @@ describe('PlayerService - Password Hashing', () => {
     it('should handle invalid hash gracefully', async () => {
       const playerService = new PlayerService();
 
-      const isValid = await playerService.verifyPassword(
-        'SomePassword123!',
-        'invalid-hash'
-      );
+      const isValid = await playerService.verifyPassword('SomePassword123!', 'invalid-hash');
 
       expect(isValid).toBe(false);
     });
@@ -131,7 +128,7 @@ describe('PlayerService - Password Hashing', () => {
 
       // Work factor 12 deve levar > 10ms (previne brute force rápido)
       expect(duration).toBeGreaterThan(10);
-      
+
       // Mas não deve ser excessivamente lento (< 500ms)
       expect(duration).toBeLessThan(500);
     });

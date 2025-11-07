@@ -6,6 +6,8 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-}
+  // Disable static optimization for auth-protected pages
+  output: 'standalone',
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

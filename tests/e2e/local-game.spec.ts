@@ -39,7 +39,11 @@ test.describe('Local Checkers Game E2E', () => {
     await page.click('[data-testid="square-highlighted"]').first();
 
     // Piece should have moved
-    const newPosition = await page.locator('[data-testid="piece-white"]').first().locator('..').getAttribute('data-position');
+    const newPosition = await page
+      .locator('[data-testid="piece-white"]')
+      .first()
+      .locator('..')
+      .getAttribute('data-position');
     expect(newPosition).not.toBe(initialSquare);
   });
 
@@ -121,7 +125,9 @@ test.describe('Local Checkers Game E2E', () => {
 
     // Click an invalid (non-highlighted) square
     const allSquares = page.locator('[data-testid^="square"]');
-    const nonHighlightedSquare = allSquares.filter({ hasNot: page.locator('[data-testid="square-highlighted"]') }).first();
+    const nonHighlightedSquare = allSquares
+      .filter({ hasNot: page.locator('[data-testid="square-highlighted"]') })
+      .first();
     await nonHighlightedSquare.click();
 
     // Error message should appear

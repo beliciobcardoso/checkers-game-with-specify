@@ -1,11 +1,4 @@
-import {
-  Piece,
-  BoardState,
-  Color,
-  PieceType,
-  ValidationResult,
-  CapturePath,
-} from '@/types/game';
+import { Piece, BoardState, Color, PieceType, ValidationResult, CapturePath } from '@/types/game';
 import { getPieceAt, isValidPosition } from '@/lib/game/board';
 
 /**
@@ -15,7 +8,7 @@ export function validateSimpleMove(
   piece: Piece,
   toRow: number,
   toCol: number,
-  board: BoardState,
+  board: BoardState
 ): ValidationResult {
   // Check if destination is within bounds
   if (!isValidPosition(toRow, toCol)) {
@@ -57,7 +50,7 @@ export function validateCapture(
   piece: Piece,
   toRow: number,
   toCol: number,
-  board: BoardState,
+  board: BoardState
 ): ValidationResult {
   // Check if destination is within bounds
   if (!isValidPosition(toRow, toCol)) {
@@ -91,16 +84,9 @@ export function validateCapture(
     return { valid: false, error: 'Não pode capturar própria peça' };
   }
 
-  // For normal pieces, check direction
-  if (piece.type === PieceType.NORMAL) {
-    // Normal pieces can only capture forward (official rules)
-    const forwardDirection = piece.color === Color.WHITE ? -1 : 1;
-    const actualDirection = Math.sign(rowDiff);
-    
-    if (actualDirection !== forwardDirection) {
-      return { valid: false, error: 'Peça simples não pode capturar para trás' };
-    }
-  }
+  // For normal pieces, Brazilian checkers rules ALLOW backward captures
+  // Only forward moves are restricted, not captures
+  // Therefore, we do NOT restrict capture direction for normal pieces
 
   return { valid: true, capturedPiece: middlePiece };
 }
@@ -111,7 +97,7 @@ export function validateCapture(
 export function findMultipleCaptures(
   piece: Piece,
   board: BoardState,
-  capturedSoFar: Piece[] = [],
+  capturedSoFar: Piece[] = []
 ): CapturePath[] {
   const paths: CapturePath[] = [];
   const directions = [
@@ -136,9 +122,7 @@ export function findMultipleCaptures(
       // Create a temporary board state with the capture
       const newBoard: BoardState = {
         ...board,
-        pieces: board.pieces.filter(
-          (p) => p.id !== result.capturedPiece?.id && p.id !== piece.id,
-        ),
+        pieces: board.pieces.filter((p) => p.id !== result.capturedPiece?.id && p.id !== piece.id),
       };
 
       const newPiece: Piece = {
@@ -151,11 +135,7 @@ export function findMultipleCaptures(
       const newCaptured = [...capturedSoFar, result.capturedPiece];
 
       // Recursively find more captures
-      const furtherCaptures = findMultipleCaptures(
-        newPiece,
-        newBoard,
-        newCaptured,
-      );
+      const furtherCaptures = findMultipleCaptures(newPiece, newBoard, newCaptured);
 
       if (furtherCaptures.length > 0) {
         // Add all the further capture paths
@@ -190,7 +170,7 @@ export function validateKingMove(
   piece: Piece,
   toRow: number,
   toCol: number,
-  board: BoardState,
+  board: BoardState
 ): ValidationResult {
   if (piece.type !== PieceType.KING) {
     return { valid: false, error: 'Apenas damas podem fazer este movimento' };

@@ -26,10 +26,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Credenciais inválidas');
         }
 
-        const isPasswordValid = await compare(
-          credentials.password,
-          player.passwordHash,
-        );
+        const isPasswordValid = await compare(credentials.password, player.passwordHash);
 
         if (!isPasswordValid) {
           throw new Error('Credenciais inválidas');
@@ -54,8 +51,8 @@ export const authOptions: NextAuthOptions = {
     maxAge: 7 * 24 * 60 * 60, // 7 days
   },
   pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
+    signIn: '/login',
+    error: '/login',
   },
   callbacks: {
     async jwt({ token, user }) {

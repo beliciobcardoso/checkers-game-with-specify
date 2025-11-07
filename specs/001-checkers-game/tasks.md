@@ -18,6 +18,7 @@ Cada user story DEVE incluir testes unitários, de integração e de contrato qu
 ## Path Conventions
 
 Next.js 15 App Router structure:
+
 - **App routes**: `src/app/`
 - **Components**: `src/components/`
 - **Business logic**: `src/lib/`
@@ -32,38 +33,39 @@ Next.js 15 App Router structure:
 
 **Estimativa**: 2-3 horas
 
-- [X] T001 Criar estrutura de diretórios do Next.js 15 conforme plan.md (src/app, src/components, src/lib, src/services, tests/, prisma/)
-- [X] T002 Inicializar projeto Next.js 15 com TypeScript, configurar package.json com dependências: React 18, Prisma 5.x, Socket.io 4.x, Tailwind CSS 3.x, NextAuth.js 4.x, Zod
-- [X] T003 [P] Configurar ESLint com regras do projeto e Prettier para formatação
-- [X] T004 [P] Configurar Tailwind CSS 3.x em tailwind.config.js com tema dark/light e cores do tabuleiro
-- [X] T005 [P] Criar arquivo .env.example com variáveis: DATABASE_URL, NEXTAUTH_URL, NEXTAUTH_SECRET, NODE_ENV, WS_PORT
-- [X] T006 [P] Configurar Jest para testes unitários em tests/setup/jest.config.js
-- [X] T007 [P] Configurar Playwright para testes E2E em tests/setup/playwright.config.ts
-- [X] T008 [P] Criar arquivo README.md seguindo quickstart.md com setup, arquitetura básica e propósito
-- [X] T009 Criar workflow GitHub Actions em .github/workflows/ci.yml para CI/CD (lint, testes, build)
+- [x] T001 Criar estrutura de diretórios do Next.js 15 conforme plan.md (src/app, src/components, src/lib, src/services, tests/, prisma/)
+- [x] T002 Inicializar projeto Next.js 15 com TypeScript, configurar package.json com dependências: React 18, Prisma 5.x, Socket.io 4.x, Tailwind CSS 3.x, NextAuth.js 4.x, Zod
+- [x] T003 [P] Configurar ESLint com regras do projeto e Prettier para formatação
+- [x] T004 [P] Configurar Tailwind CSS 3.x em tailwind.config.js com tema dark/light e cores do tabuleiro
+- [x] T005 [P] Criar arquivo .env.example com variáveis: DATABASE_URL, NEXTAUTH_URL, NEXTAUTH_SECRET, NODE_ENV, WS_PORT
+- [x] T006 [P] Configurar Jest para testes unitários em tests/setup/jest.config.js
+- [x] T007 [P] Configurar Playwright para testes E2E em tests/setup/playwright.config.ts
+- [x] T008 [P] Criar arquivo README.md seguindo quickstart.md com setup, arquitetura básica e propósito
+- [x] T009 Criar workflow GitHub Actions em .github/workflows/ci.yml para CI/CD (lint, testes, build)
 
 **Checkpoint**: ✅ Estrutura básica pronta, dependências instaladas, ferramentas de desenvolvimento configuradas
 
 ---
 
 ### Phase 2: Foundational Infrastructure [BLOCKING] (T010-T023) | Est: 15h
+
 Priority: CRITICAL - Blocks all user stories
 Required before any feature work
 
-- [X] T010: Create Prisma schema | 1h | `prisma/schema.prisma`
-- [X] T011: Run first migration (`prisma migrate dev --name init`) | 0.5h
-- [X] T012: Create Prisma Client singleton [P] | 0.5h | `src/lib/prisma.ts`
-- [X] T013: Configure NextAuth.js [P] | 1.5h | `src/lib/auth.ts`, `src/app/api/auth/[...nextauth]/route.ts`
-- [X] T014: Create auth middleware [P] | 1h | `src/middleware.ts`
-- [X] T015: Create Repository pattern base [P] | 1h | `src/lib/repositories/base.repository.ts`
-- [X] T016: Create Zod validators [P] | 1.5h | `src/lib/validators/`
-- [X] T017: Create constants file [P] | 0.5h | `src/lib/constants.ts`
-- [X] T018: Setup WebSocket server skeleton [P] | 1.5h | `src/lib/websocket/server.ts`
-- [X] T019: Create error handling utilities [P] | 1h | `src/lib/errors.ts`
-- [X] T020: Create logging utility [P] | 0.5h | `src/lib/logger.ts`
-- [X] T021: Create base UI components [P] | 2h | `src/components/ui/`
-- [X] T022: Create root layout [P] | 0.5h | `src/app/layout.tsx`
-- [X] T023: Create home page [P] | 1h | `src/app/page.tsx`
+- [x] T010: Create Prisma schema | 1h | `prisma/schema.prisma`
+- [x] T011: Run first migration (`prisma migrate dev --name init`) | 0.5h
+- [x] T012: Create Prisma Client singleton [P] | 0.5h | `src/lib/prisma.ts`
+- [x] T013: Configure NextAuth.js [P] | 1.5h | `src/lib/auth.ts`, `src/app/api/auth/[...nextauth]/route.ts`
+- [x] T014: Create auth middleware [P] | 1h | `src/middleware.ts`
+- [x] T015: Create Repository pattern base [P] | 1h | `src/lib/repositories/base.repository.ts`
+- [x] T016: Create Zod validators [P] | 1.5h | `src/lib/validators/`
+- [x] T017: Create constants file [P] | 0.5h | `src/lib/constants.ts`
+- [x] T018: Setup WebSocket server skeleton [P] | 1.5h | `src/lib/websocket/server.ts`
+- [x] T019: Create error handling utilities [P] | 1h | `src/lib/errors.ts`
+- [x] T020: Create logging utility [P] | 0.5h | `src/lib/logger.ts`
+- [x] T021: Create base UI components [P] | 2h | `src/components/ui/`
+- [x] T022: Create root layout [P] | 0.5h | `src/app/layout.tsx`
+- [x] T023: Create home page [P] | 1h | `src/app/page.tsx`
 
 **Checkpoint**: ✅ Infraestrutura fundacional completa - Prisma, NextAuth, middleware, validadores, WebSocket, error handling, logging, componentes UI base
 
@@ -83,15 +85,15 @@ Required before any feature work
 
 **Estimativa testes**: 8-10 horas
 
-- [X] T024 [P] [US1] Teste unitário para validação de movimentos simples em tests/unit/game/validator.test.ts (peças simples movem 1 diagonal frente)
-- [X] T025 [P] [US1] Teste unitário para validação de capturas simples em tests/unit/game/validator.test.ts (pulo sobre adversário)
-- [X] T026 [P] [US1] Teste unitário para detecção de capturas múltiplas em tests/unit/game/validator.test.ts (sequência obrigatória)
-- [X] T027 [P] [US1] Teste unitário para promoção de peças em tests/unit/game/engine.test.ts (última linha vira dama)
-- [X] T028 [P] [US1] Teste unitário para movimentos de dama em tests/unit/game/validator.test.ts (diagonais longas frente/trás)
-- [X] T029 [P] [US1] Teste unitário para detecção de vitória em tests/unit/game/engine.test.ts (adversário sem peças/movimentos)
-- [X] T030 [P] [US1] Teste unitário para detecção de empate em tests/unit/game/engine.test.ts (repetição 3x, 40 movimentos)
-- [X] T031 [P] [US1] Teste de integração para partida completa em tests/integration/local-game.test.ts (início ao fim, validar todos os cenários de aceitação)
-- [X] T032 [P] [US1] Teste E2E com Playwright em tests/e2e/local-game.spec.ts (clique em peças, movimentos, captura, vitória)
+- [x] T024 [P] [US1] Teste unitário para validação de movimentos simples em tests/unit/game/validator.test.ts (peças simples movem 1 diagonal frente)
+- [x] T025 [P] [US1] Teste unitário para validação de capturas simples em tests/unit/game/validator.test.ts (pulo sobre adversário)
+- [x] T026 [P] [US1] Teste unitário para detecção de capturas múltiplas em tests/unit/game/validator.test.ts (sequência obrigatória)
+- [x] T027 [P] [US1] Teste unitário para promoção de peças em tests/unit/game/engine.test.ts (última linha vira dama)
+- [x] T028 [P] [US1] Teste unitário para movimentos de dama em tests/unit/game/validator.test.ts (diagonais longas frente/trás)
+- [x] T029 [P] [US1] Teste unitário para detecção de vitória em tests/unit/game/engine.test.ts (adversário sem peças/movimentos)
+- [x] T030 [P] [US1] Teste unitário para detecção de empate em tests/unit/game/engine.test.ts (repetição 3x, 40 movimentos)
+- [x] T031 [P] [US1] Teste de integração para partida completa em tests/integration/local-game.test.ts (início ao fim, validar todos os cenários de aceitação)
+- [x] T032 [P] [US1] Teste E2E com Playwright em tests/e2e/local-game.spec.ts (clique em peças, movimentos, captura, vitória)
 
 ### Implementação para User Story 1
 
@@ -99,37 +101,37 @@ Required before any feature work
 
 #### Lógica Core do Jogo
 
-- [X] T033 [P] [US1] Criar tipos TypeScript em src/types/game.ts (Piece, BoardState, Move, GameStatus, Color)
-- [X] T034 [P] [US1] Implementar gerador de tabuleiro inicial em src/lib/game/board.ts (24 peças posicionadas corretamente)
-- [X] T035 [US1] Implementar validador de movimentos simples em src/lib/game/validator.ts função `validateSimpleMove(piece, toRow, toCol, board)` (depende de T033, T034)
-- [X] T036 [US1] Implementar validador de capturas em src/lib/game/validator.ts função `validateCapture(piece, toRow, toCol, board)` (depende de T035)
-- [X] T037 [US1] Implementar detector de capturas múltiplas em src/lib/game/validator.ts função `findMultipleCaptures(piece, board)` (depende de T036)
-- [X] T038 [US1] Implementar validador de movimentos de dama em src/lib/game/validator.ts função `validateKingMove(piece, toRow, toCol, board)` (depende de T035)
-- [X] T039 [US1] Implementar executor de movimento em src/lib/game/engine.ts função `executeMove(move, game)` com atualização de boardState (depende de T036, T037)
-- [X] T040 [US1] Implementar lógica de promoção em src/lib/game/engine.ts função `checkPromotion(piece)` (depende de T039)
-- [X] T041 [US1] Implementar detector de vitória em src/lib/game/engine.ts função `checkVictory(game)` (depende de T039)
-- [X] T042 [US1] Implementar detector de empate em src/lib/game/engine.ts função `checkDraw(game)` (repetição posição + 40 movimentos) (depende de T039)
-- [X] T043 [US1] Implementar detector de movimentos válidos em src/lib/game/engine.ts função `getValidMoves(piece, board)` para highlighting (depende de T035, T036, T038)
+- [x] T033 [P] [US1] Criar tipos TypeScript em src/types/game.ts (Piece, BoardState, Move, GameStatus, Color)
+- [x] T034 [P] [US1] Implementar gerador de tabuleiro inicial em src/lib/game/board.ts (24 peças posicionadas corretamente)
+- [x] T035 [US1] Implementar validador de movimentos simples em src/lib/game/validator.ts função `validateSimpleMove(piece, toRow, toCol, board)` (depende de T033, T034)
+- [x] T036 [US1] Implementar validador de capturas em src/lib/game/validator.ts função `validateCapture(piece, toRow, toCol, board)` (depende de T035)
+- [x] T037 [US1] Implementar detector de capturas múltiplas em src/lib/game/validator.ts função `findMultipleCaptures(piece, board)` (depende de T036)
+- [x] T038 [US1] Implementar validador de movimentos de dama em src/lib/game/validator.ts função `validateKingMove(piece, toRow, toCol, board)` (depende de T035)
+- [x] T039 [US1] Implementar executor de movimento em src/lib/game/engine.ts função `executeMove(move, game)` com atualização de boardState (depende de T036, T037)
+- [x] T040 [US1] Implementar lógica de promoção em src/lib/game/engine.ts função `checkPromotion(piece)` (depende de T039)
+- [x] T041 [US1] Implementar detector de vitória em src/lib/game/engine.ts função `checkVictory(game)` (depende de T039)
+- [x] T042 [US1] Implementar detector de empate em src/lib/game/engine.ts função `checkDraw(game)` (repetição posição + 40 movimentos) (depende de T039)
+- [x] T043 [US1] Implementar detector de movimentos válidos em src/lib/game/engine.ts função `getValidMoves(piece, board)` para highlighting (depende de T035, T036, T038)
 
 #### Componentes React
 
-- [X] T044 [P] [US1] Criar componente Square em src/components/game/Square.tsx (casa do tabuleiro com evento onClick)
-- [X] T045 [P] [US1] Criar componente Piece em src/components/game/Piece.tsx (peça branca/preta, simples/dama com ícones)
-- [X] T046 [US1] Criar componente Board em src/components/game/Board.tsx renderizando 8x8 Squares com Pieces (depende de T044, T045)
-- [X] T047 [US1] Criar componente GameControls em src/components/game/GameControls.tsx (turno atual, botão reiniciar, botão desistir) (depende de T046)
-- [X] T048 [US1] Criar componente GameOverModal em src/components/game/GameOverModal.tsx (vitória/empate, botão jogar novamente)
+- [x] T044 [P] [US1] Criar componente Square em src/components/game/Square.tsx (casa do tabuleiro com evento onClick)
+- [x] T045 [P] [US1] Criar componente Piece em src/components/game/Piece.tsx (peça branca/preta, simples/dama com ícones)
+- [x] T046 [US1] Criar componente Board em src/components/game/Board.tsx renderizando 8x8 Squares com Pieces (depende de T044, T045)
+- [x] T047 [US1] Criar componente GameControls em src/components/game/GameControls.tsx (turno atual, botão reiniciar, botão desistir) (depende de T046)
+- [x] T048 [US1] Criar componente GameOverModal em src/components/game/GameOverModal.tsx (vitória/empate, botão jogar novamente)
 
 #### Hooks e Estado
 
-- [X] T049 [US1] Criar hook useLocalGame em src/hooks/useLocalGame.ts com estado (board, currentTurn, selectedPiece, validMoves) e funções (handleSquareClick, resetGame) (depende de T039, T041, T042, T043)
+- [x] T049 [US1] Criar hook useLocalGame em src/hooks/useLocalGame.ts com estado (board, currentTurn, selectedPiece, validMoves) e funções (handleSquareClick, resetGame) (depende de T039, T041, T042, T043)
 
 #### Página e Integração
 
-- [X] T050 [US1] Criar página de partida local em src/app/game/local/page.tsx integrando Board, GameControls, useLocalGame (depende de T046, T047, T049)
-- [X] T051 [US1] Adicionar validação visual em Board.tsx (highlight casas válidas ao selecionar peça, bloqueio de cliques no turno errado) (depende de T046, T049)
-- [X] T052 [US1] Adicionar animações de movimento em Board.tsx usando Tailwind transitions (peça desliza para nova casa) (depende de T051)
-- [X] T053 [US1] Adicionar feedback de erros em GameControls.tsx (toast/mensagem para movimento inválido) (depende de T047, T049)
-- [X] T054 [US1] Implementar logging de eventos do jogo (movimento executado, captura, promoção, vitória) usando logger (depende de T050)
+- [x] T050 [US1] Criar página de partida local em src/app/game/local/page.tsx integrando Board, GameControls, useLocalGame (depende de T046, T047, T049)
+- [x] T051 [US1] Adicionar validação visual em Board.tsx (highlight casas válidas ao selecionar peça, bloqueio de cliques no turno errado) (depende de T046, T049)
+- [x] T052 [US1] Adicionar animações de movimento em Board.tsx usando Tailwind transitions (peça desliza para nova casa) (depende de T051)
+- [x] T053 [US1] Adicionar feedback de erros em GameControls.tsx (toast/mensagem para movimento inválido) (depende de T047, T049)
+- [x] T054 [US1] Implementar logging de eventos do jogo (movimento executado, captura, promoção, vitória) usando logger (depende de T050)
 
 **Checkpoint**: User Story 1 completa e testável independentemente - jogo local totalmente funcional
 
@@ -149,12 +151,12 @@ Required before any feature work
 
 **Estimativa testes**: 5-6 horas
 
-- [X] T055 [P] [US4] Teste de contrato para POST /api/auth/register em tests/integration/api/auth.test.ts (validação email único, senha mínimo 8 chars)
-- [X] T056 [P] [US4] Teste de contrato para POST /api/auth/login em tests/integration/api/auth.test.ts (credenciais válidas/inválidas)
-- [X] T057 [P] [US4] Teste de contrato para GET /api/players/me em tests/integration/api/players.test.ts (retorna dados do jogador autenticado)
-- [X] T058 [P] [US4] Teste de contrato para GET /api/players/me/stats em tests/integration/api/players.test.ts (retorna estatísticas corretas)
-- [X] T059 [P] [US4] Teste unitário para hash de senha em tests/unit/services/PlayerService.test.ts (bcrypt, verificação)
-- [X] T060 [P] [US4] Teste E2E de registro e login em tests/e2e/auth.spec.ts (criar conta, logout, login novamente)
+- [x] T055 [P] [US4] Teste de contrato para POST /api/auth/register em tests/integration/api/auth.test.ts (validação email único, senha mínimo 8 chars)
+- [x] T056 [P] [US4] Teste de contrato para POST /api/auth/login em tests/integration/api/auth.test.ts (credenciais válidas/inválidas)
+- [x] T057 [P] [US4] Teste de contrato para GET /api/players/me em tests/integration/api/players.test.ts (retorna dados do jogador autenticado)
+- [x] T058 [P] [US4] Teste de contrato para GET /api/players/me/stats em tests/integration/api/players.test.ts (retorna estatísticas corretas)
+- [x] T059 [P] [US4] Teste unitário para hash de senha em tests/unit/services/PlayerService.test.ts (bcrypt, verificação)
+- [x] T060 [P] [US4] Teste E2E de registro e login em tests/e2e/auth.spec.ts (criar conta, logout, login novamente)
 
 ### Implementação para User Story 4
 
@@ -162,36 +164,36 @@ Required before any feature work
 
 #### Repository e Service Layer
 
-- [X] T061 [P] [US4] Criar PlayerRepository em src/lib/db/repositories/player.ts com métodos: create, findByEmail, findById, updateStats
-- [X] T062 [US4] Criar PlayerService em src/services/PlayerService.ts com métodos: register, login, updateStatistics (hash bcrypt, validação Zod) (depende de T061)
+- [x] T061 [P] [US4] Criar PlayerRepository em src/lib/db/repositories/player.ts com métodos: create, findByEmail, findById, updateStats
+- [x] T062 [US4] Criar PlayerService em src/services/PlayerService.ts com métodos: register, login, updateStatistics (hash bcrypt, validação Zod) (depende de T061)
 
 #### API Endpoints
 
-- [X] T063 [US4] Implementar POST /api/auth/register em src/app/api/auth/register/route.ts usando PlayerService (depende de T062)
-- [X] T064 [US4] Implementar POST /api/auth/login em src/app/api/auth/login/route.ts usando PlayerService (depende de T062)
-- [X] T065 [P] [US4] Implementar POST /api/auth/logout em src/app/api/auth/logout/route.ts (limpar sessão)
-- [X] T066 [P] [US4] Implementar GET /api/players/me em src/app/api/players/me/route.ts (dados do jogador autenticado)
-- [X] T067 [P] [US4] Implementar GET /api/players/me/stats em src/app/api/players/me/stats/route.ts (estatísticas: wins, losses, draws, total)
-- [X] T068 [P] [US4] Implementar GET /api/players/me/history em src/app/api/players/me/history/route.ts (últimas 20 partidas com paginação)
+- [x] T063 [US4] Implementar POST /api/auth/register em src/app/api/auth/register/route.ts usando PlayerService (depende de T062)
+- [x] T064 [US4] Implementar POST /api/auth/login em src/app/api/auth/login/route.ts usando PlayerService (depende de T062)
+- [x] T065 [P] [US4] Implementar POST /api/auth/logout em src/app/api/auth/logout/route.ts (limpar sessão)
+- [x] T066 [P] [US4] Implementar GET /api/players/me em src/app/api/players/me/route.ts (dados do jogador autenticado)
+- [x] T067 [P] [US4] Implementar GET /api/players/me/stats em src/app/api/players/me/stats/route.ts (estatísticas: wins, losses, draws, total)
+- [x] T068 [P] [US4] Implementar GET /api/players/me/history em src/app/api/players/me/history/route.ts (últimas 20 partidas com paginação)
 
 #### Componentes de UI
 
-- [X] T069 [P] [US4] Criar componente LoginForm em src/components/auth/LoginForm.tsx com validação Zod (email, senha)
-- [X] T070 [P] [US4] Criar componente RegisterForm em src/components/auth/RegisterForm.tsx com validação Zod (email único, senha forte, username)
-- [X] T071 [P] [US4] Criar componente ProfileCard em src/components/profile/ProfileCard.tsx (username, email, data de cadastro)
-- [X] T072 [P] [US4] Criar componente StatsCard em src/components/profile/StatsCard.tsx (vitórias, derrotas, empates, taxa de vitória)
-- [X] T073 [P] [US4] Criar componente GameHistoryTable em src/components/profile/GameHistoryTable.tsx (tabela com adversário, resultado, data)
+- [x] T069 [P] [US4] Criar componente LoginForm em src/components/auth/LoginForm.tsx com validação Zod (email, senha)
+- [x] T070 [P] [US4] Criar componente RegisterForm em src/components/auth/RegisterForm.tsx com validação Zod (email único, senha forte, username)
+- [x] T071 [P] [US4] Criar componente ProfileCard em src/components/profile/ProfileCard.tsx (username, email, data de cadastro)
+- [x] T072 [P] [US4] Criar componente StatsCard em src/components/profile/StatsCard.tsx (vitórias, derrotas, empates, taxa de vitória)
+- [x] T073 [P] [US4] Criar componente GameHistoryTable em src/components/profile/GameHistoryTable.tsx (tabela com adversário, resultado, data)
 
 #### Páginas
 
-- [X] T074 [US4] Criar página de login em src/app/(auth)/login/page.tsx com LoginForm (depende de T069)
-- [X] T075 [US4] Criar página de registro em src/app/(auth)/register/page.tsx com RegisterForm (depende de T070)
-- [X] T076 [US4] Criar página de perfil em src/app/profile/page.tsx com ProfileCard, StatsCard, GameHistoryTable (depende de T071, T072, T073)
+- [x] T074 [US4] Criar página de login em src/app/(auth)/login/page.tsx com LoginForm (depende de T069)
+- [x] T075 [US4] Criar página de registro em src/app/(auth)/register/page.tsx com RegisterForm (depende de T070)
+- [x] T076 [US4] Criar página de perfil em src/app/profile/page.tsx com ProfileCard, StatsCard, GameHistoryTable (depende de T071, T072, T073)
 
 #### Integração com US1
 
-- [X] T077 [US4] Atualizar useLocalGame hook para salvar resultado de partida local via API se jogador autenticado (depende de T050, T062)
-- [X] T078 [US4] Adicionar link "Criar Conta" e "Login" no menu principal src/app/page.tsx (depende de T023)
+- [x] T077 [US4] Atualizar useLocalGame hook para salvar resultado de partida local via API se jogador autenticado (depende de T050, T062)
+- [x] T078 [US4] Adicionar link "Criar Conta" e "Login" no menu principal src/app/page.tsx (depende de T023)
 
 **Checkpoint**: User Story 4 completa - sistema de autenticação funcional, perfil com estatísticas
 
@@ -209,14 +211,14 @@ Required before any feature work
 
 **Estimativa testes**: 10-12 horas
 
-- [X] T079 [P] [US2] Teste de contrato para POST /api/rooms em tests/integration/api/rooms.test.ts (cria sala com código único 6 chars)
-- [X] T080 [P] [US2] Teste de contrato para POST /api/rooms/{code}/join em tests/integration/api/rooms.test.ts (entra em sala existente)
-- [X] T081 [P] [US2] Teste de contrato para POST /api/games em tests/integration/api/games.test.ts (cria partida online)
-- [X] T082 [P] [US2] Teste de contrato para POST /api/games/{id}/move em tests/integration/api/games.test.ts (registra movimento)
-- [X] T083 [P] [US2] Teste unitário para eventos WebSocket em tests/unit/websocket/handlers.test.ts (join-room, make-move, disconnect)
-- [X] T084 [P] [US2] Teste de integração WebSocket em tests/integration/websocket/online-game.test.ts (dois clientes conectam, sincronizam movimentos)
-- [X] T085 [P] [US2] Teste de reconexão em tests/integration/websocket/reconnection.test.ts (cliente desconecta e retoma partida)
-- [X] T086 [P] [US2] Teste E2E multiplayer em tests/e2e/online-game.spec.ts (dois navegadores Playwright, partida completa)
+- [x] T079 [P] [US2] Teste de contrato para POST /api/rooms em tests/integration/api/rooms.test.ts (cria sala com código único 6 chars)
+- [x] T080 [P] [US2] Teste de contrato para POST /api/rooms/{code}/join em tests/integration/api/rooms.test.ts (entra em sala existente)
+- [x] T081 [P] [US2] Teste de contrato para POST /api/games em tests/integration/api/games.test.ts (cria partida online)
+- [x] T082 [P] [US2] Teste de contrato para POST /api/games/{id}/move em tests/integration/api/games.test.ts (registra movimento)
+- [x] T083 [P] [US2] Teste unitário para eventos WebSocket em tests/unit/websocket/handlers.test.ts (join-room, make-move, disconnect)
+- [x] T084 [P] [US2] Teste de integração WebSocket em tests/integration/websocket/online-game.test.ts (dois clientes conectam, sincronizam movimentos)
+- [x] T085 [P] [US2] Teste de reconexão em tests/integration/websocket/reconnection.test.ts (cliente desconecta e retoma partida)
+- [x] T086 [P] [US2] Teste E2E multiplayer em tests/e2e/online-game.spec.ts (dois navegadores Playwright, partida completa)
 
 ### Implementação para User Story 2
 
@@ -224,61 +226,61 @@ Required before any feature work
 
 #### Repository e Service Layer
 
-- [ ] T087 [P] [US2] Criar RoomRepository em src/lib/db/repositories/room.ts com métodos: create (gera código 6 chars), findByCode, addPlayer, updateStatus
-- [ ] T088 [P] [US2] Criar GameRepository em src/lib/db/repositories/game.ts com métodos: create, findById, updateBoardState, updateStatus, saveMove
-- [ ] T089 [US2] Criar RoomService em src/services/RoomService.ts com lógica: criar sala, validar código, gerenciar jogadores (depende de T087)
-- [ ] T090 [US2] Criar GameService em src/services/GameService.ts com lógica: criar partida online, executar movimento, salvar estado (depende de T088, reusar engine de T039)
+- [x] T087 [P] [US2] Criar RoomRepository em src/lib/db/repositories/room.ts com métodos: create (gera código 6 chars), findByCode, addPlayer, updateStatus
+- [x] T088 [P] [US2] Criar GameRepository em src/lib/db/repositories/game.ts com métodos: create, findById, updateBoardState, updateStatus, saveMove
+- [x] T089 [US2] Criar RoomService em src/services/RoomService.ts com lógica: criar sala, validar código, gerenciar jogadores (depende de T087)
+- [x] T090 [US2] Criar GameService em src/services/GameService.ts com lógica: criar partida online, executar movimento, salvar estado (depende de T088, reusar engine de T039)
 
 #### API Endpoints
 
-- [ ] T091 [US2] Implementar POST /api/rooms em src/app/api/rooms/route.ts (cria sala, retorna código) (depende de T089)
-- [ ] T092 [US2] Implementar POST /api/rooms/[code]/join em src/app/api/rooms/[code]/join/route.ts (entra em sala) (depende de T089)
-- [ ] T093 [US2] Implementar GET /api/rooms/[code] em src/app/api/rooms/[code]/route.ts (info da sala) (depende de T089)
-- [ ] T094 [US2] Implementar POST /api/games em src/app/api/games/route.ts (cria partida online) (depende de T090)
-- [ ] T095 [US2] Implementar GET /api/games em src/app/api/games/route.ts (lista partidas do jogador) (depende de T090)
-- [ ] T096 [US2] Implementar GET /api/games/[id] em src/app/api/games/[id]/route.ts (detalhes da partida) (depende de T090)
-- [ ] T097 [US2] Implementar POST /api/games/[id]/move em src/app/api/games/[id]/move/route.ts (registra movimento) (depende de T090)
-- [ ] T098 [US2] Implementar POST /api/games/[id]/resign em src/app/api/games/[id]/resign/route.ts (desistir da partida) (depende de T090)
+- [x] T091 [US2] Implementar POST /api/rooms em src/app/api/rooms/route.ts (cria sala, retorna código) (depende de T089)
+- [x] T092 [US2] Implementar POST /api/rooms/[code]/join em src/app/api/rooms/[code]/join/route.ts (entra em sala) (depende de T089)
+- [x] T093 [US2] Implementar GET /api/rooms/[code] em src/app/api/rooms/[code]/route.ts (info da sala) (depende de T089)
+- [x] T094 [US2] Implementar POST /api/games em src/app/api/games/route.ts (cria partida online) (depende de T090)
+- [x] T095 [US2] Implementar GET /api/games em src/app/api/games/route.ts (lista partidas do jogador) (depende de T090)
+- [x] T096 [US2] Implementar GET /api/games/[id] em src/app/api/games/[id]/route.ts (detalhes da partida) (depende de T090)
+- [x] T097 [US2] Implementar POST /api/games/[id]/move em src/app/api/games/[id]/move/route.ts (registra movimento) (depende de T090)
+- [x] T098 [US2] Implementar POST /api/games/[id]/resign em src/app/api/games/[id]/resign/route.ts (desistir da partida) (depende de T090)
 
 #### WebSocket Handlers
 
-- [ ] T099 [P] [US2] Implementar handler join-room em src/lib/websocket/handlers/joinRoom.ts (jogador entra em sala Socket.io)
-- [ ] T100 [P] [US2] Implementar handler make-move em src/lib/websocket/handlers/makeMove.ts (valida e broadcast movimento)
-- [ ] T101 [P] [US2] Implementar handler disconnect em src/lib/websocket/handlers/disconnect.ts (notifica adversário, timer 5min)
-- [ ] T102 [P] [US2] Implementar handler reconnect em src/lib/websocket/handlers/reconnect.ts (restaura estado, cancela timer)
-- [ ] T103 [P] [US2] Implementar handler resign em src/lib/websocket/handlers/resign.ts (broadcast desistência)
-- [ ] T104 [US2] Integrar handlers em src/lib/websocket/server.ts (registrar eventos, middleware de autenticação) (depende de T099, T100, T101, T102, T103)
+- [x] T099 [P] [US2] Implementar handler join-room em src/lib/websocket/handlers/joinRoom.ts (jogador entra em sala Socket.io)
+- [x] T100 [P] [US2] Implementar handler make-move em src/lib/websocket/handlers/makeMove.ts (valida e broadcast movimento)
+- [x] T101 [P] [US2] Implementar handler disconnect em src/lib/websocket/handlers/disconnect.ts (notifica adversário, timer 5min)
+- [x] T102 [P] [US2] Implementar handler reconnect em src/lib/websocket/handlers/reconnect.ts (restaura estado, cancela timer)
+- [x] T103 [P] [US2] Implementar handler resign em src/lib/websocket/handlers/resign.ts (broadcast desistência)
+- [x] T104 [US2] Integrar handlers em src/lib/websocket/server.ts (registrar eventos, middleware de autenticação) (depende de T099, T100, T101, T102, T103)
 
 #### Componentes React
 
-- [ ] T105 [P] [US2] Criar componente CreateRoomModal em src/components/online/CreateRoomModal.tsx (botão criar sala, exibe código gerado)
-- [ ] T106 [P] [US2] Criar componente JoinRoomModal em src/components/online/JoinRoomModal.tsx (input código, botão entrar)
-- [ ] T107 [P] [US2] Criar componente WaitingRoom em src/components/online/WaitingRoom.tsx (aguardando segundo jogador, mostra código)
-- [ ] T108 [P] [US2] Criar componente OnlineGameBoard em src/components/online/OnlineGameBoard.tsx (board com sincronização WebSocket, reutilizar Board de T046)
-- [ ] T109 [P] [US2] Criar componente ConnectionStatus em src/components/online/ConnectionStatus.tsx (indicador conectado/desconectado/reconectando)
-- [ ] T110 [P] [US2] Criar componente ActiveGamesList em src/components/online/ActiveGamesList.tsx (lista partidas em andamento, botão continuar)
+- [x] T105 [P] [US2] Criar componente CreateRoomModal em src/components/online/CreateRoomModal.tsx (botão criar sala, exibe código gerado)
+- [x] T106 [P] [US2] Criar componente JoinRoomModal em src/components/online/JoinRoomModal.tsx (input código, botão entrar)
+- [x] T107 [P] [US2] Criar componente WaitingRoom em src/components/online/WaitingRoom.tsx (aguardando segundo jogador, mostra código)
+- [x] T108 [P] [US2] Criar componente OnlineGameBoard em src/components/online/OnlineGameBoard.tsx (reutiliza Board, integra WebSocket) (depende de T046)
+- [x] T109 [P] [US2] Criar componente ConnectionStatus em src/components/online/ConnectionStatus.tsx (indicador conectado/desconectado/reconectando)
+- [x] T110 [P] [US2] Criar componente ActiveGamesList em src/components/online/ActiveGamesList.tsx (lista partidas em andamento, botão continuar)
 
 #### Hooks e Cliente WebSocket
 
-- [ ] T111 [US2] Criar hook useWebSocket em src/hooks/useWebSocket.ts (conecta Socket.io, handlers de eventos, reconexão automática) (depende de T018)
-- [ ] T112 [US2] Criar hook useOnlineGame em src/hooks/useOnlineGame.ts (estado do jogo online, integra useWebSocket, sincroniza movimentos) (depende de T111, T100)
+- [x] T111 [US2] Criar hook useWebSocket em src/hooks/useWebSocket.ts (conecta Socket.io, handlers de eventos, reconexão automática) (depende de T018)
+- [x] T112 [US2] Criar hook useOnlineGame em src/hooks/useOnlineGame.ts (estado do jogo online, integra useWebSocket, sincroniza movimentos) (depende de T111, T100)
 
 #### Páginas
 
-- [ ] T113 [US2] Criar página online menu em src/app/game/online/page.tsx (botões: Criar Sala, Entrar em Sala, Partidas Ativas) (depende de T105, T106, T110)
-- [ ] T114 [US2] Criar página sala de espera em src/app/game/online/room/[code]/page.tsx (WaitingRoom até segundo jogador) (depende de T107, T111)
-- [ ] T115 [US2] Criar página partida online em src/app/game/online/play/[gameId]/page.tsx (OnlineGameBoard, ConnectionStatus, useOnlineGame) (depende de T108, T109, T112)
+- [x] T113 [US2] Criar página online menu em src/app/game/online/page.tsx (botões: Criar Sala, Entrar em Sala, Partidas Ativas) (depende de T105, T106, T110)
+- [x] T114 [US2] Criar página sala de espera em src/app/game/online/room/[code]/page.tsx (WaitingRoom até segundo jogador) (depende de T107, T111)
+- [x] T115 [US2] Criar página partida online em src/app/game/online/play/[gameId]/page.tsx (OnlineGameBoard, ConnectionStatus, useOnlineGame) (depende de T108, T109, T112)
 
 #### Funcionalidades de Reconexão
 
-- [ ] T116 [US2] Implementar lógica de salvamento automático em GameService (salva a cada movimento) (depende de T090)
-- [ ] T117 [US2] Implementar endpoint GET /api/players/me/active-games em src/app/api/players/me/active-games/route.ts (partidas em andamento)
-- [ ] T118 [US2] Adicionar lógica de retomada em useOnlineGame hook (carrega estado ao reconectar) (depende de T112, T117)
-- [ ] T119 [US2] Implementar timer de abandono em disconnect handler (5min, declara vitória por W.O.) (depende de T101)
+- [x] T116 [US2] Implementar lógica de salvamento automático em GameService (salva a cada movimento) (depende de T090)
+- [x] T117 [US2] Implementar endpoint GET /api/players/me/active-games em src/app/api/players/me/active-games/route.ts (partidas em andamento)
+- [x] T118 [US2] Adicionar lógica de retomada em useOnlineGame hook (carrega estado ao reconectar) (depende de T112, T117)
+- [x] T119 [US2] Implementar timer de abandono em disconnect handler (5min, declara vitória por W.O.) (depende de T101)
 
 #### Integração com US4
 
-- [ ] T120 [US2] Atualizar PlayerService para registrar resultado de partidas online em estatísticas (depende de T062, T090)
+- [x] T120 [US2] Atualizar PlayerService para registrar resultado de partidas online em estatísticas (depende de T062, T090)
 
 **Checkpoint**: User Story 2 completa - multiplayer online funcional com sincronização tempo real, reconexão, e salvamento de estado
 
@@ -296,10 +298,10 @@ Required before any feature work
 
 **Estimativa testes**: 7-8 horas
 
-- [ ] T121 [P] [US3] Teste unitário para bot Fácil em tests/unit/game/bot/easy.test.ts (movimentos aleatórios válidos, < 1s)
-- [ ] T122 [P] [US3] Teste unitário para bot Médio em tests/unit/game/bot/medium.test.ts (considera 2-3 jogadas, < 2s)
-- [ ] T123 [P] [US3] Teste unitário para bot Difícil em tests/unit/game/bot/hard.test.ts (minimax alpha-beta, < 5s)
-- [ ] T124 [P] [US3] Teste de integração para partida contra bot em tests/integration/bot-game.test.ts (partida completa, bot respeita regras)
+- [x] T121 [P] [US3] Teste unitário para bot Fácil em tests/unit/game/bot/easy.test.ts (movimentos aleatórios válidos, < 1s)
+- [x] T122 [P] [US3] Teste unitário para bot Médio em tests/unit/game/bot/medium.test.ts (considera 2-3 jogadas, < 2s)
+- [x] T123 [P] [US3] Teste unitário para bot Difícil em tests/unit/game/bot/hard.test.ts (minimax alpha-beta, < 5s)
+- [x] T124 [P] [US3] Teste de integração para partida contra bot em tests/integration/bot-game.test.ts (partida completa, bot respeita regras)
 - [ ] T125 [P] [US3] Teste de performance para bot Difícil em tests/unit/game/bot/hard.perf.test.ts (profundidade 5-7, tempo aceitável)
 - [ ] T126 [P] [US3] Teste de contrato para POST /api/games com type BOT em tests/integration/api/games.test.ts
 - [ ] T127 [P] [US3] Teste E2E de partida contra bot em tests/e2e/bot-game.spec.ts (seleciona dificuldade, joga até vitória)
@@ -310,40 +312,40 @@ Required before any feature work
 
 #### Algoritmos de IA
 
-- [ ] T128 [P] [US3] Implementar bot Fácil em src/lib/game/bot/easy.ts (movimentos aleatórios ponderados, evita movimentos obviamente ruins)
-- [ ] T129 [US3] Implementar bot Médio em src/lib/game/bot/medium.ts (lookahead 2-3 jogadas, heurística simples para avaliação) (depende de T128)
-- [ ] T130 [US3] Implementar função de avaliação de tabuleiro em src/lib/game/bot/evaluation.ts (pontuação: peças, damas, posição, mobilidade) (depende de T129)
-- [ ] T131 [US3] Implementar algoritmo Minimax com alpha-beta em src/lib/game/bot/minimax.ts (recursão com profundidade configurável) (depende de T130)
-- [ ] T132 [US3] Implementar bot Difícil em src/lib/game/bot/hard.ts (usa minimax depth 5-7, ordenação de movimentos) (depende de T131)
-- [ ] T133 [US3] Criar factory de bot em src/lib/game/bot/factory.ts (seleciona bot baseado em dificuldade) (depende de T128, T129, T132)
+- [x] T128 [P] [US3] Implementar bot Fácil em src/lib/game/bot/easy.ts (movimentos aleatórios ponderados, evita movimentos obviamente ruins)
+- [x] T129 [US3] Implementar bot Médio em src/lib/game/bot/medium.ts (lookahead 2-3 jogadas, heurística simples para avaliação) (depende de T128)
+- [x] T130 [US3] Implementar função de avaliação de tabuleiro em src/lib/game/bot/evaluation.ts (pontuação: peças, damas, posição, mobilidade) (depende de T129)
+- [x] T131 [US3] Implementar algoritmo Minimax com alpha-beta em src/lib/game/bot/minimax.ts (recursão com profundidade configurável) (depende de T130)
+- [x] T132 [US3] Implementar bot Difícil em src/lib/game/bot/hard.ts (usa minimax depth 5-7, ordenação de movimentos) (depende de T131)
+- [x] T133 [US3] Criar factory de bot em src/lib/game/bot/factory.ts (seleciona bot baseado em dificuldade) (depende de T128, T129, T132)
 
 #### Service Layer
 
-- [ ] T134 [US3] Criar BotService em src/services/BotService.ts (inicia partida contra bot, executa turno do bot, registra resultado) (depende de T133, reusar GameService de T090)
+- [x] T134 [US3] Criar BotService em src/services/BotService.ts (inicia partida contra bot, executa turno do bot, registra resultado) (depende de T133, reusar GameService de T090)
 
 #### API Endpoints
 
-- [ ] T135 [US3] Atualizar POST /api/games para suportar type BOT com botDifficulty (depende de T134)
-- [ ] T136 [US3] Criar endpoint POST /api/games/[id]/bot-move em src/app/api/games/[id]/bot-move/route.ts (trigger movimento do bot) (depende de T134)
+- [x] T135 [US3] Atualizar POST /api/games para suportar type BOT com botDifficulty (depende de T134)
+- [x] T136 [US3] Criar endpoint POST /api/games/[id]/bot-move em src/app/api/games/[id]/bot-move/route.ts (trigger movimento do bot) (depende de T134)
 
 #### Componentes React
 
-- [ ] T137 [P] [US3] Criar componente DifficultySelector em src/components/bot/DifficultySelector.tsx (radio buttons: Fácil, Médio, Difícil com descrições)
-- [ ] T138 [P] [US3] Criar componente BotGameBoard em src/components/bot/BotGameBoard.tsx (board com loader durante cálculo do bot, reutilizar Board de T046)
-- [ ] T139 [P] [US3] Criar componente BotThinking em src/components/bot/BotThinking.tsx (indicador "Bot está pensando..." com spinner)
+- [x] T137 [P] [US3] Criar componente DifficultySelector em src/components/bot/DifficultySelector.tsx (radio buttons: Fácil, Médio, Difícil com descrições)
+- [x] T138 [P] [US3] Criar componente BotGameBoard em src/components/bot/BotGameBoard.tsx (board com loader durante cálculo do bot, reutilizar Board de T046)
+- [x] T139 [P] [US3] Criar componente BotThinking em src/components/bot/BotThinking.tsx (indicador "Bot está pensando..." com spinner)
 
 #### Hooks
 
-- [ ] T140 [US3] Criar hook useBotGame em src/hooks/useBotGame.ts (estado do jogo, trigger movimento do bot após jogador, polling ou WebSocket) (depende de T134, T136)
+- [x] T140 [US3] Criar hook useBotGame em src/hooks/useBotGame.ts (estado do jogo, trigger movimento do bot após jogador, polling ou WebSocket) (depende de T134, T136)
 
 #### Páginas
 
-- [ ] T141 [US3] Criar página seleção de dificuldade em src/app/game/bot/page.tsx (DifficultySelector, botão iniciar) (depende de T137)
-- [ ] T142 [US3] Criar página partida contra bot em src/app/game/bot/play/[gameId]/page.tsx (BotGameBoard, BotThinking, useBotGame) (depende de T138, T139, T140)
+- [x] T141 [US3] Criar página seleção de dificuldade em src/app/game/bot/page.tsx (DifficultySelector, botão iniciar) (depende de T137)
+- [x] T142 [US3] Criar página partida contra bot em src/app/game/bot/play/[gameId]/page.tsx (BotGameBoard, BotThinking, useBotGame) (depende de T138, T139, T140)
 
 #### Integração com US4
 
-- [ ] T143 [US3] Atualizar PlayerService para registrar resultado de partidas contra bot em estatísticas com indicação de dificuldade (depende de T062, T134)
+- [x] T143 [US3] Atualizar PlayerService para registrar resultado de partidas contra bot em estatísticas com indicação de dificuldade (depende de T062, T134)
 
 **Checkpoint**: User Story 3 completa - IA funcional com três níveis de dificuldade
 
@@ -356,7 +358,7 @@ Required before any feature work
 **Estimativa**: 8-12 horas
 
 - [ ] T144 [P] Adicionar testes de acessibilidade com Axe em tests/e2e/accessibility.spec.ts (navegação teclado, screen readers, WCAG 2.1 AA)
-- [ ] T145 [P] Implementar seed script em prisma/seed.ts (3 usuários exemplo, 2 partidas em andamento, 1 sala de espera)
+- [x] T145 [P] Implementar seed script em prisma/seed.ts (3 usuários exemplo, 2 partidas em andamento, 1 sala de espera)
 - [ ] T146 [P] Criar documentação de API com Swagger UI em src/app/api/docs usando OpenAPI spec de contracts/rest-api.yaml
 - [ ] T147 [P] Implementar rate limiting em endpoints críticos (POST /api/games/[id]/move: 1 req/s, POST /api/rooms: 5 req/min)
 - [ ] T148 [P] Adicionar animações de captura em Board.tsx (peça capturada desaparece com fade-out)
@@ -371,8 +373,8 @@ Required before any feature work
 - [ ] T157 [P] Criar página de erro 404 customizada em src/app/not-found.tsx
 - [ ] T158 [P] Criar página de erro 500 customizada em src/app/error.tsx
 - [ ] T159 Executar validação de cobertura de testes (atingir 80% código crítico, 60% geral conforme constituição)
-- [ ] T160 Executar ESLint e Prettier em todo o projeto, corrigir warnings
-- [ ] T161 Executar build de produção e validar que não há erros TypeScript
+- [X] T160 Executar ESLint e Prettier em todo o projeto, corrigir warnings
+- [X] T161 Executar build de produção e validar que não há erros TypeScript
 - [ ] T162 Validar quickstart.md (seguir passo a passo em máquina limpa, garantir que funciona)
 - [ ] T163 [P] Adicionar CONTRIBUTING.md com guidelines para novos desenvolvedores (convenções de commit, workflow de PR)
 - [ ] T164 [P] Atualizar README.md com screenshots, badges de CI, link para demo
@@ -407,14 +409,17 @@ Required before any feature work
 ### Parallel Opportunities
 
 #### Dentro de Setup (Phase 1)
+
 Podem executar em paralelo: T003, T004, T005, T006, T007, T008
 
 #### Dentro de Foundational (Phase 2)
+
 Podem executar em paralelo: T012, T013, T014, T015, T016, T017, T019, T020, T021, T022, T023
 
 #### Entre User Stories (após Foundational completo)
+
 - **Cenário 1 equipe**: US1 → US4 → US2 → US3 (sequencial)
-- **Cenário 2 desenvolvedores**: 
+- **Cenário 2 desenvolvedores**:
   - Dev A: US1 (20-25h)
   - Dev B: US4 (12-15h) → ajuda em US2
 - **Cenário 3+ desenvolvedores**:
@@ -426,22 +431,27 @@ Podem executar em paralelo: T012, T013, T014, T015, T016, T017, T019, T020, T021
 #### Dentro de Cada User Story
 
 **US1 (Phase 3)**:
+
 - Testes (T024-T032): Todos paralelos
 - Implementação: T033, T034 paralelos; depois T044, T045, T048 paralelos
 
 **US4 (Phase 4)**:
+
 - Testes (T055-T060): Todos paralelos
 - Implementação: T061 solo; depois T065, T066, T067, T068 paralelos; depois T069-T073 paralelos
 
 **US2 (Phase 5)**:
+
 - Testes (T079-T086): Todos paralelos
 - Implementação: T087, T088 paralelos; depois T099-T103 paralelos; depois T105-T110 paralelos
 
 **US3 (Phase 6)**:
+
 - Testes (T121-T127): Todos paralelos
 - Implementação: T128 solo; depois T137-T139 paralelos
 
 #### Polish (Phase 7)
+
 Quase todas tarefas podem executar em paralelo (T144-T164 exceto T154, T159, T161, T162)
 
 ---
@@ -490,14 +500,17 @@ Cada incremento adiciona valor sem quebrar funcionalidades anteriores.
 Com 2-3 desenvolvedores:
 
 **Fase Inicial (juntos)**:
+
 1. Setup + Foundational: 8-11 horas (1-2 dias)
 
 **Paralelo após Foundational**:
+
 - **Dev A**: US1 (jogo local) - 20-25h
 - **Dev B**: US4 (autenticação) - 12-15h → depois ajuda em US2
 - **Dev C** (se disponível): US3 (bot) - 18-22h
 
 **Colaboração Final**:
+
 - Todos em US2 (online multiplayer, mais complexa) - 25-30h
 - Todos em Polish - 8-12h
 

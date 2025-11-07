@@ -144,16 +144,13 @@ describe('WebSocket Online Game Integration', () => {
     createdRoomIds.push(roomResponse.roomId);
     createdGameIds.push(roomResponse.gameId);
 
-    const joinResponse = await fetch(
-      `${API_BASE_URL}/rooms/${roomResponse.code}/join`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: `session-token=${guestSessionToken}`,
-        },
-      }
-    );
+    const joinResponse = await fetch(`${API_BASE_URL}/rooms/${roomResponse.code}/join`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `session-token=${guestSessionToken}`,
+      },
+    });
 
     expect(joinResponse.status).toBe(200);
     await joinResponse.json();
@@ -175,7 +172,7 @@ describe('WebSocket Online Game Integration', () => {
 
   function extractInitialWhitePiece(boardState: BoardState): Piece {
     const target = boardState.pieces.find(
-      (piece) => piece.color === 'WHITE' && piece.row === 5 && piece.col === 0,
+      (piece) => piece.color === 'WHITE' && piece.row === 5 && piece.col === 0
     );
 
     if (!target) {
@@ -194,14 +191,14 @@ describe('WebSocket Online Game Integration', () => {
     ]);
 
     const hostRoomJoined = new Promise((resolve) =>
-      hostSocket.once(WS_EVENTS.ROOM_JOINED, resolve),
+      hostSocket.once(WS_EVENTS.ROOM_JOINED, resolve)
     );
     const guestRoomJoined = new Promise((resolve) =>
-      guestSocket.once(WS_EVENTS.ROOM_JOINED, resolve),
+      guestSocket.once(WS_EVENTS.ROOM_JOINED, resolve)
     );
 
-  hostSocket.emit(WS_EVENTS.JOIN_ROOM, { roomCode: room.code });
-  guestSocket.emit(WS_EVENTS.JOIN_ROOM, { roomCode: room.code });
+    hostSocket.emit(WS_EVENTS.JOIN_ROOM, { roomCode: room.code });
+    guestSocket.emit(WS_EVENTS.JOIN_ROOM, { roomCode: room.code });
 
     await Promise.all([hostRoomJoined, guestRoomJoined]);
 
@@ -212,15 +209,13 @@ describe('WebSocket Online Game Integration', () => {
     const boardState = persistedGame?.boardState as unknown as BoardState;
     const movingPiece = extractInitialWhitePiece(boardState);
 
-    const hostMovePromise = new Promise((resolve) =>
-      hostSocket.once(WS_EVENTS.GAME_MOVE, resolve),
-    );
+    const hostMovePromise = new Promise((resolve) => hostSocket.once(WS_EVENTS.GAME_MOVE, resolve));
     const guestMovePromise = new Promise((resolve) =>
-      guestSocket.once(WS_EVENTS.GAME_MOVE, resolve),
+      guestSocket.once(WS_EVENTS.GAME_MOVE, resolve)
     );
 
     const guestStatePromise = new Promise((resolve) =>
-      guestSocket.once(WS_EVENTS.GAME_STATE, resolve),
+      guestSocket.once(WS_EVENTS.GAME_STATE, resolve)
     );
 
     hostSocket.emit(WS_EVENTS.GAME_MOVE, {
@@ -261,7 +256,7 @@ describe('WebSocket Online Game Integration', () => {
 
     const statePayload = guestStateEvent as { boardState: BoardState };
     const updatedPiece = statePayload.boardState.pieces.find(
-      (piece) => piece.id === movingPiece.id,
+      (piece) => piece.id === movingPiece.id
     );
 
     expect(updatedPiece?.row).toBe(movingPiece.row - 1);

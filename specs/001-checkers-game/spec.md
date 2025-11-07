@@ -15,7 +15,7 @@
 - Q: Timeout para W.O. em partida online - 2min ou 5min? → A: 5 minutos
 - Q: Quais atributos a entidade Session deve ter? → A: id, userId, token, expires, createdAt
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Partida Local Dois Jogadores (Priority: P1)
 
@@ -104,7 +104,7 @@ Usuários podem criar conta, fazer login, visualizar histórico de partidas, est
 - **Peça selecionada sem movimentos válidos**: Sistema exibe mensagem "Sem movimentos válidos para esta peça"
 - **Tentativa de movimento inválido durante captura obrigatória**: Sistema destaca apenas capturas disponíveis e bloqueia outros movimentos
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -176,7 +176,7 @@ Usuários podem criar conta, fazer login, visualizar histórico de partidas, est
 - **Room**: Representa sala de jogo online. Atributos: código único, id do jogo associado, jogadores conectados, status (aguardando/em andamento/finalizada)
 - **Session**: Representa sessão de autenticação. Atributos: id único, userId (relação com Player), token (string aleatória), expires (timestamp de expiração), createdAt (timestamp de criação)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

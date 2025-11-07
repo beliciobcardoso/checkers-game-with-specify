@@ -136,16 +136,13 @@ describe('WebSocket Reconnection Flow', () => {
     createdRoomIds.push(roomResponse.roomId);
     createdGameIds.push(roomResponse.gameId);
 
-    const joinResponse = await fetch(
-      `${API_BASE_URL}/rooms/${roomResponse.code}/join`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: `session-token=${guestSessionToken}`,
-        },
-      }
-    );
+    const joinResponse = await fetch(`${API_BASE_URL}/rooms/${roomResponse.code}/join`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `session-token=${guestSessionToken}`,
+      },
+    });
 
     expect(joinResponse.status).toBe(200);
     await joinResponse.json();
@@ -173,12 +170,8 @@ describe('WebSocket Reconnection Flow', () => {
       connectSocket(guestSessionToken),
     ]);
 
-    const hostJoined = new Promise((resolve) =>
-      hostSocket.once(WS_EVENTS.ROOM_JOINED, resolve),
-    );
-    const guestJoined = new Promise((resolve) =>
-      guestSocket.once(WS_EVENTS.ROOM_JOINED, resolve),
-    );
+    const hostJoined = new Promise((resolve) => hostSocket.once(WS_EVENTS.ROOM_JOINED, resolve));
+    const guestJoined = new Promise((resolve) => guestSocket.once(WS_EVENTS.ROOM_JOINED, resolve));
 
     hostSocket.emit(WS_EVENTS.JOIN_ROOM, { roomCode: room.code });
     guestSocket.emit(WS_EVENTS.JOIN_ROOM, { roomCode: room.code });
@@ -186,7 +179,7 @@ describe('WebSocket Reconnection Flow', () => {
     await Promise.all([hostJoined, guestJoined]);
 
     const disconnectNotification = new Promise((resolve) =>
-      guestSocket.once(WS_EVENTS.PLAYER_DISCONNECTED, resolve),
+      guestSocket.once(WS_EVENTS.PLAYER_DISCONNECTED, resolve)
     );
 
     hostSocket.disconnect();
@@ -206,11 +199,11 @@ describe('WebSocket Reconnection Flow', () => {
     const reconnectingSocket = await connectSocket(hostSessionToken);
 
     const reconnectJoined = new Promise((resolve) =>
-      reconnectingSocket.once(WS_EVENTS.ROOM_JOINED, resolve),
+      reconnectingSocket.once(WS_EVENTS.ROOM_JOINED, resolve)
     );
 
     const guestReconnectNotification = new Promise((resolve) =>
-      guestSocket.once(WS_EVENTS.PLAYER_RECONNECTED, resolve),
+      guestSocket.once(WS_EVENTS.PLAYER_RECONNECTED, resolve)
     );
 
     reconnectingSocket.emit(WS_EVENTS.JOIN_ROOM, {

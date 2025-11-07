@@ -9,6 +9,7 @@ Este projeto está sendo desenvolvido usando **Spec-Driven Development** com [Sp
 ### O que é Specify?
 
 Specify é uma ferramenta CLI que facilita o desenvolvimento orientado por especificações, permitindo:
+
 - 📝 Criar e gerenciar especificações de features
 - 🗺️ Gerar planos de implementação estruturados
 - ✅ Rastrear progresso através de checklists
@@ -19,18 +20,23 @@ Specify é uma ferramenta CLI que facilita o desenvolvimento orientado por espec
 Para trabalhar com as especificações deste projeto, instale o Specify:
 
 **1. Instale o UV (gerenciador de pacotes Python ultrarrápido)**
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
+
 > 📖 Documentação completa: https://docs.astral.sh/uv/getting-started/installation/
 
 **2. Instale o Specify CLI**
+
 ```bash
 uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 ```
+
 > 📖 Repositório oficial: https://github.com/github/spec-kit
 
 **3. Verifique a instalação**
+
 ```bash
 specify
 ```
@@ -38,6 +44,7 @@ specify
 ### Usando Specify neste Projeto
 
 Todas as especificações estão em `specs/001-checkers-game/`:
+
 - `spec.md` - Especificação funcional completa
 - `plan.md` - Plano de implementação
 - `tasks.md` - Tarefas e progresso
@@ -73,7 +80,7 @@ Todas as especificações estão em `specs/001-checkers-game/`:
 
 ### Recursos Técnicos
 
--  **Responsivo**: Interface adaptada para desktop, tablet e mobile
+- **Responsivo**: Interface adaptada para desktop, tablet e mobile
 - ⚡ **Real-time**: Sincronização via Socket.io com latência < 500ms
 - 🎨 **UI Moderna**: Design com Tailwind CSS e componentes reutilizáveis
 - 🔍 **Validação**: Zod para validação de dados em runtime
@@ -84,7 +91,7 @@ Todas as especificações estão em `specs/001-checkers-game/`:
 ### Pré-requisitos
 
 - **Node.js** v20.19.0 LTS (recomendado)
-- **PostgreSQL**  image: postgis/postgis:17-3.5
+- **PostgreSQL** image: postgis/postgis:17-3.5
 - **npm** 9+ ou **pnpm** 8+ (pnpm recomendado para melhor performance)
 - **Git** 2.x
 
@@ -99,12 +106,14 @@ psql --version  # PostgreSQL 15+
 ### Instalação
 
 1. **Clone o repositório**
+
 ```bash
 git clone <repository-url>
 cd checkers-game-with-specify
 ```
 
 2. **Instale as dependências**
+
 ```bash
 npm install
 # ou com pnpm (recomendado)
@@ -114,6 +123,7 @@ pnpm install
 3. **Configure o banco de dados PostgreSQL**
 
 Via psql:
+
 ```bash
 psql -U postgres
 CREATE DATABASE checkers_dev;
@@ -121,6 +131,7 @@ CREATE DATABASE checkers_dev;
 ```
 
 Ou via Docker:
+
 ```bash
 docker run --name checkers-postgres \
   -e POSTGRES_PASSWORD=postgres \
@@ -130,11 +141,13 @@ docker run --name checkers-postgres \
 ```
 
 4. **Configure as variáveis de ambiente**
+
 ```bash
 cp .env.example .env
 ```
 
 Edite `.env` com suas configurações:
+
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/checkers_dev?schema=public"
 NEXTAUTH_URL="http://localhost:3000"
@@ -144,11 +157,13 @@ WS_PORT=3001  # Porta do servidor WebSocket (opcional)
 ```
 
 Gere o `NEXTAUTH_SECRET`:
+
 ```bash
 openssl rand -base64 32
 ```
 
 5. **Execute as migrações do banco de dados**
+
 ```bash
 npx prisma migrate dev
 # ou
@@ -156,11 +171,13 @@ npm run db:migrate
 ```
 
 6. **[Opcional] Popule com dados de exemplo**
+
 ```bash
 npm run db:seed
 ```
 
 7. **Inicie o servidor de desenvolvimento**
+
 ```bash
 npm run dev
 ```
@@ -176,6 +193,7 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 ### Stack Tecnológico
 
 #### Frontend
+
 - **Next.js 15** (App Router) - Framework React com SSR e rotas API
 - **React 18** - Biblioteca UI com hooks e context
 - **TypeScript 5.3+** - Tipagem estática e segurança de tipos
@@ -183,6 +201,7 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 - **Socket.io Client 4.x** - Cliente WebSocket para real-time
 
 #### Backend
+
 - **Next.js API Routes** - Endpoints REST serverless
 - **Prisma 5.x** - ORM type-safe para PostgreSQL
 - **PostgreSQL 17-3.5** - Banco de dados relacional
@@ -192,6 +211,7 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 - **Winston 3.x** - Sistema de logging estruturado
 
 #### Testes & Qualidade
+
 - **Jest 29.x** - Framework de testes unitários e integração
 - **React Testing Library 16.x** - Testes de componentes React
 - **Playwright 1.x** - Testes end-to-end automatizados
@@ -348,12 +368,14 @@ checkers-game-with-specify/
 ### Fluxo de Dados
 
 #### Partida Local
+
 1. Usuário clica em peça → `useLocalGame` hook
 2. Hook chama `validator.ts` para validar movimento
 3. Se válido, atualiza estado via `engine.ts`
 4. Board re-renderiza com novo estado
 
 #### Partida Online
+
 1. Cliente emite evento WebSocket `move:make`
 2. Servidor valida movimento via `validator.ts`
 3. Atualiza banco de dados (Prisma)
@@ -361,6 +383,7 @@ checkers-game-with-specify/
 5. Clientes sincronizam estado local
 
 #### Bot (IA)
+
 1. Turno do bot é detectado
 2. Engine calcula melhor movimento (Minimax ou Random)
 3. Movimento é aplicado ao estado
@@ -397,22 +420,26 @@ npm run type-check          # Verifica tipos TypeScript
 ### Estrutura de Testes
 
 #### Testes Unitários (`tests/unit/`)
+
 - **`game/engine.test.ts`** - Lógica do jogo (movimentação, captura, promoção)
 - **`game/validator.test.ts`** - Validação de movimentos e regras
 - **`services/PlayerService.test.ts`** - Serviços de jogador
 
 #### Testes de Integração (`tests/integration/`)
+
 - **`api/auth.test.ts`** - Endpoints de autenticação
 - **`api/players.test.ts`** - Endpoints de jogadores
 - **`local-game.test.ts`** - Fluxo completo de partida local
 
 #### Testes E2E (`tests/e2e/`)
+
 - **`auth.spec.ts`** - Fluxo de registro e login
 - **`local-game.spec.ts`** - Partida local completa no navegador
 
 ### Cobertura de Testes
 
 O projeto visa manter:
+
 - **80%+** cobertura de código em lógica de negócio (`lib/`)
 - **100%** cobertura em validadores e engine do jogo
 - Testes E2E para fluxos críticos (autenticação, partidas)
@@ -434,7 +461,6 @@ O projeto visa manter:
   - Endpoints de autenticação (`/api/auth/*`)
   - Endpoints de jogadores (`/api/players/*`)
   - Schemas de request/response
-  
 - **[WebSocket Events](specs/001-checkers-game/contracts/websocket.md)** - Eventos Socket.io
   - `room:create`, `room:join`, `room:leave`
   - `move:make`, `move:sync`
@@ -459,12 +485,10 @@ O projeto visa manter:
   - `makeMove()` - Executa movimento validado
   - `checkWinCondition()` - Verifica condições de vitória
   - `checkDrawCondition()` - Detecta empate
-  
 - **`src/lib/game/validator.ts`** - Validador de movimentos
   - `validateMove()` - Valida movimento simples ou captura
   - `getValidMoves()` - Retorna todos os movimentos válidos para uma peça
   - `getMandatoryCaptures()` - Detecta capturas obrigatórias
-  
 - **`src/lib/game/board.ts`** - Utilidades do tabuleiro
   - `isPieceAt()` - Verifica se há peça na posição
   - `getPieceAt()` - Obtém peça em posição
@@ -478,24 +502,29 @@ O projeto visa manter:
 ### Regras do Jogo
 
 #### Movimentação Básica
+
 - Peças movem **diagonalmente** em casas escuras
 - Peças simples movem **apenas para frente**
 - Damas movem **qualquer distância** em diagonais
 
 #### Captura
+
 - Captura é **obrigatória** quando disponível
 - **Captura múltipla** sequencial deve ser completada
 - Dama pode capturar em qualquer direção e distância
 
 #### Promoção
+
 - Peça simples vira **dama** ao alcançar última linha
 - Dama tem **coroa visual** diferenciada
 
 #### Vitória
+
 - Jogador vence ao **capturar todas** as peças adversárias
 - Jogador vence se adversário **não tem movimentos válidos**
 
 #### Empate
+
 - **Repetição de posição** 3 vezes
 - **40 movimentos** sem captura ou promoção
 - **Acordo mútuo** entre jogadores (online)
@@ -543,12 +572,14 @@ npm run test:all         # Todos os testes + lint + type-check
 ### Padrões de Código
 
 #### Convenções TypeScript
+
 - Usar `interface` para types de objetos públicos
 - Usar `type` para unions, intersections e types utilitários
 - Sempre tipar parâmetros e retornos de funções
 - Evitar `any`, usar `unknown` quando tipo for incerto
 
 #### Estrutura de Componentes React
+
 ```typescript
 // 1. Imports
 import { useState } from 'react';
@@ -564,12 +595,12 @@ interface MyComponentProps {
 export function MyComponent({ title, onAction }: MyComponentProps) {
   // 3.1 Hooks
   const [state, setState] = useState();
-  
+
   // 3.2 Handlers
   const handleClick = () => {
     // ...
   };
-  
+
   // 3.3 Render
   return (
     <div>{title}</div>
@@ -578,6 +609,7 @@ export function MyComponent({ title, onAction }: MyComponentProps) {
 ```
 
 #### Nomenclatura
+
 - **Componentes**: PascalCase (`GameBoard.tsx`)
 - **Funções/Variáveis**: camelCase (`makeMove`, `isValidMove`)
 - **Constantes**: UPPER_SNAKE_CASE (`MAX_PLAYERS`, `BOARD_SIZE`)
@@ -585,6 +617,7 @@ export function MyComponent({ title, onAction }: MyComponentProps) {
 - **Arquivos de teste**: `*.test.ts` ou `*.spec.ts`
 
 #### Git Commits (Conventional Commits)
+
 ```bash
 feat: adiciona validação de captura múltipla
 fix: corrige bug em promoção de dama
@@ -597,6 +630,7 @@ chore: atualiza dependências do projeto
 ### Workflow de Desenvolvimento
 
 1. **Criar branch de feature**
+
 ```bash
 git checkout -b feature/nome-da-feature
 ```
@@ -607,11 +641,13 @@ git checkout -b feature/nome-da-feature
    - Garantir que testes passam
 
 3. **Verificar qualidade**
+
 ```bash
 npm run test:all  # Executa testes + lint + type-check
 ```
 
 4. **Commit e push**
+
 ```bash
 git add .
 git commit -m "feat: descrição da feature"
@@ -626,6 +662,7 @@ git push origin feature/nome-da-feature
 ### Debugging
 
 #### VS Code Launch Configuration (`.vscode/launch.json`)
+
 ```json
 {
   "version": "0.2.0",
@@ -647,19 +684,20 @@ git push origin feature/nome-da-feature
 ```
 
 #### Logs
+
 - Usar `logger.ts` (Winston) para logs estruturados
 - Níveis: `error`, `warn`, `info`, `debug`
 - Logs salvos em `logs/` (development) e stdout (production)
 
 ### Variáveis de Ambiente
 
-| Variável | Descrição | Exemplo |
-|----------|-----------|---------|
-| `DATABASE_URL` | Connection string PostgreSQL | `postgresql://user:pass@localhost:5432/db` |
-| `NEXTAUTH_URL` | URL base da aplicação | `http://localhost:3000` |
-| `NEXTAUTH_SECRET` | Secret para NextAuth.js | `<gerado com openssl>` |
-| `NODE_ENV` | Ambiente de execução | `development` / `production` / `test` |
-| `WS_PORT` | Porta do servidor WebSocket | `3001` |
+| Variável          | Descrição                    | Exemplo                                    |
+| ----------------- | ---------------------------- | ------------------------------------------ |
+| `DATABASE_URL`    | Connection string PostgreSQL | `postgresql://user:pass@localhost:5432/db` |
+| `NEXTAUTH_URL`    | URL base da aplicação        | `http://localhost:3000`                    |
+| `NEXTAUTH_SECRET` | Secret para NextAuth.js      | `<gerado com openssl>`                     |
+| `NODE_ENV`        | Ambiente de execução         | `development` / `production` / `test`      |
+| `WS_PORT`         | Porta do servidor WebSocket  | `3001`                                     |
 
 > **⚠️ Segurança**: Nunca commitar arquivo `.env` com credenciais reais. Use `.env.example` como template.
 
@@ -670,12 +708,14 @@ Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 ### Processo de Contribuição
 
 1. **Fork o projeto**
+
 ```bash
 git clone https://github.com/seu-usuario/checkers-game-with-specify.git
 cd checkers-game-with-specify
 ```
 
 2. **Crie uma feature branch**
+
 ```bash
 git checkout -b feature/nome-da-feature
 # ou para correções de bugs
@@ -689,6 +729,7 @@ git checkout -b fix/descricao-do-bug
    - Execute testes localmente: `npm run test:all`
 
 4. **Commit suas mudanças** (Conventional Commits)
+
 ```bash
 git add .
 git commit -m 'feat: adiciona funcionalidade X'
@@ -696,6 +737,7 @@ git commit -m 'feat: adiciona funcionalidade X'
 ```
 
 5. **Push para o fork**
+
 ```bash
 git push origin feature/nome-da-feature
 ```
@@ -708,18 +750,21 @@ git push origin feature/nome-da-feature
 ### Diretrizes
 
 #### Code Style
+
 - Seguir configuração ESLint e Prettier do projeto
 - Manter imports organizados (externos → internos → types)
 - Documentar funções complexas com JSDoc
 - Usar TypeScript strict mode
 
 #### Testes
+
 - **Obrigatório** para novas features e bug fixes
 - Testes unitários para lógica de negócio
 - Testes de integração para APIs
 - Testes E2E para fluxos críticos
 
 #### Documentação
+
 - Atualizar README.md se adicionar features visíveis ao usuário
 - Atualizar specs/ se modificar regras de negócio
 - Adicionar comentários em código complexo
@@ -728,6 +773,7 @@ git push origin feature/nome-da-feature
 ### Reportar Bugs
 
 Ao reportar bugs, inclua:
+
 - **Descrição clara** do problema
 - **Passos para reproduzir** o bug
 - **Comportamento esperado** vs comportamento atual
@@ -737,6 +783,7 @@ Ao reportar bugs, inclua:
 ### Sugerir Features
 
 Para sugerir novas funcionalidades:
+
 - Descreva o problema que a feature resolve
 - Explique como a feature funcionaria
 - Se possível, mostre exemplos ou mockups
@@ -745,6 +792,7 @@ Para sugerir novas funcionalidades:
 ### Código de Conduta
 
 Este projeto segue os princípios de desenvolvimento definidos em `.specify/memory/constitution.md`:
+
 - Respeito e profissionalismo
 - Colaboração construtiva
 - Foco em qualidade e boas práticas
@@ -794,6 +842,7 @@ SOFTWARE.
 ## 📞 Suporte
 
 Para questões ou suporte:
+
 - Abra uma [issue no GitHub](https://github.com/seu-usuario/checkers-game-with-specify/issues)
 - Consulte a [documentação completa](specs/001-checkers-game/)
 - Verifique as [FAQs no quickstart](specs/001-checkers-game/quickstart.md)

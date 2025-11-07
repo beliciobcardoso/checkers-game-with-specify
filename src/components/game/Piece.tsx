@@ -10,7 +10,7 @@ interface PieceProps {
 
 /**
  * Represents a checkers piece (normal or king)
- * 
+ *
  * @param color - Piece color (WHITE or BLACK)
  * @param type - Piece type (NORMAL or KING)
  * @param id - Unique piece identifier
@@ -18,13 +18,12 @@ interface PieceProps {
 export function Piece({ color, type, id }: PieceProps) {
   const isWhite = color === Color.WHITE;
   const isKing = type === PieceType.KING;
-  
-  const baseClasses = 'w-16 h-16 rounded-full border-4 flex items-center justify-center transition-all duration-200 shadow-lg';
-  
-  const colorClasses = isWhite
-    ? 'bg-white border-gray-300'
-    : 'bg-gray-800 border-gray-900';
-  
+
+  const baseClasses =
+    'w-16 h-16 rounded-full border-4 flex items-center justify-center transition-all duration-200 shadow-lg';
+
+  const colorClasses = isWhite ? 'bg-white border-gray-300' : 'bg-gray-800 border-gray-900';
+
   return (
     <div
       className={cn(baseClasses, colorClasses)}

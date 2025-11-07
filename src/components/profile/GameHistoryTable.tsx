@@ -1,7 +1,7 @@
 /**
  * T073: GameHistoryTable Component
  * Exibe histórico de partidas do jogador com paginação
- * 
+ *
  * Props: games[], total, page, limit, onPageChange
  * Display: Tabela com adversário, resultado, data, botão ver detalhes
  * Features: Paginação, formatação de datas, badges de resultado
@@ -62,7 +62,9 @@ export default function GameHistoryTable({
     };
 
     return (
-      <span className={`px-2 py-1 rounded text-xs font-medium ${styles[result as keyof typeof styles]}`}>
+      <span
+        className={`px-2 py-1 rounded text-xs font-medium ${styles[result as keyof typeof styles]}`}
+      >
         {labels[result as keyof typeof labels]}
       </span>
     );
@@ -90,9 +92,7 @@ export default function GameHistoryTable({
           Histórico de Partidas
         </h2>
         <div className="text-center py-8">
-          <p className="text-gray-600 dark:text-gray-400">
-            Nenhuma partida encontrada
-          </p>
+          <p className="text-gray-600 dark:text-gray-400">Nenhuma partida encontrada</p>
         </div>
       </div>
     );
@@ -129,15 +129,11 @@ export default function GameHistoryTable({
                 key={game.id}
                 className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
               >
-                <td className="py-3 px-4">
-                  {getTypeBadge(game.type)}
-                </td>
+                <td className="py-3 px-4">{getTypeBadge(game.type)}</td>
                 <td className="py-3 px-4 text-gray-900 dark:text-white">
                   {game.opponent || 'Anônimo'}
                 </td>
-                <td className="py-3 px-4">
-                  {getResultBadge(game.result)}
-                </td>
+                <td className="py-3 px-4">{getResultBadge(game.result)}</td>
                 <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">
                   {formatDate(game.updatedAt)}
                 </td>

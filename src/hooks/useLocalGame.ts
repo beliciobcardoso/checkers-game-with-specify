@@ -1,19 +1,7 @@
 import { useState, useCallback } from 'react';
-import {
-  Game,
-  Color,
-  GameStatus,
-  GameType,
-  Position,
-  GameResult,
-} from '@/types/game';
+import { Game, Color, GameStatus, GameType, Position, GameResult } from '@/types/game';
 import { createInitialBoard, getPieceAt } from '@/lib/game/board';
-import {
-  executeMove,
-  checkVictory,
-  checkDraw,
-  getValidMoves,
-} from '@/lib/game/engine';
+import { executeMove, checkVictory, checkDraw, getValidMoves } from '@/lib/game/engine';
 
 interface UseLocalGameReturn {
   game: Game;
@@ -26,7 +14,7 @@ interface UseLocalGameReturn {
 
 /**
  * Custom hook for managing local game state and logic
- * 
+ *
  * Handles piece selection, move execution, victory/draw detection,
  * and game reset for local two-player games
  */
@@ -61,7 +49,7 @@ export function useLocalGame(): UseLocalGameReturn {
       // User is authenticated, create a game record
       // Note: This assumes we'll have an endpoint to save local game results
       // For now, we'll just silently succeed (will be implemented in future tasks)
-      
+
       // TODO: Implement POST /api/games endpoint to save game result
       // await fetch('/api/games', {
       //   method: 'POST',
@@ -84,7 +72,7 @@ export function useLocalGame(): UseLocalGameReturn {
    */
   function createInitialGame(): Game {
     const boardState = createInitialBoard();
-    
+
     return {
       id: `local-${Date.now()}`,
       type: GameType.LOCAL,
@@ -111,15 +99,8 @@ export function useLocalGame(): UseLocalGameReturn {
       const clickedPiece = getPieceAt(row, col, game.boardState);
 
       // Case 1: Clicked on a valid move destination
-      if (
-        selectedPiece &&
-        validMoves.some((move) => move.row === row && move.col === col)
-      ) {
-        const piece = getPieceAt(
-          selectedPiece.row,
-          selectedPiece.col,
-          game.boardState,
-        );
+      if (selectedPiece && validMoves.some((move) => move.row === row && move.col === col)) {
+        const piece = getPieceAt(selectedPiece.row, selectedPiece.col, game.boardState);
 
         if (piece) {
           // Execute the move
@@ -129,7 +110,7 @@ export function useLocalGame(): UseLocalGameReturn {
               to: { row, col },
               pieceId: piece.id,
             },
-            game,
+            game
           );
 
           // Check for victory
@@ -137,11 +118,9 @@ export function useLocalGame(): UseLocalGameReturn {
           if (victoryCheck.isVictory) {
             updatedGame.status = GameStatus.FINISHED;
             updatedGame.result =
-              victoryCheck.winner === Color.WHITE
-                ? GameResult.WHITE_WIN
-                : GameResult.BLACK_WIN;
+              victoryCheck.winner === Color.WHITE ? GameResult.WHITE_WIN : GameResult.BLACK_WIN;
             setWinner(victoryCheck.winner);
-            
+
             // Save result if authenticated
             void saveGameResult(updatedGame.result);
           }
@@ -152,7 +131,7 @@ export function useLocalGame(): UseLocalGameReturn {
             updatedGame.status = GameStatus.FINISHED;
             updatedGame.result = GameResult.DRAW;
             setWinner(null);
-            
+
             // Save result if authenticated
             void saveGameResult(updatedGame.result);
           }
@@ -176,7 +155,7 @@ export function useLocalGame(): UseLocalGameReturn {
       setSelectedPiece(null);
       setValidMoves([]);
     },
-    [game, selectedPiece, validMoves, saveGameResult],
+    [game, selectedPiece, validMoves, saveGameResult]
   );
 
   /**

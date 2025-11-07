@@ -12,7 +12,7 @@ describe('Game Validator - Simple Moves', () => {
     color: Color,
     type: PieceType,
     row: number,
-    col: number,
+    col: number
   ): Piece => ({
     id,
     color,
@@ -186,6 +186,56 @@ describe('Game Validator - Simple Moves', () => {
       expect(result.valid).toBe(false);
       expect(result.error).toContain('ocupada');
     });
+
+    // Tests for backward capture (Brazilian checkers rules)
+    it('should allow white normal piece to capture backward', () => {
+      // White piece at (3, 2) capturing black piece at (4, 1) backward to (5, 0)
+      const whitePiece = createPiece('w1', Color.WHITE, PieceType.NORMAL, 3, 2);
+      const blackPiece = createPiece('b1', Color.BLACK, PieceType.NORMAL, 4, 1);
+      const board = createEmptyBoard();
+      board.pieces = [whitePiece, blackPiece];
+
+      const result = validateCapture(whitePiece, 5, 0, board);
+
+      expect(result.valid).toBe(true);
+      expect(result.capturedPiece).toEqual(blackPiece);
+    });
+
+    it('should allow black normal piece to capture backward', () => {
+      // Black piece at (4, 3) capturing white piece at (3, 2) backward to (2, 1)
+      const blackPiece = createPiece('b1', Color.BLACK, PieceType.NORMAL, 4, 3);
+      const whitePiece = createPiece('w1', Color.WHITE, PieceType.NORMAL, 3, 2);
+      const board = createEmptyBoard();
+      board.pieces = [blackPiece, whitePiece];
+
+      const result = validateCapture(blackPiece, 2, 1, board);
+
+      expect(result.valid).toBe(true);
+      expect(result.capturedPiece).toEqual(whitePiece);
+    });
+
+    it('should allow backward capture in multiple capture sequence', () => {
+      // White piece can capture forward then backward in same turn
+      const whitePiece = createPiece('w1', Color.WHITE, PieceType.NORMAL, 5, 0);
+      const blackPiece1 = createPiece('b1', Color.BLACK, PieceType.NORMAL, 4, 1);
+      const blackPiece2 = createPiece('b2', Color.BLACK, PieceType.NORMAL, 4, 3);
+      const board = createEmptyBoard();
+      board.pieces = [whitePiece, blackPiece1, blackPiece2];
+
+      // First capture forward: (5,0) -> (3,2) capturing b1
+      const firstCapture = validateCapture(whitePiece, 3, 2, board);
+      expect(firstCapture.valid).toBe(true);
+
+      // Simulate piece at new position after first capture
+      const movedPiece = createPiece('w1', Color.WHITE, PieceType.NORMAL, 3, 2);
+      const boardAfterFirst = createEmptyBoard();
+      boardAfterFirst.pieces = [movedPiece, blackPiece2]; // b1 removed
+
+      // Second capture backward: (3,2) -> (5,4) capturing b2
+      const secondCapture = validateCapture(movedPiece, 5, 4, boardAfterFirst);
+      expect(secondCapture.valid).toBe(true);
+      expect(secondCapture.capturedPiece).toEqual(blackPiece2);
+    });
   });
 
   describe('findMultipleCaptures', () => {
@@ -227,9 +277,7 @@ describe('Game Validator - Simple Moves', () => {
 
       expect(captures.length).toBeGreaterThan(0);
       // Should find at least one path with multiple captures
-      const hasMultipleCapturePath = captures.some(
-        (path) => path.capturedPieces.length > 1,
-      );
+      const hasMultipleCapturePath = captures.some((path) => path.capturedPieces.length > 1);
       expect(hasMultipleCapturePath).toBe(true);
     });
   });

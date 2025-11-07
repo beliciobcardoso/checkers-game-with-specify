@@ -18,6 +18,7 @@ Modelo de dados para suportar autenticação de jogadores, gerenciamento de part
 Representa usuário do sistema (autenticado ou anônimo para modo local).
 
 **Attributes**:
+
 - `id`: String (UUID) - Primary key
 - `email`: String (unique, nullable) - Email para autenticação (null se anônimo)
 - `username`: String (unique, nullable) - Nome de exibição
@@ -27,23 +28,27 @@ Representa usuário do sistema (autenticado ou anônimo para modo local).
 - `lastLoginAt`: DateTime (nullable) - Último login
 
 **Statistics** (denormalizados para performance):
+
 - `totalGames`: Int (default 0) - Total de partidas jogadas
 - `wins`: Int (default 0) - Vitórias
 - `losses`: Int (default 0) - Derrotas
 - `draws`: Int (default 0) - Empates
 
 **Relationships**:
+
 - `gamesAsWhite`: Game[] - Partidas onde jogou como branco
 - `gamesAsBlack`: Game[] - Partidas onde jogou como preto
 - `sessions`: Session[] - Sessões de autenticação ativas
 
 **Validation Rules**:
+
 - Email deve ser válido e único (se fornecido)
 - Username único (se fornecido)
 - PasswordHash mínimo 8 caracteres antes do hash
 - Estatísticas não podem ser negativas
 
 **Indexes**:
+
 - `email` (unique, sparse) - Login lookup
 - `username` (unique, sparse) - Profile lookup
 - `createdAt` - Ordenação por data de cadastro
@@ -55,6 +60,7 @@ Representa usuário do sistema (autenticado ou anônimo para modo local).
 Representa uma partida (local, online ou contra bot).
 
 **Attributes**:
+
 - `id`: String (UUID) - Primary key
 - `type`: Enum('LOCAL', 'ONLINE', 'BOT') - Tipo de partida
 - `status`: Enum('WAITING', 'IN_PROGRESS', 'FINISHED', 'ABANDONED') - Estado atual
@@ -70,30 +76,35 @@ Representa uma partida (local, online ou contra bot).
 - `updatedAt`: DateTime - Última atualização
 
 **BoardState Structure** (JSONB):
+
 ```json
 {
   "pieces": [
-    {"id": "p1", "color": "WHITE", "type": "MAN", "row": 5, "col": 0},
-    {"id": "p2", "color": "WHITE", "type": "KING", "row": 3, "col": 2},
-    {"id": "p3", "color": "BLACK", "type": "MAN", "row": 2, "col": 1}
+    { "id": "p1", "color": "WHITE", "type": "MAN", "row": 5, "col": 0 },
+    { "id": "p2", "color": "WHITE", "type": "KING", "row": 3, "col": 2 },
+    { "id": "p3", "color": "BLACK", "type": "MAN", "row": 2, "col": 1 }
   ],
   "capturedPieces": {
     "white": 3,
     "black": 5
   },
   "positionHistory": [
-    "hash1", "hash2", "hash3"  // Para detectar repetição de posição
+    "hash1",
+    "hash2",
+    "hash3" // Para detectar repetição de posição
   ]
 }
 ```
 
 **Relationships**:
+
 - `whitePlayer`: Player (nullable) - Relação com jogador branco
 - `blackPlayer`: Player (nullable) - Relação com jogador preto
 - `moves`: Move[] - Histórico de movimentos
 - `room`: Room (nullable) - Sala online associada (null se local/bot)
 
 **Validation Rules**:
+
 - `type` ONLINE requer `room` associado
 - `type` BOT requer `botDifficulty` definido
 - `status` FINISHED requer `result` definido
@@ -101,6 +112,7 @@ Representa uma partida (local, online ou contra bot).
 - `moveCount` >= número de itens em `moves`
 
 **State Transitions**:
+
 ```
 WAITING → IN_PROGRESS (quando segundo jogador entra/bot inicia)
 IN_PROGRESS → FINISHED (quando condição de vitória/empate detectada)
@@ -108,6 +120,7 @@ IN_PROGRESS → ABANDONED (quando jogador desconecta > 24h)
 ```
 
 **Indexes**:
+
 - `status, type` (composite) - Query de jogos ativos por tipo
 - `whitePlayerId` - Jogos de um jogador
 - `blackPlayerId` - Jogos de um jogador
@@ -121,6 +134,7 @@ IN_PROGRESS → ABANDONED (quando jogador desconecta > 24h)
 Representa um movimento individual em uma partida.
 
 **Attributes**:
+
 - `id`: String (UUID) - Primary key
 - `gameId`: String (FK → Game) - Partida associada
 - `sequenceNumber`: Int - Número sequencial do movimento (1, 2, 3...)
@@ -133,23 +147,26 @@ Representa um movimento individual em uma partida.
 - `capturedPieces`: JSONB (array) - Peças capturadas neste movimento
   ```json
   [
-    {"id": "p5", "row": 3, "col": 3},
-    {"id": "p7", "row": 1, "col": 5}  // Captura múltipla
+    { "id": "p5", "row": 3, "col": 3 },
+    { "id": "p7", "row": 1, "col": 5 } // Captura múltipla
   ]
   ```
 - `wasPromotion`: Boolean (default false) - Se peça foi promovida a dama
 - `timestamp`: DateTime - Quando o movimento foi feito
 
 **Relationships**:
+
 - `game`: Game - Partida associada
 
 **Validation Rules**:
+
 - `sequenceNumber` deve ser único por `gameId` e incremental
 - Coordenadas devem estar entre 0-7
 - `fromRow, fromCol` diferente de `toRow, toCol`
 - `capturedPieces` pode ser array vazio (movimento sem captura)
 
 **Indexes**:
+
 - `gameId, sequenceNumber` (composite, unique) - Query de movimentos por ordem
 - `gameId` - Todos os movimentos de uma partida
 
@@ -160,6 +177,7 @@ Representa um movimento individual em uma partida.
 Representa sala de jogo online para partidas multiplayer.
 
 **Attributes**:
+
 - `id`: String (UUID) - Primary key
 - `code`: String (6 caracteres, unique) - Código alfanumérico para entrar na sala
 - `gameId`: String (FK → Game, unique) - Partida associada (1:1)
@@ -169,22 +187,26 @@ Representa sala de jogo online para partidas multiplayer.
 - `expiresAt`: DateTime - Expira 24h após criação se não iniciar
 
 **Relationships**:
+
 - `game`: Game - Partida associada
 - `host`: Player (nullable) - Jogador que criou a sala
 
 **Validation Rules**:
+
 - `code` deve ser 6 caracteres alfanuméricos uppercase
 - `code` deve ser único
 - `expiresAt` = `createdAt` + 24 horas
 - `status` ACTIVE requer `game.status` = IN_PROGRESS
 
 **State Transitions**:
+
 ```
 WAITING → ACTIVE (quando segundo jogador entra e partida inicia)
 ACTIVE → FINISHED (quando partida termina)
 ```
 
 **Indexes**:
+
 - `code` (unique) - Lookup rápido por código
 - `status, createdAt` (composite) - Query de salas ativas
 - `expiresAt` - Cleanup de salas expiradas
@@ -196,19 +218,23 @@ ACTIVE → FINISHED (quando partida termina)
 Representa sessão de autenticação (NextAuth.js 4.x gerencia, mas documentado para referência).
 
 **Attributes**:
+
 - `id`: String (UUID) - Primary key
 - `sessionToken`: String (unique) - Token da sessão
 - `userId`: String (FK → Player) - Usuário autenticado
 - `expires`: DateTime - Data de expiração (7 dias)
 
 **Relationships**:
+
 - `user`: Player - Usuário associado
 
 **Validation Rules**:
+
 - `sessionToken` deve ser único
 - `expires` deve ser futuro
 
 **Indexes**:
+
 - `sessionToken` (unique) - Lookup por token
 - `userId` - Sessões de um usuário
 
@@ -299,19 +325,19 @@ model Player {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   lastLoginAt   DateTime?
-  
+
   // Statistics
   totalGames    Int       @default(0)
   wins          Int       @default(0)
   losses        Int       @default(0)
   draws         Int       @default(0)
-  
+
   // Relationships
   gamesAsWhite  Game[]    @relation("WhitePlayer")
   gamesAsBlack  Game[]    @relation("BlackPlayer")
   sessions      Session[]
   hostedRooms   Room[]    @relation("RoomHost")
-  
+
   @@index([email])
   @@index([username])
   @@index([createdAt])
@@ -331,13 +357,13 @@ model Game {
   lastMoveAt      DateTime?
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
-  
+
   // Relationships
   whitePlayer     Player?      @relation("WhitePlayer", fields: [whitePlayerId], references: [id])
   blackPlayer     Player?      @relation("BlackPlayer", fields: [blackPlayerId], references: [id])
   moves           Move[]
   room            Room?
-  
+
   @@index([status, type])
   @@index([whitePlayerId])
   @@index([blackPlayerId])
@@ -357,10 +383,10 @@ model Move {
   capturedPieces  Json         // Array de peças capturadas
   wasPromotion    Boolean      @default(false)
   timestamp       DateTime     @default(now())
-  
+
   // Relationships
   game            Game         @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  
+
   @@unique([gameId, sequenceNumber])
   @@index([gameId])
 }
@@ -373,11 +399,11 @@ model Room {
   hostPlayerId    String?
   createdAt       DateTime     @default(now())
   expiresAt       DateTime
-  
+
   // Relationships
   game            Game         @relation(fields: [gameId], references: [id], onDelete: Cascade)
   host            Player?      @relation("RoomHost", fields: [hostPlayerId], references: [id])
-  
+
   @@index([code])
   @@index([status, createdAt])
   @@index([expiresAt])
@@ -388,10 +414,10 @@ model Session {
   sessionToken  String   @unique
   userId        String
   expires       DateTime
-  
+
   // Relationships
   user          Player   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([sessionToken])
   @@index([userId])
 }
@@ -404,37 +430,37 @@ model Session {
 ### Common Queries
 
 **1. Get Active Games for Player**
+
 ```typescript
 const activeGames = await prisma.game.findMany({
   where: {
-    OR: [
-      { whitePlayerId: playerId },
-      { blackPlayerId: playerId }
-    ],
-    status: 'IN_PROGRESS'
+    OR: [{ whitePlayerId: playerId }, { blackPlayerId: playerId }],
+    status: 'IN_PROGRESS',
   },
   include: {
     whitePlayer: { select: { username: true } },
     blackPlayer: { select: { username: true } },
-    room: { select: { code: true } }
+    room: { select: { code: true } },
   },
-  orderBy: { lastMoveAt: 'desc' }
+  orderBy: { lastMoveAt: 'desc' },
 });
 ```
 
 **2. Get Game with Move History**
+
 ```typescript
 const game = await prisma.game.findUnique({
   where: { id: gameId },
   include: {
     moves: {
-      orderBy: { sequenceNumber: 'asc' }
-    }
-  }
+      orderBy: { sequenceNumber: 'asc' },
+    },
+  },
 });
 ```
 
 **3. Create Game with Room (Online)**
+
 ```typescript
 const game = await prisma.game.create({
   data: {
@@ -446,15 +472,16 @@ const game = await prisma.game.create({
       create: {
         code: generateRoomCode(),
         hostPlayerId: hostPlayerId,
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
-      }
-    }
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    },
   },
-  include: { room: true }
+  include: { room: true },
 });
 ```
 
 **4. Save Move with Transaction**
+
 ```typescript
 const result = await prisma.$transaction(async (tx) => {
   // Create move
@@ -469,10 +496,10 @@ const result = await prisma.$transaction(async (tx) => {
       toRow,
       toCol,
       capturedPieces,
-      wasPromotion
-    }
+      wasPromotion,
+    },
   });
-  
+
   // Update game state
   const updatedGame = await tx.game.update({
     where: { id: gameId },
@@ -480,41 +507,43 @@ const result = await prisma.$transaction(async (tx) => {
       boardState: newBoardState,
       currentTurn: nextTurn,
       moveCount: { increment: 1 },
-      lastMoveAt: new Date()
-    }
+      lastMoveAt: new Date(),
+    },
   });
-  
+
   return { move, game: updatedGame };
 });
 ```
 
 **5. Update Player Statistics After Game**
+
 ```typescript
 await prisma.player.update({
   where: { id: winnerId },
   data: {
     totalGames: { increment: 1 },
-    wins: { increment: 1 }
-  }
+    wins: { increment: 1 },
+  },
 });
 
 await prisma.player.update({
   where: { id: loserId },
   data: {
     totalGames: { increment: 1 },
-    losses: { increment: 1 }
-  }
+    losses: { increment: 1 },
+  },
 });
 ```
 
 **6. Cleanup Expired Rooms**
+
 ```typescript
 // Cron job (diário)
 await prisma.room.deleteMany({
   where: {
     expiresAt: { lt: new Date() },
-    status: 'WAITING'
-  }
+    status: 'WAITING',
+  },
 });
 ```
 
@@ -544,7 +573,7 @@ await prisma.room.deleteMany({
 ### Connection Pooling
 
 - Prisma gerencia pool automaticamente
-- Configure `connection_limit` em DATABASE_URL se necessário (default: CPUs * 2 + 1)
+- Configure `connection_limit` em DATABASE_URL se necessário (default: CPUs \* 2 + 1)
 
 ---
 
@@ -570,8 +599,8 @@ const testPlayer = await prisma.player.create({
   data: {
     email: 'test@example.com',
     username: 'TestPlayer',
-    passwordHash: await bcrypt.hash('password123', 12)
-  }
+    passwordHash: await bcrypt.hash('password123', 12),
+  },
 });
 ```
 

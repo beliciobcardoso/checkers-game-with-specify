@@ -53,11 +53,9 @@ test.describe('Authentication E2E Flow', () => {
     await expect(page).toHaveURL(/\/(login|\/)/);
 
     // Deve exibir mensagem de logout
-    await expect(page.locator('text=Logout realizado com sucesso')).toBeVisible(
-      {
-        timeout: 5000,
-      }
-    );
+    await expect(page.locator('text=Logout realizado com sucesso')).toBeVisible({
+      timeout: 5000,
+    });
 
     // Fazer login novamente
     await page.goto('/login');
@@ -89,12 +87,8 @@ test.describe('Authentication E2E Flow', () => {
     await page.click('button[type="submit"]');
 
     await expect(page.locator('text=Email inválido')).toBeVisible();
-    await expect(
-      page.locator('text=Senha deve ter no mínimo 8 caracteres')
-    ).toBeVisible();
-    await expect(
-      page.locator('text=Username deve ter no mínimo 3 caracteres')
-    ).toBeVisible();
+    await expect(page.locator('text=Senha deve ter no mínimo 8 caracteres')).toBeVisible();
+    await expect(page.locator('text=Username deve ter no mínimo 3 caracteres')).toBeVisible();
   });
 
   test('should prevent duplicate registration', async ({ page }) => {
@@ -178,25 +172,20 @@ test.describe('Authentication E2E Flow', () => {
     await expect(page).toHaveURL('/login');
 
     // Deve exibir mensagem
-    await expect(
-      page.locator('text=Faça login para continuar')
-    ).toBeVisible();
+    await expect(page.locator('text=Faça login para continuar')).toBeVisible();
   });
 
-  test('should remember user preference for "remember me"', async ({
-    page,
-    context,
-  }) => {
+  test('should remember user preference for "remember me"', async ({ page, context }) => {
     // Limpar cookies
     await context.clearCookies();
 
     await page.goto('/login');
     await page.fill('input[name="email"]', testEmail);
     await page.fill('input[name="password"]', testPassword);
-    
+
     // Marcar "lembrar de mim"
     await page.check('input[name="rememberMe"]');
-    
+
     await page.click('button[type="submit"]');
 
     await expect(page).toHaveURL(/\/(home|profile)/);

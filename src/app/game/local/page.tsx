@@ -8,7 +8,7 @@ import { GameStatus, GameResult } from '@/types/game';
 
 /**
  * Local game page - two players on the same device
- * 
+ *
  * Provides a complete checkers game experience with:
  * - 8x8 board with pieces
  * - Move validation and highlighting
@@ -18,8 +18,7 @@ import { GameStatus, GameResult } from '@/types/game';
  * - Game controls (restart, resign)
  */
 export default function LocalGamePage() {
-  const { game, selectedPiece, validMoves, winner, handleSquareClick, resetGame } =
-    useLocalGame();
+  const { game, selectedPiece, validMoves, winner, handleSquareClick, resetGame } = useLocalGame();
 
   const isGameOver = game.status === GameStatus.FINISHED;
 
@@ -34,12 +33,8 @@ export default function LocalGamePage() {
       <div className="max-w-7xl mx-auto">
         {/* Page Title */}
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            Jogo de Damas - Local
-          </h1>
-          <p className="text-gray-600">
-            Dois jogadores no mesmo dispositivo
-          </p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Jogo de Damas - Local</h1>
+          <p className="text-gray-600">Dois jogadores no mesmo dispositivo</p>
         </header>
 
         {/* Game Container */}

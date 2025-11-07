@@ -13,7 +13,7 @@ interface SquareProps {
 
 /**
  * Represents a single square on the checkers board
- * 
+ *
  * @param row - Row position (0-7)
  * @param col - Column position (0-7)
  * @param isLight - Whether this is a light square (light squares are not playable in checkers)
@@ -31,22 +31,28 @@ export function Square({
   onClick,
   children,
 }: SquareProps) {
-  const baseClasses = 'relative w-full h-full flex items-center justify-center';
-  
-  const colorClasses = isLight
-    ? 'bg-board-light'
-    : 'bg-board-dark';
-  
+  const baseClasses = 'relative w-16 h-16 flex items-center justify-center';
+
+  const colorClasses = isLight ? 'bg-board-light' : 'bg-board-dark';
+
   const stateClasses = cn({
     'ring-4 ring-blue-400 ring-inset': isSelected,
     'ring-4 ring-green-400 ring-inset': isHighlighted && !isSelected,
     'cursor-pointer hover:opacity-80': onClick && !isLight,
     'cursor-not-allowed': isLight,
   });
-  
+
+  // Inline styles as fallback
+  const inlineStyle = {
+    width: '64px',
+    height: '64px',
+    backgroundColor: isLight ? '#f0d9b5' : '#b58863',
+  };
+
   return (
     <div
       className={cn(baseClasses, colorClasses, stateClasses)}
+      style={inlineStyle}
       onClick={!isLight ? onClick : undefined}
       data-testid={`square-${row}-${col}`}
       tabIndex={!isLight && onClick ? 0 : -1}

@@ -1,7 +1,7 @@
 /**
  * T071: ProfileCard Component
  * Exibe informações do perfil do jogador
- * 
+ *
  * Props: player { id, username, email, createdAt }
  * Display: username, email, data de cadastro formatada
  */
@@ -30,9 +30,7 @@ export default function ProfileCard({ player }: ProfileCardProps) {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
-      <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-        Perfil
-      </h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Perfil</h2>
 
       <div className="space-y-4">
         {/* Username */}
@@ -40,9 +38,7 @@ export default function ProfileCard({ player }: ProfileCardProps) {
           <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
             Nome de usuário
           </label>
-          <p className="text-lg font-semibold text-gray-900 dark:text-white">
-            {player.username}
-          </p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">{player.username}</p>
         </div>
 
         {/* Email */}
@@ -50,9 +46,7 @@ export default function ProfileCard({ player }: ProfileCardProps) {
           <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
             Email
           </label>
-          <p className="text-lg text-gray-900 dark:text-white">
-            {player.email}
-          </p>
+          <p className="text-lg text-gray-900 dark:text-white">{player.email}</p>
         </div>
 
         {/* Member Since */}
@@ -60,16 +54,12 @@ export default function ProfileCard({ player }: ProfileCardProps) {
           <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
             Membro desde
           </label>
-          <p className="text-lg text-gray-900 dark:text-white">
-            {formattedDate}
-          </p>
+          <p className="text-lg text-gray-900 dark:text-white">{formattedDate}</p>
         </div>
 
         {/* Player ID (pequeno, discreto) */}
         <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            ID: {player.id}
-          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">ID: {player.id}</p>
         </div>
       </div>
     </div>

@@ -20,18 +20,15 @@ describe('Player Profile API Endpoints', () => {
     });
 
     // Criar usuário e fazer login
-    const registerResponse = await fetch(
-      'http://localhost:3000/api/auth/register',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: 'test-profile@example.com',
-          username: 'ProfileTestUser',
-          password: 'TestPass123!',
-        }),
-      }
-    );
+    const registerResponse = await fetch('http://localhost:3000/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test-profile@example.com',
+        username: 'ProfileTestUser',
+        password: 'TestPass123!',
+      }),
+    });
 
     const { id } = await registerResponse.json();
     testPlayerId = id;
@@ -66,13 +63,13 @@ describe('Player Profile API Endpoints', () => {
 
       expect(response.status).toBe(200);
       const data = await response.json();
-      
+
       expect(data.id).toBe(testPlayerId);
       expect(data.email).toBe('test-profile@example.com');
       expect(data.username).toBe('ProfileTestUser');
       expect(data).toHaveProperty('createdAt');
       expect(data).toHaveProperty('lastLoginAt');
-      
+
       // Não deve expor dados sensíveis
       expect(data).not.toHaveProperty('passwordHash');
     });
@@ -113,14 +110,11 @@ describe('Player Profile API Endpoints', () => {
     });
 
     it('should return correct player statistics', async () => {
-      const response = await fetch(
-        'http://localhost:3000/api/players/me/stats',
-        {
-          headers: {
-            Cookie: `session-token=${sessionToken}`,
-          },
-        }
-      );
+      const response = await fetch('http://localhost:3000/api/players/me/stats', {
+        headers: {
+          Cookie: `session-token=${sessionToken}`,
+        },
+      });
 
       expect(response.status).toBe(200);
       const data = await response.json();
@@ -129,48 +123,39 @@ describe('Player Profile API Endpoints', () => {
       expect(data.wins).toBe(6);
       expect(data.losses).toBe(3);
       expect(data.draws).toBe(1);
-      
+
       // Deve calcular taxa de vitória
       expect(data.winRate).toBeCloseTo(0.6, 2); // 6/10 = 60%
     });
 
     it('should return zero stats for new player', async () => {
       // Criar novo jogador sem partidas
-      await fetch(
-        'http://localhost:3000/api/auth/register',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: 'test-profile-newplayer@example.com',
-            username: 'NewPlayer',
-            password: 'TestPass123!',
-          }),
-        }
-      );
+      await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'test-profile-newplayer@example.com',
+          username: 'NewPlayer',
+          password: 'TestPass123!',
+        }),
+      });
 
-      const newPlayerLogin = await fetch(
-        'http://localhost:3000/api/auth/login',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: 'test-profile-newplayer@example.com',
-            password: 'TestPass123!',
-          }),
-        }
-      );
+      const newPlayerLogin = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'test-profile-newplayer@example.com',
+          password: 'TestPass123!',
+        }),
+      });
 
       const { sessionToken: newToken } = await newPlayerLogin.json();
 
-      const response = await fetch(
-        'http://localhost:3000/api/players/me/stats',
-        {
-          headers: {
-            Cookie: `session-token=${newToken}`,
-          },
-        }
-      );
+      const response = await fetch('http://localhost:3000/api/players/me/stats', {
+        headers: {
+          Cookie: `session-token=${newToken}`,
+        },
+      });
 
       expect(response.status).toBe(200);
       const data = await response.json();
@@ -183,9 +168,7 @@ describe('Player Profile API Endpoints', () => {
     });
 
     it('should reject unauthenticated request', async () => {
-      const response = await fetch(
-        'http://localhost:3000/api/players/me/stats'
-      );
+      const response = await fetch('http://localhost:3000/api/players/me/stats');
 
       expect(response.status).toBe(401);
       const data = await response.json();
@@ -196,18 +179,15 @@ describe('Player Profile API Endpoints', () => {
   describe('GET /api/players/me/history', () => {
     beforeAll(async () => {
       // Criar partidas de exemplo para histórico
-      const whitePlayerResponse = await fetch(
-        'http://localhost:3000/api/auth/register',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: 'test-profile-opponent@example.com',
-            username: 'OpponentPlayer',
-            password: 'TestPass123!',
-          }),
-        }
-      );
+      const whitePlayerResponse = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'test-profile-opponent@example.com',
+          username: 'OpponentPlayer',
+          password: 'TestPass123!',
+        }),
+      });
 
       const { id: opponentId } = await whitePlayerResponse.json();
 
@@ -249,14 +229,11 @@ describe('Player Profile API Endpoints', () => {
     });
 
     it('should return game history for authenticated player', async () => {
-      const response = await fetch(
-        'http://localhost:3000/api/players/me/history',
-        {
-          headers: {
-            Cookie: `session-token=${sessionToken}`,
-          },
-        }
-      );
+      const response = await fetch('http://localhost:3000/api/players/me/history', {
+        headers: {
+          Cookie: `session-token=${sessionToken}`,
+        },
+      });
 
       expect(response.status).toBe(200);
       const data = await response.json();
@@ -274,14 +251,11 @@ describe('Player Profile API Endpoints', () => {
     });
 
     it('should support pagination', async () => {
-      const response = await fetch(
-        'http://localhost:3000/api/players/me/history?page=1&limit=2',
-        {
-          headers: {
-            Cookie: `session-token=${sessionToken}`,
-          },
-        }
-      );
+      const response = await fetch('http://localhost:3000/api/players/me/history?page=1&limit=2', {
+        headers: {
+          Cookie: `session-token=${sessionToken}`,
+        },
+      });
 
       expect(response.status).toBe(200);
       const data = await response.json();
@@ -293,14 +267,11 @@ describe('Player Profile API Endpoints', () => {
     });
 
     it('should order games by most recent first', async () => {
-      const response = await fetch(
-        'http://localhost:3000/api/players/me/history',
-        {
-          headers: {
-            Cookie: `session-token=${sessionToken}`,
-          },
-        }
-      );
+      const response = await fetch('http://localhost:3000/api/players/me/history', {
+        headers: {
+          Cookie: `session-token=${sessionToken}`,
+        },
+      });
 
       const data = await response.json();
       const games = data.games;
@@ -314,9 +285,7 @@ describe('Player Profile API Endpoints', () => {
     });
 
     it('should reject unauthenticated request', async () => {
-      const response = await fetch(
-        'http://localhost:3000/api/players/me/history'
-      );
+      const response = await fetch('http://localhost:3000/api/players/me/history');
 
       expect(response.status).toBe(401);
       const data = await response.json();

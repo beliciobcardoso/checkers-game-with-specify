@@ -50,7 +50,7 @@ async function loginUser(request: APIRequestContext, credentials: typeof hostCre
 async function authenticateContext(
   request: APIRequestContext,
   context: BrowserContext,
-  credentials: typeof hostCredentials,
+  credentials: typeof hostCredentials
 ) {
   await registerUser(request, credentials);
   const sessionToken = await loginUser(request, credentials);

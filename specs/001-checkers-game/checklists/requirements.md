@@ -33,7 +33,8 @@
 - [x] Feature meets measurable outcomes defined in Success Criteria
 - [x] No implementation details leak into specification
 
-**Notes**: 
+**Notes**:
+
 - 4 User Stories cobrindo todos os modos de jogo (local, online, bot, autenticação)
 - 40 requisitos funcionais organizados por categoria
 - 12 critérios de sucesso mensuráveis (tempo, taxa, performance)

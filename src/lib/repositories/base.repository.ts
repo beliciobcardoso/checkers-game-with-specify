@@ -11,7 +11,7 @@ export interface IRepository<T> {
 export abstract class BaseRepository<T> implements IRepository<T> {
   constructor(
     protected prisma: PrismaClient,
-    protected model: keyof PrismaClient,
+    protected model: keyof PrismaClient
   ) {}
 
   async findById(id: string): Promise<T | null> {

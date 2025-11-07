@@ -18,14 +18,10 @@ export const generateTestUsername = (prefix: string) =>
 
 export const generateRandomRoomCode = () =>
   Array.from({ length: 6 }, () =>
-    ROOM_CODE_CHARACTERS.charAt(
-      Math.floor(Math.random() * ROOM_CODE_CHARACTERS.length)
-    )
+    ROOM_CODE_CHARACTERS.charAt(Math.floor(Math.random() * ROOM_CODE_CHARACTERS.length))
   ).join('');
 
-export async function registerPlayer(
-  credentials: PlayerCredentials
-): Promise<string> {
+export async function registerPlayer(credentials: PlayerCredentials): Promise<string> {
   const response = await fetch(`${API_BASE_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

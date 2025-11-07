@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import { PlayerRepository } from '@/lib/db/repositories/player';
 import { Player } from '@prisma/client';
+import { logger } from '@/lib/logger';
 
 // Schemas de validação Zod
 const registerSchema = z.object({
@@ -117,10 +118,7 @@ export class PlayerService {
     }
 
     // Verificar senha
-    const isPasswordValid = await this.verifyPassword(
-      validated.password,
-      player.passwordHash!
-    );
+    const isPasswordValid = await this.verifyPassword(validated.password, player.passwordHash!);
 
     if (!isPasswordValid) {
       throw new Error('Credenciais inválidas');
@@ -206,9 +204,7 @@ export class PlayerService {
 
     // Criar sessão no banco via Prisma
     // Nota: Assumindo que Prisma Client está disponível
-    const prisma = (
-      await import('../lib/prisma')
-    ).default;
+    const prisma = (await import('../lib/prisma')).default;
 
     await prisma.session.create({
       data: {
@@ -262,14 +258,66 @@ export class PlayerService {
   }
 
   /**
+   * Records game result and updates player statistics.
+   * Updates games won/lost/drawn based on game outcome.
+   *
+   * @param playerId - Player UUID
+   * @param result - 'WIN' | 'LOSS' | 'DRAW'
+   * @param gameType - 'LOCAL' | 'ONLINE' | 'BOT'
+   */
+  async recordGameResult(
+    playerId: string,
+    result: 'WIN' | 'LOSS' | 'DRAW',
+    gameType: 'LOCAL' | 'ONLINE' | 'BOT'
+  ): Promise<void> {
+    const prisma = (await import('../lib/prisma')).default;
+
+    try {
+      const player = await prisma.player.findUnique({
+        where: { id: playerId },
+      });
+
+      if (!player) {
+        throw new Error('Player not found');
+      }
+
+      // Update statistics based on result
+      const updates: { wins?: number; losses?: number; draws?: number; totalGames?: number } = {};
+
+      updates.totalGames = (player.totalGames || 0) + 1;
+
+      if (result === 'WIN') {
+        updates.wins = (player.wins || 0) + 1;
+      } else if (result === 'LOSS') {
+        updates.losses = (player.losses || 0) + 1;
+      } else if (result === 'DRAW') {
+        updates.draws = (player.draws || 0) + 1;
+      }
+
+      await prisma.player.update({
+        where: { id: playerId },
+        data: updates,
+      });
+
+      logger.info('Game result recorded', { playerId, result, gameType });
+    } catch (error) {
+      logger.error('Failed to record game result', { error, playerId, result });
+      // Don't throw - statistics update failure shouldn't break game flow
+    }
+  }
+
+  /**
    * Gera token seguro para sessão
    * @returns String aleatória base64
    */
   private generateSecureToken(): string {
     // Gerar 32 bytes aleatórios
     const randomBytes = crypto.getRandomValues(new Uint8Array(32));
-    
+
     // Converter para base64
     return Buffer.from(randomBytes).toString('base64');
   }
 }
+
+// Singleton instance
+export const playerService = new PlayerService();

@@ -74,9 +74,7 @@ describe('Local Game Integration', () => {
 
   it('should detect victory when opponent has no pieces', () => {
     // Manually set board state with only white pieces
-    game.boardState.pieces = game.boardState.pieces.filter(
-      (p) => p.color === Color.WHITE,
-    );
+    game.boardState.pieces = game.boardState.pieces.filter((p) => p.color === Color.WHITE);
 
     const victoryCheck = checkVictory(game);
     expect(victoryCheck.isVictory).toBe(true);

@@ -163,7 +163,7 @@ describe('Authentication API Endpoints', () => {
       expect(data).toHaveProperty('sessionToken');
       expect(data).toHaveProperty('user');
       expect(data.user.email).toBe('test-auth-login@example.com');
-      
+
       // Deve definir cookie de sessão
       const setCookie = response.headers.get('set-cookie');
       expect(setCookie).toContain('session-token');
@@ -201,7 +201,7 @@ describe('Authentication API Endpoints', () => {
 
     it('should update lastLoginAt timestamp on successful login', async () => {
       const beforeLogin = new Date();
-      
+
       await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -217,9 +217,7 @@ describe('Authentication API Endpoints', () => {
       });
 
       expect(player?.lastLoginAt).toBeDefined();
-      expect(player?.lastLoginAt!.getTime()).toBeGreaterThanOrEqual(
-        beforeLogin.getTime()
-      );
+      expect(player?.lastLoginAt!.getTime()).toBeGreaterThanOrEqual(beforeLogin.getTime());
     });
   });
 });

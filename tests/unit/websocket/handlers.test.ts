@@ -59,34 +59,33 @@ describe('WebSocket Handlers', () => {
       const { io, emit: broadcastEmit, to } = createMockIo();
       const socket = createMockSocket();
 
-      const joinRoom = jest
-        .fn(async () => ({
-          room: {
-            id: 'room-1',
-            code: 'ABC123',
-            status: 'ACTIVE',
-            gameId: 'game-1',
-            players: {
-              white: { id: 'player-1', username: 'Host' },
-              black: { id: 'player-2', username: 'Guest' },
-            },
+      const joinRoom = jest.fn(async () => ({
+        room: {
+          id: 'room-1',
+          code: 'ABC123',
+          status: 'ACTIVE',
+          gameId: 'game-1',
+          players: {
+            white: { id: 'player-1', username: 'Host' },
+            black: { id: 'player-2', username: 'Guest' },
           },
-          game: {
-            id: 'game-1',
-            boardState: {
-              pieces: [],
-              capturedPieces: { white: 0, black: 0 },
-              positionHistory: [],
-            },
-            currentTurn: 'WHITE',
-            status: 'IN_PROGRESS',
+        },
+        game: {
+          id: 'game-1',
+          boardState: {
+            pieces: [],
+            capturedPieces: { white: 0, black: 0 },
+            positionHistory: [],
           },
-          player: {
-            id: 'player-1',
-            username: 'Host',
-            color: 'WHITE',
-          },
-        })) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
+          currentTurn: 'WHITE',
+          status: 'IN_PROGRESS',
+        },
+        player: {
+          id: 'player-1',
+          username: 'Host',
+          color: 'WHITE',
+        },
+      })) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
 
       const roomService = { joinRoom };
 
@@ -109,7 +108,7 @@ describe('WebSocket Handlers', () => {
         expect.objectContaining({
           room: expect.objectContaining({ code: 'ABC123' }),
           game: expect.objectContaining({ id: 'game-1' }),
-        }),
+        })
       );
 
       expect(to).toHaveBeenCalledWith(`${GAME_ROOM_PREFIX}game-1`);
@@ -118,17 +117,16 @@ describe('WebSocket Handlers', () => {
         expect.objectContaining({
           player: expect.objectContaining({ id: 'player-1', username: 'Host' }),
           game: expect.objectContaining({ id: 'game-1' }),
-        }),
+        })
       );
     });
 
     it('deve emitir erro quando sala não for encontrada ou estiver indisponível', async () => {
       const { io } = createMockIo();
       const socket = createMockSocket();
-      const joinRoom = jest
-        .fn(async () => {
-          throw new NotFoundError(ERROR_MESSAGES.ROOM_NOT_FOUND);
-        }) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
+      const joinRoom = jest.fn(async () => {
+        throw new NotFoundError(ERROR_MESSAGES.ROOM_NOT_FOUND);
+      }) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
 
       const roomService = { joinRoom };
 
@@ -143,7 +141,7 @@ describe('WebSocket Handlers', () => {
       expect(socket.join).not.toHaveBeenCalled();
       expect(socket.emit).toHaveBeenCalledWith(
         WS_EVENTS.ROOM_ERROR,
-        expect.objectContaining({ message: ERROR_MESSAGES.ROOM_NOT_FOUND }),
+        expect.objectContaining({ message: ERROR_MESSAGES.ROOM_NOT_FOUND })
       );
     });
   });
@@ -159,32 +157,31 @@ describe('WebSocket Handlers', () => {
         toCol: 1,
       };
 
-      const executeMove = jest
-        .fn(async () => ({
-          move: {
-            id: 'move-1',
-            sequenceNumber: 1,
-            color: 'WHITE',
-            pieceId: 'w1',
-            fromRow: 5,
-            fromCol: 0,
-            toRow: 4,
-            toCol: 1,
-            capturedPieces: [],
-            wasPromotion: false,
-            timestamp: new Date().toISOString(),
+      const executeMove = jest.fn(async () => ({
+        move: {
+          id: 'move-1',
+          sequenceNumber: 1,
+          color: 'WHITE',
+          pieceId: 'w1',
+          fromRow: 5,
+          fromCol: 0,
+          toRow: 4,
+          toCol: 1,
+          capturedPieces: [],
+          wasPromotion: false,
+          timestamp: new Date().toISOString(),
+        },
+        game: {
+          id: 'game-1',
+          boardState: {
+            pieces: [],
+            capturedPieces: { white: 0, black: 0 },
+            positionHistory: [],
           },
-          game: {
-            id: 'game-1',
-            boardState: {
-              pieces: [],
-              capturedPieces: { white: 0, black: 0 },
-              positionHistory: [],
-            },
-            currentTurn: 'BLACK',
-            status: 'IN_PROGRESS',
-          },
-        })) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
+          currentTurn: 'BLACK',
+          status: 'IN_PROGRESS',
+        },
+      })) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
 
       const gameService = { executeMove };
 
@@ -208,11 +205,11 @@ describe('WebSocket Handlers', () => {
         expect.objectContaining({
           move: expect.objectContaining({ id: 'move-1', pieceId: 'w1' }),
           game: expect.objectContaining({ currentTurn: 'BLACK' }),
-        }),
+        })
       );
       expect(broadcastEmit).toHaveBeenCalledWith(
         WS_EVENTS.GAME_STATE,
-        expect.objectContaining({ id: 'game-1', currentTurn: 'BLACK' }),
+        expect.objectContaining({ id: 'game-1', currentTurn: 'BLACK' })
       );
     });
 
@@ -225,10 +222,9 @@ describe('WebSocket Handlers', () => {
         validMoves: [{ row: 4, col: 1 }],
       };
 
-      const executeMove = jest
-        .fn(async () => {
-          throw invalidMoveError;
-        }) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
+      const executeMove = jest.fn(async () => {
+        throw invalidMoveError;
+      }) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
 
       const gameService = { executeMove };
 
@@ -245,7 +241,7 @@ describe('WebSocket Handlers', () => {
         expect.objectContaining({
           error: ERROR_MESSAGES.INVALID_MOVE,
           validMoves: expect.arrayContaining([{ row: 4, col: 1 }]),
-        }),
+        })
       );
     });
 
@@ -254,10 +250,9 @@ describe('WebSocket Handlers', () => {
       const socket = createMockSocket();
 
       const notYourTurnError = new AppError(403, ERROR_MESSAGES.NOT_YOUR_TURN);
-      const executeMove = jest
-        .fn(async () => {
-          throw notYourTurnError;
-        }) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
+      const executeMove = jest.fn(async () => {
+        throw notYourTurnError;
+      }) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
 
       const gameService = { executeMove };
 
@@ -271,7 +266,7 @@ describe('WebSocket Handlers', () => {
 
       expect(socket.emit).toHaveBeenCalledWith(
         WS_EVENTS.ERROR,
-        expect.objectContaining({ message: ERROR_MESSAGES.NOT_YOUR_TURN }),
+        expect.objectContaining({ message: ERROR_MESSAGES.NOT_YOUR_TURN })
       );
     });
   });
@@ -290,20 +285,18 @@ describe('WebSocket Handlers', () => {
       const socket = createMockSocket();
       const disconnectAt = new Date('2025-01-01T12:00:00.000Z');
 
-      const handleDisconnect = jest
-        .fn(async () => ({
-          gameId: 'game-1',
-          roomCode: 'ABC123',
-          player: {
-            id: 'player-1',
-            username: 'Host',
-            color: 'WHITE',
-            disconnectedAt: disconnectAt,
-          },
-        })) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
+      const handleDisconnect = jest.fn(async () => ({
+        gameId: 'game-1',
+        roomCode: 'ABC123',
+        player: {
+          id: 'player-1',
+          username: 'Host',
+          color: 'WHITE',
+          disconnectedAt: disconnectAt,
+        },
+      })) as jest.MockedFunction<(payload: unknown) => Promise<unknown>>;
 
-      const scheduleForfeit = jest
-        .fn(async () => undefined) as jest.MockedFunction<
+      const scheduleForfeit = jest.fn(async () => undefined) as jest.MockedFunction<
         (payload: unknown) => Promise<void>
       >;
 
@@ -330,7 +323,7 @@ describe('WebSocket Handlers', () => {
           username: 'Host',
           color: 'WHITE',
           disconnectedAt: disconnectAt.toISOString(),
-        }),
+        })
       );
 
       expect(gameService.scheduleForfeit).toHaveBeenCalledWith({
@@ -345,13 +338,11 @@ describe('WebSocket Handlers', () => {
     it('não deve emitir eventos quando jogador não participa de partida ativa', async () => {
       const { io } = createMockIo();
       const socket = createMockSocket();
-      const handleDisconnect = jest
-        .fn(async () => null) as jest.MockedFunction<
+      const handleDisconnect = jest.fn(async () => null) as jest.MockedFunction<
         (payload: unknown) => Promise<unknown>
       >;
 
-      const scheduleForfeit = jest
-        .fn(async () => undefined) as jest.MockedFunction<
+      const scheduleForfeit = jest.fn(async () => undefined) as jest.MockedFunction<
         (payload: unknown) => Promise<void>
       >;
 

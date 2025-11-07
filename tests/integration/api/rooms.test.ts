@@ -142,16 +142,13 @@ describe('Rooms API Endpoints', () => {
       createdRoomIds.push(roomData.roomId);
       createdGameIds.push(roomData.gameId);
 
-      const response = await fetch(
-        `${API_BASE_URL}/rooms/${roomData.code}/join`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: `session-token=${joinerSessionToken}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/rooms/${roomData.code}/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `session-token=${joinerSessionToken}`,
+        },
+      });
 
       expect(response.status).toBe(200);
       const data = await response.json();
@@ -182,12 +179,9 @@ describe('Rooms API Endpoints', () => {
       createdRoomIds.push(roomData.roomId);
       createdGameIds.push(roomData.gameId);
 
-      const response = await fetch(
-        `${API_BASE_URL}/rooms/${roomData.code}/join`,
-        {
-          method: 'POST',
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/rooms/${roomData.code}/join`, {
+        method: 'POST',
+      });
 
       expect(response.status).toBe(401);
       const data = await response.json();
@@ -209,16 +203,13 @@ describe('Rooms API Endpoints', () => {
         }
       }
 
-      const response = await fetch(
-        `${API_BASE_URL}/rooms/${invalidCode}/join`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: `session-token=${joinerSessionToken}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/rooms/${invalidCode}/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `session-token=${joinerSessionToken}`,
+        },
+      });
 
       expect(response.status).toBe(404);
       const data = await response.json();
@@ -230,16 +221,13 @@ describe('Rooms API Endpoints', () => {
       createdRoomIds.push(roomData.roomId);
       createdGameIds.push(roomData.gameId);
 
-      const firstJoinResponse = await fetch(
-        `${API_BASE_URL}/rooms/${roomData.code}/join`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: `session-token=${joinerSessionToken}`,
-          },
-        }
-      );
+      const firstJoinResponse = await fetch(`${API_BASE_URL}/rooms/${roomData.code}/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `session-token=${joinerSessionToken}`,
+        },
+      });
 
       expect(firstJoinResponse.status).toBe(200);
       await firstJoinResponse.json();
@@ -253,16 +241,13 @@ describe('Rooms API Endpoints', () => {
       const extraSession = await createPlayerSession(extraCredentials);
       createdPlayerEmails.add(extraCredentials.email);
 
-      const secondJoinResponse = await fetch(
-        `${API_BASE_URL}/rooms/${roomData.code}/join`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: `session-token=${extraSession.sessionToken}`,
-          },
-        }
-      );
+      const secondJoinResponse = await fetch(`${API_BASE_URL}/rooms/${roomData.code}/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `session-token=${extraSession.sessionToken}`,
+        },
+      });
 
       expect(secondJoinResponse.status).toBe(409);
       const errorData = await secondJoinResponse.json();

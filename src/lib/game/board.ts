@@ -65,11 +65,7 @@ export function createInitialBoard(): BoardState {
 /**
  * Get the piece at a specific position
  */
-export function getPieceAt(
-  row: number,
-  col: number,
-  board: BoardState,
-): Piece | null {
+export function getPieceAt(row: number, col: number, board: BoardState): Piece | null {
   return board.pieces.find((p) => p.row === row && p.col === col) || null;
 }
 
@@ -89,7 +85,5 @@ export function getBoardHash(board: BoardState): string {
     return a.col - b.col;
   });
 
-  return sortedPieces
-    .map((p) => `${p.color[0]}${p.type[0]}${p.row}${p.col}`)
-    .join('|');
+  return sortedPieces.map((p) => `${p.color[0]}${p.type[0]}${p.row}${p.col}`).join('|');
 }

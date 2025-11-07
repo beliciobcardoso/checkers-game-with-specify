@@ -29,33 +29,38 @@
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 **Clean Code Compliance:**
+
 - [ ] Naming conventions: variáveis/funções/classes descritivas (sem abreviações obscuras)
 - [ ] Funções com responsabilidade única (< 30 linhas cada)
 - [ ] Zero duplicação de código (DRY principle)
 - [ ] Comentários justificam "porquê", não "o quê"
 
 **Testing Requirements:**
+
 - [ ] Cobertura mínima: 80% código crítico, 60% código geral
 - [ ] Testes unitários isolados e rápidos (< 100ms)
 - [ ] Testes de integração para módulos principais
 - [ ] CI/CD configurado com bloqueio em falhas
 
 **Documentation Standards:**
+
 - [ ] README com setup, arquitetura e propósito
 - [ ] JSDoc/TSDoc para todas as APIs públicas
 - [ ] Decisões arquiteturais documentadas
 - [ ] Guia de contribuição disponível
 
 **Maintainability:**
+
 - [ ] Dependências isoladas em camadas (Repository/Service)
 - [ ] Configurações centralizadas
 - [ ] Zero magic numbers/strings (usar constantes)
 - [ ] Zero dead code
 
 **Architecture & Patterns:**
+
 - [ ] SOLID principles aplicados
 - [ ] Padrões de design apropriados (Repository, Service, Factory quando aplicável)
 - [ ] Baixo acoplamento, alta coesão
@@ -76,6 +81,7 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -126,7 +132,7 @@ directories captured above]
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

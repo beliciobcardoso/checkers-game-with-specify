@@ -1,7 +1,7 @@
 /**
  * T076: Profile Page
  * Página de perfil com ProfileCard, StatsCard, GameHistoryTable
- * 
+ *
  * Route: /profile
  * Features: Server-side data fetching, authenticated route
  */
@@ -90,7 +90,6 @@ export default function ProfilePage() {
 
       // Carrega histórico
       loadHistory(1);
-
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao carregar perfil');
     } finally {
@@ -156,9 +155,7 @@ export default function ProfilePage() {
       <div className="max-w-7xl mx-auto">
         {/* Header com botão de logout */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Meu Perfil
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Meu Perfil</h1>
           <div className="flex gap-4">
             <button
               onClick={() => router.push('/')}
